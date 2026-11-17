@@ -9,6 +9,7 @@ type TypeBadge = 'success' | 'error' | 'new' | 'info' | 'warning' | undefined
 const { dossier, peutModifier } = usePrototype()
 
 const acc = computed(() => dossier.value.accompagnement)
+const org = computed(() => dossier.value.organismeAccompagnement)
 const prochaine = computed(() => dossier.value.commissions.find((c) => c.statut === 'Inscrit') ?? null)
 
 // Le libellé du badge porte l'information : la couleur n'est qu'un renfort
@@ -24,6 +25,24 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
 
 <template>
   <div>
+    <!-- Organisme d'accompagnement sociojuridique : la structure, pas une personne -->
+    <section id="organisme" class="fr-mb-8w" aria-labelledby="titre-organisme">
+      <h2 id="titre-organisme" class="fr-h4">Organisme d’accompagnement sociojuridique</h2>
+      <template v-if="org">
+        <div class="alexi-ligne-titre">
+          <div class="alexi-coupe">
+            <p class="fr-text--lg fr-mb-1v"><strong>{{ org.nom }}</strong></p>
+            <p class="fr-text--sm fr-mb-0">{{ org.type }} · désigné le {{ org.depuis }}<br />{{ org.contact }}</p>
+          </div>
+          <DsfrButton v-if="peutModifier" tertiary size="sm" icon="fr-icon-refresh-line" label="Changer d’organisme" />
+        </div>
+      </template>
+      <template v-else>
+        <p>Aucun organisme d’accompagnement sociojuridique n’est désigné.</p>
+        <DsfrButton v-if="peutModifier" secondary icon="fr-icon-add-line" label="Désigner un organisme" />
+      </template>
+    </section>
+
     <!-- Commissions -->
     <section id="commissions" class="fr-mb-8w" aria-labelledby="titre-commissions">
       <h2 id="titre-commissions" class="fr-h4">Commissions</h2>
@@ -48,7 +67,7 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
     </section>
 
     <!-- Diagnostic et dispositifs -->
-    <section id="dispositifs" class="fr-mb-8w" aria-labelledby="titre-dispositifs">
+    <section id="dispositifs" aria-labelledby="titre-dispositifs">
       <h2 id="titre-dispositifs" class="fr-h4">Diagnostic et dispositifs</h2>
       <dl class="alexi-grille fr-mb-3w">
         <div>
@@ -80,17 +99,5 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
       <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-add-line" label="Ajouter un dispositif" />
     </section>
 
-    <!-- Intervenants sociaux -->
-    <section id="intervenants" aria-labelledby="titre-intervenants">
-      <h2 id="titre-intervenants" class="fr-h4">Intervenants sociaux</h2>
-      <dl v-if="dossier.intervenants.length" class="alexi-grille">
-        <div v-for="c in dossier.intervenants" :key="c.nom" class="alexi-coupe">
-          <dt><strong>{{ c.nom }}</strong></dt>
-          <dd class="fr-text--sm fr-mb-0">{{ c.role }}<br />{{ c.contact }}</dd>
-        </div>
-      </dl>
-      <p v-else>Aucun intervenant social n’est rattaché au dossier.</p>
-      <DsfrButton v-if="peutModifier" class="fr-mt-3w" secondary icon="fr-icon-add-line" label="Ajouter un intervenant" />
-    </section>
   </div>
 </template>

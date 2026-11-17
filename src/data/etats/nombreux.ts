@@ -60,10 +60,15 @@ const dossier: Dossier = {
     { nom: 'Bernard MOREL', role: `Curateur de M. Pierre-Emmanuel ${NOM}`, contact: 'UDAF de l’Hérault · b.morel@udaf.exemple.fr' },
     { nom: 'Claire FONTAINE', role: 'Sœur de la titulaire du bail', contact: '06 98 76 54 32' },
   ],
-  intervenants: [],
+  organismeAccompagnement: {
+    nom: 'Association Logement Solidaire 34',
+    type: 'Association agréée',
+    contact: '04 67 88 99 00 · contact@logement-solidaire.exemple.org',
+    depuis: '5 nov. 2026',
+  },
   commissions: [],
   accompagnement: {
-    dsf: { statut: 'Demandé', date: '5 nov. 2026', par: 'Marc-Antoine DU PLESSIS-VERNEUIL · ADIL de l’Hérault' },
+    dsf: { statut: 'Demandé', date: '5 nov. 2026', par: 'Association Logement Solidaire 34' },
     dispositifs: [
       { nom: 'Fonds de solidarité pour le logement (FSL) · maintien', statut: 'Demandé', date: '8 nov. 2026', detail: 'Demande d’aide de 2 310,00 €', porteur: 'ADIL de l’Hérault' },
     ],

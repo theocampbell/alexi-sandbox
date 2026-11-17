@@ -51,7 +51,7 @@ const lignes = computed(() => {
         ...acc.dispositifs.map((x) => `${x.nom} · ${x.statut.toLowerCase()}`),
       ],
     },
-    { libelle: 'Intervenants sociaux', valeur: d.intervenants.map((c) => `${c.nom} · ${c.role}`) },
+    { libelle: 'Accompagnement sociojuridique', valeur: d.organismeAccompagnement ? [d.organismeAccompagnement.nom] : [] },
     { libelle: 'Autres contacts', valeur: d.contacts.map((c) => `${c.nom} · ${c.role}`) },
   ]
   return rows

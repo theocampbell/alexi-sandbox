@@ -106,8 +106,8 @@ export interface Dossier {
   cj: { nom: string; contact: string; responsable: string | null } | null
   /** Autres contacts : avocat, curateur, proche… (onglet Informations) */
   contacts: Contact[]
-  /** Intervenants sociaux (onglet Accompagnement) */
-  intervenants: Contact[]
+  /** Organisme d'accompagnement sociojuridique : on désigne la structure, pas une personne */
+  organismeAccompagnement: OrganismeAccompagnement | null
   commissions: Commission[]
   accompagnement: Accompagnement
 }
@@ -116,6 +116,14 @@ export interface Contact {
   nom: string
   role: string
   contact: string
+}
+
+export interface OrganismeAccompagnement {
+  nom: string
+  /** Type de structure (CCAS, association…) */
+  type: string
+  contact: string
+  depuis: string
 }
 
 export interface Commission {

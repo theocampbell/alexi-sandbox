@@ -217,7 +217,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
         </div>
       </dl>
       <p v-else>Aucun autre contact.</p>
-      <p class="fr-text--sm fr-mt-3w fr-mb-0">Les travailleurs sociaux et autres intervenants sociaux sont dans l’onglet Accompagnement.</p>
+      <p class="fr-text--sm fr-mt-3w fr-mb-0">L’organisme d’accompagnement sociojuridique est indiqué dans l’onglet Accompagnement.</p>
       <DsfrButton v-if="peutModifier" class="fr-mt-3w" secondary icon="fr-icon-add-line" label="Ajouter un contact" />
     </section>
   </div>

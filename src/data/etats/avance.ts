@@ -47,16 +47,18 @@ const dossier: Dossier = {
   contacts: [
     { nom: 'Me Hélène PICARD', role: 'Avocate de la locataire', contact: '04 67 55 66 77 · h.picard@avocats.exemple.fr' },
   ],
-  intervenants: [
-    { nom: 'Camille ROUX', role: 'Travailleuse sociale · CCAS de Béziers', contact: '04 67 22 33 44 · camille.roux@ccas.exemple.fr' },
-    { nom: 'Karine BLANC', role: 'Conseillère en économie sociale et familiale · Habitat Sud Logement', contact: 'k.blanc@habitat-sud.exemple.fr' },
-  ],
+  organismeAccompagnement: {
+    nom: 'CCAS de Béziers',
+    type: 'Centre communal d’action sociale',
+    contact: '04 67 22 33 44 · accompagnement@ccas.exemple.fr',
+    depuis: '20 janv. 2026',
+  },
   commissions: [
     { date: '12 déc. 2026', instance: 'CCAPEX de l’Hérault', statut: 'Inscrit' },
     { date: '14 mars 2026', instance: 'CCAPEX de l’Hérault', statut: 'Examiné', avis: 'Saisir le FSL et mettre en place un plan d’apurement' },
   ],
   accompagnement: {
-    dsf: { statut: 'Réalisé', date: '20 janv. 2026', par: 'Camille ROUX · CCAS de Béziers' },
+    dsf: { statut: 'Réalisé', date: '20 janv. 2026', par: 'CCAS de Béziers' },
     dispositifs: [
       { nom: 'Fonds de solidarité pour le logement (FSL) · maintien', statut: 'Accordé', date: '15 avr. 2026', detail: 'Aide de 1 200,00 €', porteur: 'Conseil départemental de l’Hérault' },
       { nom: 'Plan d’apurement', statut: 'En cours', date: '2 mai 2026', detail: '150,00 € par mois, 3 échéances impayées', porteur: 'Habitat Sud Logement' },
