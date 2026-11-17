@@ -38,7 +38,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="fr-container fr-pt-2w fr-pb-8w">
+  <div class="fr-container fr-mt-3w fr-mt-md-5w fr-mb-5w">
     <DsfrBreadcrumb :links="fil" class="fr-mt-0 fr-mb-2w" />
 
     <DossierEntete />
