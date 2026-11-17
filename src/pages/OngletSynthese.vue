@@ -27,7 +27,8 @@ const lignes = computed(() => {
   const principal = d.locaux.find((l) => l.principal)
   const secondaires = d.locaux.filter((l) => !l.principal)
   const b = d.bailleur
-  const prochaineCommission = d.commissions[0]
+  const prochaineCommission = d.commissions.find((c) => c.statut === 'Inscrit')
+  const acc = d.accompagnement
   const rows: { libelle: string; valeur: string[] }[] = [
     {
       libelle: 'Logement',
@@ -40,10 +41,17 @@ const lignes = computed(() => {
     { libelle: 'Gestionnaire', valeur: b.gestionnaire ? [b.gestionnaire] : [] },
     {
       libelle: 'Commission',
-      valeur: prochaineCommission ? [`${prochaineCommission.libelle} · ${prochaineCommission.date}`] : [],
+      valeur: prochaineCommission ? [`${prochaineCommission.instance} · ${prochaineCommission.date}`, 'prochain passage'] : [],
     },
     { libelle: 'Commissaire de justice', valeur: d.cj ? [d.cj.nom, d.cj.contact] : [] },
-    { libelle: 'Autres contacts', valeur: d.contacts.map((c) => `${c.nom} · ${c.role}`) },
+    {
+      libelle: 'Accompagnement',
+      valeur: [
+        ...(acc.dsf ? [`Diagnostic social et financier ${acc.dsf.statut.toLowerCase()} le ${acc.dsf.date}`] : []),
+        ...acc.dispositifs.map((x) => `${x.nom} · ${x.statut.toLowerCase()}`),
+      ],
+    },
+    { libelle: 'Intervenants sociaux', valeur: d.contacts.map((c) => `${c.nom} · ${c.role}`) },
   ]
   return rows
     .map((r) => ({ ...r, valeur: r.valeur.filter(Boolean) }))

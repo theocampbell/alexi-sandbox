@@ -58,6 +58,12 @@ const dossier: Dossier = {
   cj: null,
   contacts: [],
   commissions: [],
+  accompagnement: {
+    dsf: { statut: 'Demandé', date: '5 nov. 2026', par: 'Marc-Antoine DU PLESSIS-VERNEUIL · ADIL de l’Hérault' },
+    dispositifs: [
+      { nom: 'Fonds de solidarité pour le logement (FSL) · maintien', statut: 'Demandé', date: '8 nov. 2026', detail: 'Demande d’aide de 2 310,00 €', porteur: 'ADIL de l’Hérault' },
+    ],
+  },
 }
 
 export default dossier

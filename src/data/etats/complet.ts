@@ -32,6 +32,7 @@ const dossier: Dossier = {
   cj: null,
   contacts: [],
   commissions: [],
+  accompagnement: { dsf: null, dispositifs: [] },
 }
 
 export default dossier

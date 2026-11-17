@@ -3,11 +3,13 @@ import { DOSSIER_PAR_DEFAUT } from './data'
 import DossierPage from './pages/DossierPage.vue'
 import OngletSynthese from './pages/OngletSynthese.vue'
 import OngletInformations from './pages/OngletInformations.vue'
+import OngletAccompagnement from './pages/OngletAccompagnement.vue'
 import OngletProcedure from './pages/OngletProcedure.vue'
 
 export const ONGLETS = [
   { name: 'synthese', titre: 'Synthèse' },
   { name: 'informations', titre: 'Informations' },
+  { name: 'accompagnement', titre: 'Accompagnement' },
   { name: 'procedure', titre: 'Procédure' },
 ] as const
 
@@ -24,13 +26,14 @@ const router = createRouter({
         { path: '', redirect: (to) => ({ name: 'synthese', params: to.params, query: to.query }) },
         { path: 'synthese', name: 'synthese', component: OngletSynthese },
         { path: 'informations', name: 'informations', component: OngletInformations },
+        { path: 'accompagnement', name: 'accompagnement', component: OngletAccompagnement },
         { path: 'procedure', name: 'procedure', component: OngletProcedure },
       ],
     },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   scrollBehavior(to, from, savedPosition) {
-    // Les ancres (#occupants…) sont gérées par l'onglet Informations, qui y déplace aussi le focus.
+    // Les ancres (#occupants, #commissions…) sont gérées par les onglets, qui y déplacent aussi le focus.
     if (to.hash) return false
     if (savedPosition) return savedPosition
     // Changer d'onglet ne fait pas remonter la page

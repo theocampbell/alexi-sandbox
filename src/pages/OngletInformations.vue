@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import { pluriel } from '../data'
 import { usePrototype } from '../composables/usePrototype'
+import { useAncre } from '../composables/useAncre'
 import TableauDsfr from '../components/TableauDsfr.vue'
 
-const route = useRoute()
 const { dossier, peutModifier } = usePrototype()
 
 const mineurs = computed(() => dossier.value.occupants.filter((o) => o.age !== null && o.age < 18))
@@ -15,24 +14,7 @@ const entetesOccupants = computed(() =>
 const b = computed(() => dossier.value.bailleur)
 const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/etablissement/${siret.replace(/\s/g, '')}`
 
-/*
- * Ancre de section (#occupants, #locaux, #bailleur…) : on fait défiler jusqu'à la section
- * et on y place le focus, après que l'onglet a pris le focus lors de son activation.
- */
-function allerASection() {
-  const id = route.hash.replace('#', '')
-  if (!id) return
-  nextTick(() =>
-    setTimeout(() => {
-      const el = document.getElementById(id)
-      if (!el) return
-      el.focus({ preventScroll: true })
-      el.scrollIntoView({ block: 'start' })
-    }, 50),
-  )
-}
-onMounted(allerASection)
-watch(() => route.hash, allerASection)
+useAncre()
 </script>
 
 <template>
@@ -213,8 +195,8 @@ watch(() => route.hash, allerASection)
     </section>
 
     <!-- Acteurs et contacts -->
-    <section id="acteurs" class="fr-mb-8w" tabindex="-1" aria-labelledby="titre-acteurs-info">
-      <h2 id="titre-acteurs-info" class="fr-h4">Acteurs et contacts</h2>
+    <section id="acteurs" tabindex="-1" aria-labelledby="titre-acteurs-info">
+      <h2 id="titre-acteurs-info" class="fr-h4">Acteurs de la procédure</h2>
       <dl class="alexi-grille">
         <div>
           <dt class="fr-text--sm fr-mb-1v">Commissaire de justice</dt>
@@ -227,32 +209,7 @@ watch(() => route.hash, allerASection)
           <dt class="fr-text--sm fr-mb-1v">Responsable du dossier à l’étude</dt>
           <dd>{{ dossier.cj?.responsable ?? 'Non renseigné' }}</dd>
         </div>
-        <div>
-          <dt class="fr-text--sm fr-mb-1v">Autres contacts</dt>
-          <dd class="alexi-coupe">
-            <template v-if="dossier.contacts.length">
-              <p v-for="c in dossier.contacts" :key="c.nom" class="fr-mb-1w">
-                {{ c.nom }}<br /><span class="fr-text--sm">{{ c.role }}<br />{{ c.contact }}</span>
-              </p>
-            </template>
-            <template v-else>Aucun</template>
-          </dd>
-        </div>
       </dl>
-      <DsfrButton v-if="peutModifier" class="fr-mt-3w" secondary icon="fr-icon-add-line" label="Ajouter un contact" />
-    </section>
-
-    <!-- Commissions -->
-    <section id="commissions" tabindex="-1" aria-labelledby="titre-commissions">
-      <h2 id="titre-commissions" class="fr-h4">Commissions</h2>
-      <TableauDsfr v-if="dossier.commissions.length" titre="Passages en commission" :entetes="['Date', 'Réunion']">
-        <tr v-for="c in dossier.commissions" :key="c.date">
-          <td>{{ c.date }}</td>
-          <td>{{ c.libelle }}</td>
-        </tr>
-      </TableauDsfr>
-      <p v-else>Ce dossier n’a été inscrit à aucune réunion.</p>
-      <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-calendar-line" label="Inscrire en commission" />
     </section>
   </div>
 </template>

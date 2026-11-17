@@ -3,10 +3,7 @@
  * Couleurs : variables DSFR uniquement. Espacements : échelle DSFR (1v = 0.25rem, 1w = 0.5rem).
  */
 
-/* Largeur de contenu d'environ 1 050 px (+ marges latérales du conteneur DSFR) */
-.alexi-container {
-  max-width: calc(1050px + 3rem);
-}
+/* Largeur : celle du conteneur DSFR (fr-container), soit 1 200 px de contenu, comme dans l’application */
 
 /* Barre du prototype, hors maquette */
 .alexi-proto-bar {
@@ -64,6 +61,7 @@
 }
 .alexi-grille dd {
   margin: 0;
+  padding-inline-start: 0;
 }
 
 /* Liste unique de la Synthèse : libellé · valeur sur deux colonnes */
@@ -79,6 +77,7 @@
 .alexi-liste dt,
 .alexi-liste dd {
   margin: 0;
+  padding-inline-start: 0;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-default-grey);
 }

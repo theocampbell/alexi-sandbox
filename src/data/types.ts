@@ -104,6 +104,30 @@ export interface Dossier {
   procedures: Procedure[]
   bailleur: Bailleur
   cj: { nom: string; contact: string; responsable: string | null } | null
+  /** Intervenants sociaux (onglet Accompagnement) */
   contacts: { nom: string; role: string; contact: string }[]
-  commissions: { date: string; libelle: string }[]
+  commissions: Commission[]
+  accompagnement: Accompagnement
+}
+
+export interface Commission {
+  date: string
+  instance: string
+  statut: 'Inscrit' | 'Examiné' | 'Ajourné'
+  /** Décision ou recommandation de la commission */
+  avis?: string
+}
+
+export interface Dispositif {
+  nom: string
+  statut: 'Demandé' | 'Accordé' | 'En cours' | 'Refusé' | 'Terminé'
+  date: string
+  detail?: string
+  porteur: string
+}
+
+export interface Accompagnement {
+  /** Diagnostic social et financier */
+  dsf: { statut: 'Demandé' | 'Réalisé'; date: string; par: string } | null
+  dispositifs: Dispositif[]
 }

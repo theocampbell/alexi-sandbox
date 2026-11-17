@@ -11,7 +11,7 @@ const changerProfil = (v: unknown) => (profil.value = v as ProfilId)
 <template>
   <!-- Barre du prototype : hors maquette -->
   <div class="alexi-proto-bar" role="region" aria-label="Réglages du prototype">
-    <div class="fr-container alexi-container fr-py-2w">
+    <div class="fr-container fr-py-2w">
       <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
         <div class="fr-col-12 fr-col-md-5">
           <DsfrSelect

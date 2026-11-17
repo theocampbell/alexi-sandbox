@@ -12,13 +12,16 @@ defineProps<{
   entetes: string[]
   /** Affiche la légende à l'écran */
   legendeVisible?: boolean
+  /** Laisse le texte des cellules passer à la ligne (fr-table--multiline) */
+  multiligne?: boolean
 }>()
 </script>
 
 <template>
-  <div class="fr-table fr-mb-0" :class="{ 'fr-table--no-caption': !legendeVisible }">
+  <div class="fr-table fr-mb-0" :class="{ 'fr-table--no-caption': !legendeVisible, 'fr-table--multiline': multiligne }">
     <div class="fr-table__wrapper">
-      <div class="fr-table__container">
+      <!-- Zone qui défile : atteignable au clavier et nommée par la légende (RGAA 7.3 / WCAG 2.1.1) -->
+      <div class="fr-table__container" tabindex="0" role="region" :aria-label="titre">
         <div class="fr-table__content">
           <table>
             <caption>{{ titre }}</caption>
