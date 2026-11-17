@@ -14,7 +14,7 @@ const y = computed(() => JSON.stringify([props.points.map((p) => p.montant)]))
 // Alternative courte au graphique (le canvas n'est pas lisible par les technologies d'assistance)
 const resume = computed(
   () =>
-    'Graphique en barres du montant de la dette à chaque mise à jour : ' +
+    'Courbe du montant de la dette à chaque mise à jour : ' +
     props.points.map((p) => `${p.date} (${p.origine}), ${formatEuros(p.montant)}`).join(' ; '),
 )
 </script>
@@ -23,7 +23,8 @@ const resume = computed(
   <div>
     <h3 class="fr-h6 fr-mb-2w">Évolution de la dette</h3>
     <div class="alexi-graphique" role="img" :aria-label="resume">
-      <bar-chart :x="x" :y="y" name='["Dette locative"]' unit-tooltip="€" selected-palette="default" />
+      <!-- y-min à 0 : l'axe part de zéro pour ne pas exagérer les variations -->
+      <line-chart :x="x" :y="y" name='["Dette locative"]' unit-tooltip="€" y-min="0" selected-palette="default" />
     </div>
     <DsfrButton
       class="fr-mt-2w"
