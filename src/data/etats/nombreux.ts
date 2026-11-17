@@ -1,0 +1,63 @@
+import type { Dossier, Occupant } from '../types'
+import { BAILLEUR_CAPIGI, CAF_COMPLET } from '../communs'
+
+const NOM = 'DE SAINT-EXUPÉRY-LAMBERT'
+const prenoms = ['Inès', 'Yanis', 'Lina', 'Adam', 'Sofia', 'Nour', 'Ilyes', 'Maya', 'Rayan', 'Jade']
+const ages = [22, 19, 17, 15, 13, 11, 9, 7, 4, 1]
+
+const enfants: Occupant[] = prenoms.map((p, i) => {
+  const age = ages[i]
+  return {
+    nom: `${p} ${NOM}`,
+    naissance: null,
+    age,
+    role: age < 18 ? 'Occupant · mineur' : 'Occupant',
+    titulaire: false,
+    coord: null,
+    activite: age < 18 ? (age < 3 ? null : 'Scolarisé') : 'Étudiant',
+  }
+})
+
+const dossier: Dossier = {
+  ref: '2026-034-1049980',
+  vulnerable: true,
+  orgRef: 'Agence départementale d’information sur le logement de l’Hérault',
+  agent: { nom: 'Jean-Baptiste DE LA FONTAINE-MARCHAND', email: 'jean-baptiste.delafontaine-marchand@adil34.org' },
+  cree: '2 nov. 2026',
+  modifie: '15 nov. 2026',
+  occupants: [
+    { nom: `Mme Marie-Antoinette ${NOM}`, naissance: '4 mai 1975', age: 51, role: 'Titulaire du bail', titulaire: true, detail: 'Allocataire CAF n° 778120', coord: '06 12 34 56 78', activite: 'Salariée' },
+    { nom: `M. Jean-Philippe ${NOM}`, naissance: '9 août 1973', age: 53, role: 'Titulaire du bail', titulaire: true, coord: null, activite: 'Retraité' },
+    ...enfants,
+  ],
+  occupantsPartis: [],
+  locaux: [
+    {
+      principal: true,
+      titre: 'Résidence Les Hauts de Montmorency · bâtiment C · escalier 4 · appartement 1203',
+      ligne2: '1287 boulevard du Maréchal Jean-Marie-Gabriel de Lattre de Tassigny 34500 Béziers',
+      type: 'Habitation',
+      surface: '92 m²',
+    },
+  ],
+  caf: CAF_COMPLET,
+  dette: {
+    montant: 2310,
+    mois: '2,6',
+    anciennete: '3 mois',
+    date: '1er nov. 2026',
+    loyer: '890,00 €',
+    charges: '60,00 €',
+    aide: '612,00 €',
+    tiersPayant: true,
+    reste: '338,00 €',
+    evolution: [{ etape: 'Signalement CAF', date: '1er nov. 2026', montant: 2310 }],
+  },
+  procedures: [{ motif: 'Impayé de loyer', etape: 1, depuis: '2 nov. 2026', close: false, prochaine: null }],
+  bailleur: BAILLEUR_CAPIGI,
+  cj: null,
+  contacts: [],
+  commissions: [],
+}
+
+export default dossier

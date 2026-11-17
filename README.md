@@ -1,0 +1,60 @@
+# Alexi · prototype de la page dossier
+
+Prototype autonome de la refonte de la page dossier d'Alexi (DIHAL). Il sert de référence de conception, ce n'est pas le code de production. Toutes les données sont fictives.
+Le cahier des charges est dans `BRIEF.md` ; la première version HTML est dans `reference/`.
+
+## Lancer le projet
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # vérification des types + build dans dist/
+npm run preview    # sert le build
+```
+
+Pour ouvrir un cas précis : `/dossiers/2026-034-1047676/synthese?etat=avance&profil=lecture`.
+
+- `etat` : `complet` · `incomplet` · `avance` · `nombreux`
+- `profil` : `gestionnaire` · `admin` · `lecture`
+
+## Publication
+
+Le workflow `.github/workflows/pages.yml` publie le prototype sur GitHub Pages à chaque push sur `main`. Il construit avec `BASE_URL=/<nom-du-dépôt>/` (la `base` de Vite) et copie `index.html` en `404.html` pour que les liens profonds fonctionnent.
+Une seule fois dans GitHub : Settings › Pages › Source : **GitHub Actions**.
+
+## Structure
+
+```
+src/
+  data/            un fichier de données fictives par état (etats/*.ts) + types
+  composables/     usePrototype : état, profil et dossier lus depuis l'URL
+  components/      barre du prototype, en-tête du dossier, graphique, tableau
+  pages/           DossierPage (onglets) + un composant par onglet
+  router.ts        routes /dossiers/:num/{synthese,informations,procedure}
+  styles/          mise en page uniquement (variables DSFR pour les couleurs)
+```
+
+## Choix faits
+
+- **Onglets synchronisés avec le routeur.** `DsfrTabs` reste le vrai composant d'onglets (`role="tab"`, flèches du clavier). L'index de l'onglet se calcule à partir de la route, et changer d'onglet pousse la route : l'URL, l'ouverture directe d'une URL et le bouton retour fonctionnent. Seul l'onglet actif rend son contenu (`RouterView`), pour éviter les identifiants en double.
+- **Ancres de l'onglet Informations** (`#occupants`, `#caf`, `#locaux`, `#bailleur`, `#acteurs`, `#commissions`) : la page défile jusqu'à la section et y place le focus (`tabindex="-1"`).
+- **État et profil dans l'URL** (`?etat=…&profil=…`). Changer d'état met aussi à jour le numéro de dossier dans le chemin. Sans `?etat`, l'état se déduit du numéro.
+- **Lecture seule** : les boutons d'action sont retirés du DOM, pas désactivés.
+- **Graphique** : DSFR Chart (`<bar-chart>`, web component). Il n'apparaît qu'à partir de 2 montants. Le canvas est enveloppé dans `role="img"` avec un résumé textuel, et le bouton « Voir les données » affiche le tableau (`aria-expanded` / `aria-controls`).
+- **Tableaux** : un petit composant `TableauDsfr` avec le balisage DSFR 1.14 (`fr-table__wrapper/container/content`), pour qu'ils défilent dans leur cadre à 400 % de zoom. Pourquoi pas les composants de Vue DSFR : `DsfrTable` produit l'ancien balisage, et `DsfrDataTable` rend chaque cellule focusable (une tabulation par cellule). Les noms (occupants, étapes) sont des en-têtes de ligne (`th scope="row"`).
+- **Boutons icône** (crayon, corbeille) : `DsfrButton` avec `icon-only`. Leur nom accessible contient celui de la personne ou du local (« Modifier Mme Hayat BEN-IHIA »).
+- **Synthèse** : les 3 cartes sont les seuls blocs encadrés, avec au plus un lien chacune. La liste « Logement et acteurs » masque les lignes vides. Les sources ne sont mentionnées qu'une fois, en bas de l'onglet.
+- **Informations** : les champs vides restent affichés avec « Non renseigné ».
+- **Titre de page** unique par onglet (« Synthèse · Dossier … – Alexi »).
+- **CSS** : uniquement la mise en page (grilles, encadrés, largeur de ~1 050 px), avec les variables de couleur DSFR. Imports DSFR en versions `*.main.min.css`, car les fichiers legacy sont rejetés par Vite 8.
+
+## Vérifications faites
+
+- `npm run build` sans erreur.
+- Les 4 états × 3 onglets, plus les profils administrateur et lecture seule : axe-core (WCAG 2.1 AA + bonnes pratiques) ne trouve aucune violation, il n'y a aucune erreur de console et les titres sont dans l'ordre.
+- À 320 px de large (équivalent à un zoom de 400 %) : pas de défilement horizontal de la page.
+- Navigation : clic et flèches sur les onglets, bouton retour, listes déroulantes du prototype, lien « Voir les occupants » vers `#occupants`.
+
+## Hors sujet
+
+Historique des modifications, carte Géoportail, bloc « Points d'attention », sommaire, modales d'édition.

@@ -1,0 +1,116 @@
+/*
+ * Seuls ajouts au DSFR : de la mise en page, quand le DSFR n'a rien.
+ * Couleurs : variables DSFR uniquement. Espacements : échelle DSFR (1v = 0.25rem, 1w = 0.5rem).
+ */
+
+/* Largeur de contenu d'environ 1 050 px (+ marges latérales du conteneur DSFR) */
+.alexi-container {
+  max-width: calc(1050px + 3rem);
+}
+
+/* Barre du prototype, hors maquette */
+.alexi-proto-bar {
+  background: var(--background-contrast-grey);
+  border-bottom: 1px solid var(--border-default-grey);
+}
+.alexi-proto-bar .fr-select-group {
+  margin-bottom: 0;
+}
+
+/* Encadré : cartes de la Synthèse, locaux et bailleur dans Informations */
+.alexi-carte {
+  border: 1px solid var(--border-default-grey);
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.alexi-carte > * {
+  margin: 0;
+}
+/* Pousse le dernier élément (lien, actions) en bas de la carte */
+.alexi-bas {
+  margin-top: auto !important;
+  padding-top: 0.5rem;
+}
+
+/* Titre + action alignés, qui passent à la ligne si besoin */
+.alexi-ligne-titre {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.alexi-ligne-titre > :first-child {
+  flex: 1 1 32rem;
+  min-width: 0;
+}
+
+/* Ligne de métadonnées sous l'en-tête du dossier */
+.alexi-meta {
+  border-top: 1px solid var(--border-default-grey);
+  padding-top: 0.75rem;
+}
+
+/* Listes de définitions en grille (chiffres clés, champs CAF, bailleur…) */
+.alexi-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr));
+  gap: 1rem 2rem;
+  margin: 0;
+  padding: 0;
+}
+.alexi-grille dd {
+  margin: 0;
+}
+
+/* Liste unique de la Synthèse : libellé · valeur sur deux colonnes */
+.alexi-liste {
+  display: grid;
+  grid-template-columns: minmax(10rem, 14rem) 1fr;
+  margin: 0;
+  padding: 0;
+}
+.alexi-liste > div {
+  display: contents;
+}
+.alexi-liste dt,
+.alexi-liste dd {
+  margin: 0;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-default-grey);
+}
+.alexi-liste dt {
+  padding-right: 1.5rem;
+}
+@media (max-width: 36em) {
+  .alexi-liste {
+    grid-template-columns: 1fr;
+  }
+  .alexi-liste dt {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .alexi-liste dd {
+    padding-top: 0.25rem;
+  }
+}
+
+/* Boutons icône d'une ligne de tableau */
+.alexi-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+/* Noms, courriels et adresses très longs : on coupe plutôt que de déborder */
+.alexi-coupe {
+  overflow-wrap: anywhere;
+}
+
+/* Le graphique garde une hauteur raisonnable */
+.alexi-graphique {
+  max-width: 40rem;
+}
