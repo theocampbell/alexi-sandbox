@@ -62,8 +62,6 @@ const lignes = computed(() => {
         ...acc.dispositifs.map((x) => `${x.nom} · ${x.statut.toLowerCase()}`),
       ],
     },
-    { libelle: 'Accompagnement sociojuridique', valeur: d.organismeAccompagnement ? [d.organismeAccompagnement.nom] : [] },
-    { libelle: 'Autres contacts', valeur: d.contacts.map((c) => `${c.nom} · ${c.role}`) },
   ]
   return rows
     .map((r) => ({ ...r, valeur: r.valeur.filter(Boolean) }))
@@ -103,9 +101,6 @@ const lignes = computed(() => {
           <p v-if="dossier.dette.mois">soit <strong>{{ dossier.dette.mois }} mois</strong> de loyer</p>
           <p v-if="dossier.dette.anciennete">impayée depuis <strong>{{ dossier.dette.anciennete }}</strong></p>
           <p class="fr-text--sm">Mis à jour le {{ dossier.dette.date }}</p>
-          <RouterLink class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas" :to="lien('informations')">
-            Voir le détail de la dette
-          </RouterLink>
         </section>
       </div>
 
@@ -125,12 +120,6 @@ const lignes = computed(() => {
             </template>
             <template v-else>Titulaire du bail non renseigné</template>
           </p>
-          <RouterLink
-            class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas"
-            :to="lien('informations')"
-          >
-            Voir les occupants
-          </RouterLink>
         </section>
       </div>
     </div>
@@ -143,7 +132,7 @@ const lignes = computed(() => {
         <div v-for="c in chiffres" :key="c.libelle">
           <dt class="fr-text--sm fr-mb-1v">{{ c.libelle }}</dt>
           <dd class="fr-text--lg fr-mb-0">
-            <strong>{{ c.valeur }}</strong><span v-if="c.precision" class="fr-text--sm"> {{ c.precision }}</span>
+            <strong>{{ c.valeur }}</strong><span v-if="c.precision" class="fr-text--sm">{{ `\u00a0${c.precision}` }}</span>
           </dd>
         </div>
       </dl>
@@ -165,11 +154,6 @@ const lignes = computed(() => {
           </dd>
         </div>
       </dl>
-      <p class="fr-mt-3w">
-        <RouterLink class="fr-link fr-icon-arrow-right-line fr-link--icon-right" :to="lien('informations')">
-          Toutes les informations du dossier
-        </RouterLink>
-      </p>
     </section>
 
     <!-- 4. Une seule mention des sources -->
