@@ -47,6 +47,7 @@ src/
 - **Synthèse** : les 3 cartes sont les seuls blocs encadrés, avec au plus un lien chacune. La liste « Logement et acteurs » masque les lignes vides. Les sources ne sont mentionnées qu'une fois, en bas de l'onglet.
 - **Informations** : les champs vides restent affichés avec « Non renseigné ».
 - **Titre de page** unique par onglet (« Synthèse · Dossier … – Alexi »).
+- **Stepper à 9 étapes** : le stepper DSFR s'arrête à 8 étapes, alors que la procédure en compte 9. `mise-en-page.css` ajoute les deux variables manquantes (`--steps: 9`, `--current-step: 9`), sur le modèle des règles DSFR. Écart à signaler à l'équipe DSFR.
 - **Largeur** : le conteneur DSFR par défaut, soit 1 200 px de contenu, comme dans l'application actuelle.
 - **CSS** : uniquement la mise en page (grilles, encadrés), avec les variables de couleur DSFR. Imports DSFR en versions `*.main.min.css`, car les fichiers legacy sont rejetés par Vite 8.
 

@@ -30,6 +30,8 @@
 .alexi-bas {
   margin-top: auto !important;
   padding-top: 0.5rem;
+  /* Ne s'étire pas sur toute la largeur de la carte (soulignement du lien = longueur du texte) */
+  align-self: flex-start;
 }
 
 /* Titre + action alignés, qui passent à la ligne si besoin */
@@ -112,4 +114,16 @@
 /* Le graphique garde une hauteur raisonnable */
 .alexi-graphique {
   max-width: 40rem;
+}
+
+/*
+ * Le stepper DSFR s'arrête à 8 étapes ; la procédure d'expulsion en compte 9.
+ * On ajoute la 9e étape sur le même modèle que les règles DSFR (variables uniquement).
+ */
+.fr-stepper__steps[data-fr-steps="9"] {
+  --steps: 9;
+  --step-width: 11.11111%;
+}
+.fr-stepper__steps[data-fr-current-step="9"] {
+  --current-step: 9;
 }
