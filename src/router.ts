@@ -36,8 +36,6 @@ const router = createRouter({
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   scrollBehavior(to, from, savedPosition) {
-    // Les ancres (#occupants, #commissions…) sont gérées par les onglets, qui y déplacent aussi le focus.
-    if (to.hash) return false
     if (savedPosition) return savedPosition
     if (to.params.num === from.params.num) {
       // Changer d'onglet ne fait pas remonter la page… sauf si les onglets sont sortis de l'écran

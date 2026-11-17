@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { pluriel } from '../data'
 import { usePrototype } from '../composables/usePrototype'
-import { useAncre } from '../composables/useAncre'
 import TableauDsfr from '../components/TableauDsfr.vue'
 
 const { dossier, peutModifier } = usePrototype()
@@ -13,14 +12,12 @@ const entetesOccupants = computed(() =>
 )
 const b = computed(() => dossier.value.bailleur)
 const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/etablissement/${siret.replace(/\s/g, '')}`
-
-useAncre()
 </script>
 
 <template>
   <div>
     <!-- Occupants -->
-    <section id="occupants" class="fr-mb-8w" tabindex="-1" aria-labelledby="titre-occupants">
+    <section id="occupants" class="fr-mb-8w" aria-labelledby="titre-occupants">
       <h2 id="titre-occupants" class="fr-h4">Occupants</h2>
       <p>
         {{ pluriel(dossier.occupants.length, 'occupant') }}<template v-if="mineurs.length">
@@ -71,7 +68,7 @@ useAncre()
     </section>
 
     <!-- Situation du foyer (CAF) -->
-    <section id="caf" class="fr-mb-8w" tabindex="-1" aria-labelledby="titre-caf">
+    <section id="caf" class="fr-mb-8w" aria-labelledby="titre-caf">
       <h2 id="titre-caf" class="fr-h4 fr-mb-1w">Situation du foyer</h2>
       <template v-if="dossier.caf">
         <p class="fr-text--sm fr-mb-3w">Source : CAF · flux reçu le {{ dossier.caf.date }}</p>
@@ -106,7 +103,7 @@ useAncre()
     </section>
 
     <!-- Locaux -->
-    <section id="locaux" class="fr-mb-8w" tabindex="-1" aria-labelledby="titre-locaux">
+    <section id="locaux" class="fr-mb-8w" aria-labelledby="titre-locaux">
       <h2 id="titre-locaux" class="fr-h4">Locaux</h2>
       <div class="fr-grid-row fr-grid-row--gutters">
         <div v-for="l in dossier.locaux" :key="l.titre" class="fr-col-12 fr-col-md-6">
@@ -144,7 +141,7 @@ useAncre()
     </section>
 
     <!-- Bailleur -->
-    <section id="bailleur" class="fr-mb-8w" tabindex="-1" aria-labelledby="titre-bailleur">
+    <section id="bailleur" class="fr-mb-8w" aria-labelledby="titre-bailleur">
       <h2 id="titre-bailleur" class="fr-h4">Bailleur</h2>
       <div class="alexi-carte">
         <div class="alexi-ligne-titre">
@@ -196,7 +193,7 @@ useAncre()
     </section>
 
     <!-- Acteurs et contacts -->
-    <section id="acteurs" tabindex="-1" aria-labelledby="titre-acteurs-info">
+    <section id="acteurs" aria-labelledby="titre-acteurs-info">
       <h2 id="titre-acteurs-info" class="fr-h4">Acteurs de la procédure</h2>
       <dl class="alexi-grille">
         <div>

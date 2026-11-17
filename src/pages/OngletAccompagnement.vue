@@ -2,13 +2,11 @@
 import { computed } from 'vue'
 import type { Commission, Dispositif } from '../data'
 import { usePrototype } from '../composables/usePrototype'
-import { useAncre } from '../composables/useAncre'
 import TableauDsfr from '../components/TableauDsfr.vue'
 
 type TypeBadge = 'success' | 'error' | 'new' | 'info' | 'warning' | undefined
 
 const { dossier, peutModifier } = usePrototype()
-useAncre()
 
 const acc = computed(() => dossier.value.accompagnement)
 const prochaine = computed(() => dossier.value.commissions.find((c) => c.statut === 'Inscrit') ?? null)
@@ -27,7 +25,7 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
 <template>
   <div>
     <!-- Commissions -->
-    <section id="commissions" class="fr-mb-8w" tabindex="-1" aria-labelledby="titre-commissions">
+    <section id="commissions" class="fr-mb-8w" aria-labelledby="titre-commissions">
       <h2 id="titre-commissions" class="fr-h4">Commissions</h2>
       <p v-if="prochaine">
         Prochain passage : <strong>{{ prochaine.instance }} · {{ prochaine.date }}</strong>
@@ -50,7 +48,7 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
     </section>
 
     <!-- Diagnostic et dispositifs -->
-    <section id="dispositifs" class="fr-mb-8w" tabindex="-1" aria-labelledby="titre-dispositifs">
+    <section id="dispositifs" class="fr-mb-8w" aria-labelledby="titre-dispositifs">
       <h2 id="titre-dispositifs" class="fr-h4">Diagnostic et dispositifs</h2>
       <dl class="alexi-grille fr-mb-3w">
         <div>
@@ -83,7 +81,7 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
     </section>
 
     <!-- Intervenants sociaux -->
-    <section id="intervenants" tabindex="-1" aria-labelledby="titre-intervenants">
+    <section id="intervenants" aria-labelledby="titre-intervenants">
       <h2 id="titre-intervenants" class="fr-h4">Intervenants sociaux</h2>
       <dl v-if="dossier.contacts.length" class="alexi-grille">
         <div v-for="c in dossier.contacts" :key="c.nom" class="alexi-coupe">

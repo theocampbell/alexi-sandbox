@@ -37,7 +37,7 @@ src/
 ## Choix faits
 
 - **Onglets synchronisés avec le routeur.** `DsfrTabs` reste le vrai composant d'onglets (`role="tab"`, flèches du clavier). L'index de l'onglet se calcule à partir de la route, et changer d'onglet pousse la route : l'URL, l'ouverture directe d'une URL et le bouton retour fonctionnent. Seul l'onglet actif rend son contenu (`RouterView`), pour éviter les identifiants en double.
-- **Ancres de section** : Informations (`#occupants`, `#caf`, `#locaux`, `#bailleur`, `#acteurs`) et Accompagnement (`#commissions`, `#dispositifs`, `#intervenants`). La page défile jusqu'à la section et y place le focus (`tabindex="-1"`).
+- **Pas de liens vers une section** : un lien ouvre un onglet, pas un endroit précis de l'onglet. Les ancres se battaient avec l'animation de glissement des onglets DSFR. Si les onglets sont sortis de l'écran (lien en bas de la Synthèse), la page remonte au début des onglets.
 - **Onglet Accompagnement** (ajouté après le brief) : il regroupe ce qui concerne le suivi social, pour accueillir les futures fonctionnalités des travailleurs sociaux. Il contient les Commissions (déplacées depuis Informations, avec statut et avis), le diagnostic social et financier et les dispositifs mobilisés (FSL, plan d'apurement, ASLL), et les intervenants sociaux (les anciens « Autres contacts »). Informations ne garde que les « Acteurs de la procédure » (commissaire de justice). Les données de diagnostic et de dispositifs sont des propositions fictives.
 - **État et profil dans l'URL** (`?etat=…&profil=…`). Changer d'état met aussi à jour le numéro de dossier dans le chemin. Sans `?etat`, l'état se déduit du numéro.
 - **Lecture seule** : les boutons d'action sont retirés du DOM, pas désactivés.
@@ -56,7 +56,7 @@ src/
 - `npm run build` sans erreur.
 - Les 4 états × 4 onglets, plus les profils administrateur et lecture seule : axe-core (WCAG 2.1 AA + bonnes pratiques) ne trouve aucune violation, il n'y a aucune erreur de console et les titres sont dans l'ordre.
 - À 320 px de large (équivalent à un zoom de 400 %) : pas de défilement horizontal de la page.
-- Navigation : clic et flèches sur les onglets, bouton retour, listes déroulantes du prototype, lien « Voir les occupants » vers `#occupants`.
+- Navigation : clic et flèches sur les onglets, bouton retour, listes déroulantes du prototype, liens de la Synthèse vers les onglets.
 
 ## Hors sujet
 

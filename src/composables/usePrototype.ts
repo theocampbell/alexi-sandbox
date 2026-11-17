@@ -25,7 +25,6 @@ export function usePrototype() {
         name: route.name ?? 'synthese',
         params: { num: ETATS[v].ref },
         query: { ...route.query, etat: v },
-        hash: route.hash,
       })
     },
   })
@@ -36,7 +35,7 @@ export function usePrototype() {
       return typeof q === 'string' && PROFIL_IDS.includes(q as ProfilId) ? (q as ProfilId) : 'gestionnaire'
     },
     set(v) {
-      router.replace({ query: { ...route.query, profil: v }, hash: route.hash })
+      router.replace({ query: { ...route.query, profil: v } })
     },
   })
 
@@ -52,11 +51,10 @@ export function usePrototype() {
   const estAdmin = computed(() => profil.value === 'admin')
 
   /** Lien vers un onglet du dossier courant, en gardant ?etat et ?profil */
-  const lien = (name: string, hash?: string): RouteLocationRaw => ({
+  const lien = (name: string): RouteLocationRaw => ({
     name,
     params: { num: dossier.value.ref },
     query: route.query,
-    hash: hash ? `#${hash}` : undefined,
   })
 
   return { etat, profil, dossier, procedureEnCours, etapeEnCours, peutModifier, estAdmin, lien }
