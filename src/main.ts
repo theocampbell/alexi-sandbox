@@ -8,10 +8,6 @@ import '@gouvfr/dsfr/dist/utility/utility.main.min.css'
 import '@gouvfr/dsfr/dist/scheme/scheme.min.css'
 import '@gouvminint/vue-dsfr/styles'
 
-// DSFR Chart : seul le web component <line-chart> est chargé
-import '@gouvfr/dsfr-chart/LineChart'
-import '@gouvfr/dsfr-chart/LineChart/css'
-
 import './styles/mise-en-page.css'
 
 import App from './App.vue'

@@ -5,14 +5,5 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   // Pour GitHub Pages, le site est servi sous /<nom-du-dépôt>/ : on passe BASE_URL au build.
   base: process.env.BASE_URL ?? '/',
-  plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          // Web components de DSFR Chart
-          isCustomElement: (tag) => ['line-chart', 'bar-chart'].includes(tag),
-        },
-      },
-    }),
-  ],
+  plugins: [vue()],
 })

@@ -61,16 +61,17 @@ export interface PointDette {
   partSurDettes: number | null
 }
 
+/** Le montant de la dette est toujours connu ; le reste peut manquer */
 export interface Dette {
   montant: number
-  mois: string
-  anciennete: string
+  mois: string | null
+  anciennete: string | null
   date: string
-  loyer: string
-  charges: string
-  aide: string
-  tiersPayant: boolean
-  reste: string
+  loyer: string | null
+  charges: string | null
+  aide: string | null
+  tiersPayant: boolean | null
+  reste: string | null
   evolution: PointDette[]
 }
 
@@ -100,15 +101,15 @@ export interface Bailleur {
 export interface Dossier {
   ref: string
   vulnerable: boolean
-  orgRef: string | null
-  agent: { nom: string; email: string } | null
+  /** Référents du dossier : 0, 1 ou plusieurs personnes (pas d'organisation référente) */
+  referents: { nom: string; email: string }[]
   cree: string
   modifie: string
   occupants: Occupant[]
   occupantsPartis: Occupant[]
   locaux: Local[]
   caf: Caf | null
-  dette: Dette | null
+  dette: Dette
   procedures: Procedure[]
   bailleur: Bailleur
   cj: { nom: string; contact: string; responsable: string | null } | null

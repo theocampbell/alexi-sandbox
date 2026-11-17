@@ -17,10 +17,6 @@ Pour ouvrir un cas précis : `/dossiers/2026-034-1047676/synthese?etat=avance&pr
 - `etat` : `complet` · `incomplet` · `avance` · `nombreux`
 - `profil` : `gestionnaire` · `admin` · `lecture`
 
-## Page de comparaison des graphiques
-
-`/graphiques` (lien dans la barre du prototype) : page de travail hors maquette qui dessine les mêmes données de trois façons, sur deux exemples. A : courbe DSFR Chart. B : barres DSFR Chart. C : courbe SVG maison (segments droits, dates à leur vraie place, montants en euros). La Synthèse utilise pour l'instant A.
-
 ## Publication
 
 Le workflow `.github/workflows/pages.yml` publie le prototype sur GitHub Pages à chaque push sur `main`. Il construit avec `BASE_URL=/<nom-du-dépôt>/` (la `base` de Vite) et copie `index.html` en `404.html` pour que les liens profonds fonctionnent.
@@ -32,7 +28,7 @@ Une seule fois dans GitHub : Settings › Pages › Source : **GitHub Actions**.
 src/
   data/            un fichier de données fictives par état (etats/*.ts) + types
   composables/     usePrototype : état, profil et dossier lus depuis l'URL
-  components/      barre du prototype, en-tête du dossier, graphique, tableau
+  components/      barre du prototype, en-tête du dossier, tableaux
   pages/           DossierPage (onglets) + un composant par onglet
   router.ts        routes /dossiers/:num/{synthese,informations,accompagnement,procedure}
   styles/          mise en page uniquement (variables DSFR pour les couleurs)
@@ -45,8 +41,9 @@ src/
 - **Onglet Accompagnement** (ajouté après le brief) : il regroupe ce qui concerne le suivi social, pour accueillir les futures fonctionnalités des travailleurs sociaux. Il contient, dans l'ordre : l'organisme d'accompagnement sociojuridique (on désigne la structure, pas une personne), les Commissions (déplacées depuis Informations, avec statut et avis), puis le diagnostic social et financier et les dispositifs mobilisés (FSL, plan d'apurement, ASLL). Informations garde « Acteurs et contacts » : commissaire de justice et autres contacts (avocat, curateur, proche…), avec « Ajouter un contact ». Les données de diagnostic et de dispositifs sont des propositions fictives.
 - **État et profil dans l'URL** (`?etat=…&profil=…`). Changer d'état met aussi à jour le numéro de dossier dans le chemin. Sans `?etat`, l'état se déduit du numéro.
 - **Lecture seule** : les boutons d'action sont retirés du DOM, pas désactivés.
-- **Graphique** : courbe DSFR Chart (`<line-chart>`, web component) du montant de la dette à chaque date de mise à jour, l'axe partant de 0. Il n'apparaît qu'à partir de 2 montants. Limite : l'axe des dates est catégoriel, donc les points sont espacés régulièrement même si les dates ne le sont pas. Le canvas est enveloppé dans `role="img"` avec un résumé textuel, et le bouton « Voir les données » affiche le tableau (`aria-expanded` / `aria-controls`).
-- **Dette locative** : le tableau reprend les colonnes de l'application en production (origine, date de mise à jour, montant, dont loyer / charges / frais annexes, part sur l'ensemble des dettes). Il est toujours visible dans Informations (section « Dette locative »). Dans la Synthèse, il s'affiche via « Voir les données » sous le graphique, ou directement s'il n'y a qu'une ligne. « Ajouter une information sur la dette » est dans les deux onglets.
+- **Pas de graphique** : le graphique de l'évolution de la dette a été retiré (peu d'apport pour beaucoup de place). Le détail est dans le tableau de la dette, dans Informations.
+- **Dette locative** : le tableau reprend les colonnes de l'application en production (origine, date de mise à jour, montant, dont loyer / charges / frais annexes, part sur l'ensemble des dettes). Il est toujours visible dans Informations (section « Dette locative »). La Synthèse n'en garde que le montant (carte « Dette locative », toujours connu) et les chiffres connus parmi loyer, charges, aide et reste à charge. « Ajouter une information sur la dette » est dans les deux onglets.
+- **Référents** : il n'y a pas d'organisation référente. Un dossier a 0, 1 ou plusieurs référents, qui sont des personnes (en-tête du dossier). Le gestionnaire et l'administrateur peuvent les modifier ; en lecture seule, le bouton est retiré. L'administrateur n'a pour l'instant aucun droit en plus.
 - **Tableaux** : un petit composant `TableauDsfr` avec le balisage DSFR 1.14 (`fr-table__wrapper/container/content`), pour qu'ils défilent dans leur cadre à 400 % de zoom. Pourquoi pas les composants de Vue DSFR : `DsfrTable` produit l'ancien balisage, et `DsfrDataTable` rend chaque cellule focusable (une tabulation par cellule). Les noms (occupants, étapes) sont des en-têtes de ligne (`th scope="row"`).
 - **Boutons icône** (crayon, corbeille) : `DsfrButton` avec `icon-only`. Leur nom accessible contient celui de la personne ou du local (« Modifier Mme Sonia RAMIREZ-LEROUX »).
 - **Synthèse** : les 3 cartes sont les seuls blocs encadrés, avec au plus un lien chacune. La liste « Logement et acteurs » masque les lignes vides. Les sources ne sont mentionnées qu'une fois, en bas de l'onglet.

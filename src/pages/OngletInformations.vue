@@ -106,8 +106,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     <!-- Dette locative : toutes les informations reçues ou saisies -->
     <section id="dette" class="fr-mb-8w" aria-labelledby="titre-dette-info">
       <h2 id="titre-dette-info" class="fr-h4">Dette locative</h2>
-      <DetteTableau v-if="dossier.dette" :points="dossier.dette.evolution" />
-      <p v-else>Aucune information sur la dette pour l’instant.</p>
+      <DetteTableau :points="dossier.dette.evolution" />
       <DsfrButton
         v-if="peutModifier"
         class="fr-mt-2w"

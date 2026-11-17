@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { usePrototype } from '../composables/usePrototype'
 
-const { dossier, procedureEnCours, etapeEnCours, peutModifier, estAdmin } = usePrototype()
+const { dossier, procedureEnCours, etapeEnCours, peutModifier } = usePrototype()
 
 const principal = computed(() => dossier.value.locaux.find((l) => l.principal) ?? dossier.value.locaux[0])
 
@@ -41,26 +41,26 @@ const nbAutresLocaux = computed(() => dossier.value.locaux.length - 1)
       </div>
     </div>
 
-    <!-- Une seule petite ligne : organisation · agent · dates -->
+    <!-- Une seule petite ligne : référents · dates -->
     <p class="alexi-meta fr-text--sm fr-mt-2w fr-mb-0 alexi-coupe">
-      Organisation référente :
-      <strong v-if="dossier.orgRef">{{ dossier.orgRef }}</strong>
-      <template v-else>aucune</template>
+      {{ dossier.referents.length > 1 ? 'Référents' : 'Référent' }} :
+      <template v-if="dossier.referents.length">
+        <template v-for="(r, i) in dossier.referents" :key="r.email">
+          <template v-if="i > 0">, </template>
+          <a :href="`mailto:${r.email}`" :title="`Écrire à ${r.nom} (${r.email})`">{{ r.nom }}</a>
+        </template>
+      </template>
+      <template v-else>aucun</template>
+      <!-- Gestionnaire et administrateur peuvent modifier les référents -->
       <DsfrButton
-        v-if="estAdmin"
+        v-if="peutModifier"
         class="fr-ml-1w"
         tertiary
         no-outline
         size="sm"
-        :label="dossier.orgRef ? 'Modifier' : 'Désigner'"
-        :aria-label="dossier.orgRef ? 'Modifier l’organisation référente' : 'Désigner l’organisation référente'"
+        :label="dossier.referents.length ? 'Modifier' : 'Désigner'"
+        :aria-label="dossier.referents.length ? 'Modifier les référents' : 'Désigner un référent'"
       />
-      ·
-      Agent référent :
-      <template v-if="dossier.agent">
-        {{ dossier.agent.nom }} (<a :href="`mailto:${dossier.agent.email}`">{{ dossier.agent.email }}</a>)
-      </template>
-      <template v-else>non renseigné</template>
       · Créé le {{ dossier.cree }} · Modifié le {{ dossier.modifie }}
     </p>
   </div>

@@ -21,8 +21,10 @@ const enfants: Occupant[] = prenoms.map((p, i) => {
 const dossier: Dossier = {
   ref: '2026-034-1049980',
   vulnerable: true,
-  orgRef: 'Agence départementale d’information sur le logement de l’Hérault',
-  agent: { nom: 'Marc-Antoine DU PLESSIS-VERNEUIL', email: 'marc-antoine.duplessis-verneuil@adil.exemple.org' },
+  referents: [
+    { nom: 'Marc-Antoine DU PLESSIS-VERNEUIL', email: 'marc-antoine.duplessis-verneuil@ddets.exemple.gouv.fr' },
+    { nom: 'Anne-Sophie DE VILLENEUVE-SAINT-GEORGES', email: 'anne-sophie.devilleneuve-saint-georges@ddets.exemple.gouv.fr' },
+  ],
   cree: '2 nov. 2026',
   modifie: '15 nov. 2026',
   occupants: [

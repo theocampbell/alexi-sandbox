@@ -111,10 +111,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Le graphique garde une hauteur raisonnable */
-.alexi-graphique {
-  max-width: 40rem;
-}
 
 /*
  * Le stepper DSFR s'arrête à 8 étapes ; la procédure d'expulsion en compte 9.
@@ -128,25 +124,3 @@
   --current-step: 9;
 }
 
-/* Courbe SVG de la dette : couleurs DSFR, texte en Marianne */
-.alexi-courbe {
-  width: 100%;
-  height: auto;
-  font-family: inherit;
-}
-.alexi-courbe__grille {
-  stroke: var(--border-default-grey);
-  stroke-dasharray: 4 4;
-}
-.alexi-courbe__ligne {
-  fill: none;
-  stroke: var(--border-plain-blue-france);
-  stroke-width: 2.5;
-}
-.alexi-courbe__point {
-  fill: var(--background-action-high-blue-france);
-}
-.alexi-courbe__texte {
-  fill: var(--text-mention-grey);
-  font-size: 12px;
-}

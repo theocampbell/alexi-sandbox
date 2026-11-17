@@ -4,8 +4,7 @@ import { BAILLEUR_IMMOGEST, BASE_OCCUPANTS, CAF_COMPLET } from '../communs'
 const dossier: Dossier = {
   ref: '2026-034-1047676',
   vulnerable: true,
-  orgRef: 'DDETS de l’Hérault',
-  agent: null,
+  referents: [{ nom: 'Julie NAVARRO', email: 'julie.navarro@ddets.exemple.gouv.fr' }],
   cree: '28 oct. 2026',
   modifie: '16 nov. 2026',
   occupants: BASE_OCCUPANTS,

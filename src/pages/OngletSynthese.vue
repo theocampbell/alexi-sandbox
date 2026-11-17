@@ -2,8 +2,6 @@
 import { computed } from 'vue'
 import { ETAPES, formatEuros, pluriel } from '../data'
 import { usePrototype } from '../composables/usePrototype'
-import DetteEvolution from '../components/DetteEvolution.vue'
-import DetteTableau from '../components/DetteTableau.vue'
 
 const { dossier, procedureEnCours, lien, peutModifier } = usePrototype()
 
@@ -17,6 +15,18 @@ const agesMineurs = computed(() => {
   const ages = mineurs.value.map((o) => o.age)
   if (ages.length > 3 || ages.length === 0) return ''
   return `${ages.length > 1 ? ages.slice(0, -1).join(', ') + ' et ' : ''}${ages[ages.length - 1]} ans`
+})
+
+/** Chiffres de la ligne « Dette et ressources » : seulement ceux qui sont connus */
+const chiffres = computed(() => {
+  const d = dossier.value.dette
+  const tiers = d.tiersPayant === null ? '' : d.tiersPayant ? '· en tiers payant' : '· sans tiers payant'
+  return [
+    { libelle: 'Loyer mensuel', valeur: d.loyer, precision: '' },
+    { libelle: 'Charges mensuelles', valeur: d.charges, precision: '' },
+    { libelle: 'Aide au logement', valeur: d.aide, precision: tiers },
+    { libelle: 'Reste à charge estimé', valeur: d.reste, precision: 'par mois' },
+  ].filter((c) => c.valeur !== null)
 })
 
 /*
@@ -89,15 +99,13 @@ const lignes = computed(() => {
       <div class="fr-col-12 fr-col-md-4">
         <section class="alexi-carte" aria-labelledby="carte-dette">
           <h2 id="carte-dette" class="fr-h6">Dette locative</h2>
-          <template v-if="dossier.dette">
-            <p class="fr-h2 fr-mb-0">{{ formatEuros(dossier.dette.montant) }}</p>
-            <p>soit <strong>{{ dossier.dette.mois }} mois</strong> de loyer</p>
-            <p>impayée depuis <strong>{{ dossier.dette.anciennete }}</strong></p>
-          </template>
-          <template v-else>
-            <p class="fr-h4 fr-mb-0">Montant inconnu</p>
-            <p>Ni la CAF ni le commissaire de justice n’ont transmis de montant.</p>
-          </template>
+          <p class="fr-h2 fr-mb-0">{{ formatEuros(dossier.dette.montant) }}</p>
+          <p v-if="dossier.dette.mois">soit <strong>{{ dossier.dette.mois }} mois</strong> de loyer</p>
+          <p v-if="dossier.dette.anciennete">impayée depuis <strong>{{ dossier.dette.anciennete }}</strong></p>
+          <p class="fr-text--sm">Mis à jour le {{ dossier.dette.date }}</p>
+          <RouterLink class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas" :to="lien('informations')">
+            Voir le détail de la dette
+          </RouterLink>
         </section>
       </div>
 
@@ -130,34 +138,16 @@ const lignes = computed(() => {
     <!-- 2. Dette et ressources -->
     <section class="fr-mt-8w" aria-labelledby="titre-dette">
       <h2 id="titre-dette" class="fr-h4 fr-mb-3w">Dette et ressources</h2>
-      <template v-if="dossier.dette">
-        <dl class="alexi-grille">
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">Loyer mensuel</dt>
-            <dd class="fr-text--lg fr-text--bold fr-mb-0">{{ dossier.dette.loyer }}</dd>
-          </div>
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">Charges mensuelles</dt>
-            <dd class="fr-text--lg fr-text--bold fr-mb-0">{{ dossier.dette.charges }}</dd>
-          </div>
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">Aide au logement</dt>
-            <dd class="fr-text--lg fr-mb-0">
-              <strong>{{ dossier.dette.aide }}</strong>
-              <span class="fr-text--sm"> · {{ dossier.dette.tiersPayant ? 'en tiers payant' : 'sans tiers payant' }}</span>
-            </dd>
-          </div>
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">Reste à charge estimé</dt>
-            <dd class="fr-text--lg fr-mb-0"><strong>{{ dossier.dette.reste }}</strong><span class="fr-text--sm"> par mois</span></dd>
-          </div>
-        </dl>
-
-        <!-- Graphique seulement à partir de 2 montants ; sinon le tableau directement -->
-        <DetteEvolution v-if="dossier.dette.evolution.length >= 2" class="fr-mt-6w" :points="dossier.dette.evolution" />
-        <DetteTableau v-else class="fr-mt-6w" :points="dossier.dette.evolution" />
-      </template>
-      <p v-else>Aucune donnée sur la dette ni sur les ressources du foyer.</p>
+      <!-- Seuls les chiffres connus sont affichés -->
+      <dl v-if="chiffres.length" class="alexi-grille">
+        <div v-for="c in chiffres" :key="c.libelle">
+          <dt class="fr-text--sm fr-mb-1v">{{ c.libelle }}</dt>
+          <dd class="fr-text--lg fr-mb-0">
+            <strong>{{ c.valeur }}</strong><span v-if="c.precision" class="fr-text--sm"> {{ c.precision }}</span>
+          </dd>
+        </div>
+      </dl>
+      <p v-else>Loyer, charges et aide au logement pas encore connus.</p>
       <DsfrButton
         v-if="peutModifier"
         class="fr-mt-3w"

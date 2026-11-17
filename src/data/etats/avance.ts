@@ -4,8 +4,10 @@ import { BASE_OCCUPANTS, CAF_COMPLET } from '../communs'
 const dossier: Dossier = {
   ref: '2025-034-0983114',
   vulnerable: true,
-  orgRef: 'DDETS de l’Hérault',
-  agent: { nom: 'Sophie DURAND', email: 'sophie.durand@ddets.exemple.gouv.fr' },
+  referents: [
+    { nom: 'Sophie DURAND', email: 'sophie.durand@ddets.exemple.gouv.fr' },
+    { nom: 'Thomas GIRAUD', email: 'thomas.giraud@ddets.exemple.gouv.fr' },
+  ],
   cree: '4 févr. 2025',
   modifie: '10 nov. 2026',
   occupants: BASE_OCCUPANTS.slice(0, 3),
