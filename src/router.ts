@@ -15,6 +15,9 @@ export const ONGLETS = [
 
 export type OngletName = (typeof ONGLETS)[number]['name']
 
+// Mesuré avant la navigation : après, le contenu a changé de hauteur et la mesure ne veut plus rien dire
+let ongletsHorsEcran = false
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -36,10 +39,18 @@ const router = createRouter({
     // Les ancres (#occupants, #commissions…) sont gérées par les onglets, qui y déplacent aussi le focus.
     if (to.hash) return false
     if (savedPosition) return savedPosition
-    // Changer d'onglet ne fait pas remonter la page
-    if (to.params.num === from.params.num) return false
+    if (to.params.num === from.params.num) {
+      // Changer d'onglet ne fait pas remonter la page… sauf si les onglets sont sortis de l'écran
+      // (lien en bas d'une carte de la Synthèse par exemple) : on remonte alors au début des onglets.
+      return ongletsHorsEcran ? { el: '.fr-tabs', top: 16 } : false
+    }
     return { top: 0 }
   },
+})
+
+router.beforeEach(() => {
+  const onglets = document.querySelector('.fr-tabs')
+  ongletsHorsEcran = !!onglets && onglets.getBoundingClientRect().top < 0
 })
 
 export default router

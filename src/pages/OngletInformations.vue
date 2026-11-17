@@ -52,9 +52,10 @@ useAncre()
           </td>
         </tr>
       </TableauDsfr>
+      <!-- fr-btns-group--icon-left : sans elle, le DSFR traite les boutons à icône d'un groupe comme des boutons icône seule -->
       <DsfrButtonGroup
         v-if="peutModifier"
-        class="fr-mt-2w"
+        class="fr-mt-2w fr-btns-group--icon-left"
         inline-layout-when="md"
         :buttons="[
           { label: 'Ajouter un occupant', secondary: true, icon: 'fr-icon-add-line' },

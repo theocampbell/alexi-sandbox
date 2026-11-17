@@ -117,7 +117,7 @@ const lignes = computed(() => {
           </p>
           <RouterLink
             class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas"
-            :to="lien('informations', 'occupants')"
+            :to="lien('informations')"
           >
             Voir les occupants
           </RouterLink>
