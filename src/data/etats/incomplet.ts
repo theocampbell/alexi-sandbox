@@ -41,7 +41,7 @@ const dossier: Dossier = {
   contacts: [],
   organismeAccompagnement: null,
   commissions: [],
-  accompagnement: { dsf: null, dispositifs: [] },
+  accompagnement: { dispositifs: [] },
 }
 
 export default dossier

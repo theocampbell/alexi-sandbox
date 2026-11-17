@@ -75,7 +75,6 @@ const lignes = computed(() => {
     {
       libelle: 'Accompagnement',
       valeur: [
-        ...(acc.dsf ? [`Diagnostic social et financier ${acc.dsf.statut.toLowerCase()} le ${acc.dsf.date}`] : []),
         ...acc.dispositifs.map((x) => `${x.nom} · ${x.statut.toLowerCase()}`),
       ],
     },

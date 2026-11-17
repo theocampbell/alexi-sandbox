@@ -152,7 +152,5 @@ export interface Dispositif {
 }
 
 export interface Accompagnement {
-  /** Diagnostic social et financier */
-  dsf: { statut: 'Demandé' | 'Réalisé'; date: string; par: string } | null
   dispositifs: Dispositif[]
 }

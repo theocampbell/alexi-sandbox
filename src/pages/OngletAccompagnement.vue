@@ -66,21 +66,9 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
       <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-calendar-line" label="Inscrire en commission" />
     </section>
 
-    <!-- Diagnostic et dispositifs -->
+    <!-- Dispositifs -->
     <section id="dispositifs" aria-labelledby="titre-dispositifs">
-      <h2 id="titre-dispositifs" class="fr-h4">Diagnostic et dispositifs</h2>
-      <dl class="alexi-grille fr-mb-3w">
-        <div>
-          <dt class="fr-text--sm fr-mb-1v">Diagnostic social et financier</dt>
-          <dd>
-            <template v-if="acc.dsf">
-              <strong>{{ acc.dsf.statut }}</strong> le {{ acc.dsf.date }}<br />
-              <span class="fr-text--sm">par {{ acc.dsf.par }}</span>
-            </template>
-            <template v-else>Non demandé</template>
-          </dd>
-        </div>
-      </dl>
+      <h2 id="titre-dispositifs" class="fr-h4">Dispositifs</h2>
       <TableauDsfr
         v-if="acc.dispositifs.length"
         titre="Dispositifs mobilisés"
