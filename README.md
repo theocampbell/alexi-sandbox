@@ -42,7 +42,7 @@ src/
 - **Lecture seule** : les boutons d'action sont retirés du DOM, pas désactivés.
 - **Graphique** : DSFR Chart (`<bar-chart>`, web component). Il n'apparaît qu'à partir de 2 montants. Le canvas est enveloppé dans `role="img"` avec un résumé textuel, et le bouton « Voir les données » affiche le tableau (`aria-expanded` / `aria-controls`).
 - **Tableaux** : un petit composant `TableauDsfr` avec le balisage DSFR 1.14 (`fr-table__wrapper/container/content`), pour qu'ils défilent dans leur cadre à 400 % de zoom. Pourquoi pas les composants de Vue DSFR : `DsfrTable` produit l'ancien balisage, et `DsfrDataTable` rend chaque cellule focusable (une tabulation par cellule). Les noms (occupants, étapes) sont des en-têtes de ligne (`th scope="row"`).
-- **Boutons icône** (crayon, corbeille) : `DsfrButton` avec `icon-only`. Leur nom accessible contient celui de la personne ou du local (« Modifier Mme Hayat BEN-IHIA »).
+- **Boutons icône** (crayon, corbeille) : `DsfrButton` avec `icon-only`. Leur nom accessible contient celui de la personne ou du local (« Modifier Mme Sonia RAMIREZ-LEROUX »).
 - **Synthèse** : les 3 cartes sont les seuls blocs encadrés, avec au plus un lien chacune. La liste « Logement et acteurs » masque les lignes vides. Les sources ne sont mentionnées qu'une fois, en bas de l'onglet.
 - **Informations** : les champs vides restent affichés avec « Non renseigné ».
 - **Titre de page** unique par onglet (« Synthèse · Dossier … – Alexi »).

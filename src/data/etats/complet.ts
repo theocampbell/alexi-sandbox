@@ -1,5 +1,5 @@
 import type { Dossier } from '../types'
-import { BAILLEUR_CAPIGI, BASE_OCCUPANTS, CAF_COMPLET } from '../communs'
+import { BAILLEUR_IMMOGEST, BASE_OCCUPANTS, CAF_COMPLET } from '../communs'
 
 const dossier: Dossier = {
   ref: '2026-034-1047676',
@@ -28,7 +28,7 @@ const dossier: Dossier = {
     evolution: [{ etape: 'Signalement CAF', date: '1er sept. 2026', montant: 1000 }],
   },
   procedures: [{ motif: 'Impayé de loyer', etape: 1, depuis: '28 oct. 2026', close: false, prochaine: null }],
-  bailleur: BAILLEUR_CAPIGI,
+  bailleur: BAILLEUR_IMMOGEST,
   cj: null,
   contacts: [],
   commissions: [],

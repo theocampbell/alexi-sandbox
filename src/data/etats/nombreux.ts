@@ -1,8 +1,8 @@
 import type { Dossier, Occupant } from '../types'
-import { BAILLEUR_CAPIGI, CAF_COMPLET } from '../communs'
+import { BAILLEUR_IMMOGEST, CAF_COMPLET } from '../communs'
 
-const NOM = 'DE SAINT-EXUPÉRY-LAMBERT'
-const prenoms = ['Inès', 'Yanis', 'Lina', 'Adam', 'Sofia', 'Nour', 'Ilyes', 'Maya', 'Rayan', 'Jade']
+const NOM = 'DE MONTCLAR-BEAUREGARD-LEFEBVRE'
+const prenoms = ['Louise', 'Gabriel', 'Chloé', 'Hugo', 'Manon', 'Arthur', 'Zoé', 'Jules', 'Alice', 'Noah']
 const ages = [22, 19, 17, 15, 13, 11, 9, 7, 4, 1]
 
 const enfants: Occupant[] = prenoms.map((p, i) => {
@@ -22,12 +22,12 @@ const dossier: Dossier = {
   ref: '2026-034-1049980',
   vulnerable: true,
   orgRef: 'Agence départementale d’information sur le logement de l’Hérault',
-  agent: { nom: 'Jean-Baptiste DE LA FONTAINE-MARCHAND', email: 'jean-baptiste.delafontaine-marchand@adil34.org' },
+  agent: { nom: 'Marc-Antoine DU PLESSIS-VERNEUIL', email: 'marc-antoine.duplessis-verneuil@adil.exemple.org' },
   cree: '2 nov. 2026',
   modifie: '15 nov. 2026',
   occupants: [
-    { nom: `Mme Marie-Antoinette ${NOM}`, naissance: '4 mai 1975', age: 51, role: 'Titulaire du bail', titulaire: true, detail: 'Allocataire CAF n° 778120', coord: '06 12 34 56 78', activite: 'Salariée' },
-    { nom: `M. Jean-Philippe ${NOM}`, naissance: '9 août 1973', age: 53, role: 'Titulaire du bail', titulaire: true, coord: null, activite: 'Retraité' },
+    { nom: `Mme Anne-Charlotte ${NOM}`, naissance: '4 mai 1975', age: 51, role: 'Titulaire du bail', titulaire: true, detail: 'Allocataire CAF n° 602417', coord: '06 12 34 56 78', activite: 'Salariée' },
+    { nom: `M. Pierre-Emmanuel ${NOM}`, naissance: '9 août 1973', age: 53, role: 'Titulaire du bail', titulaire: true, coord: null, activite: 'Retraité' },
     ...enfants,
   ],
   occupantsPartis: [],
@@ -54,7 +54,7 @@ const dossier: Dossier = {
     evolution: [{ etape: 'Signalement CAF', date: '1er nov. 2026', montant: 2310 }],
   },
   procedures: [{ motif: 'Impayé de loyer', etape: 1, depuis: '2 nov. 2026', close: false, prochaine: null }],
-  bailleur: BAILLEUR_CAPIGI,
+  bailleur: BAILLEUR_IMMOGEST,
   cj: null,
   contacts: [],
   commissions: [],

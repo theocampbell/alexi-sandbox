@@ -144,21 +144,21 @@
 var ETAPES = ['Prévention','Signalement CAF','Commandement de payer','Assignation','Décision judiciaire','Commandement de quitter les lieux','Réquisition de la force publique','Décision sur la force publique','Exécution'];
 
 var BASE_OCCUPANTS = [
-  {nom:'Mme Hayat BEN-IHIA', naissance:'1er oct. 1978', age:48, role:'Titulaire du bail', detail:'Allocataire CAF n° 544893', coord:null, activite:'Chômage non indemnisé'},
-  {nom:'Soufyane BENIHIA', naissance:'20 févr. 2002', age:24, role:'Occupant', coord:null, activite:'Chômage non indemnisé'},
-  {nom:'Monssef EL BACHIRI', naissance:'20 févr. 2007', age:19, role:'Occupant', coord:null, activite:'Chômage non indemnisé'},
-  {nom:'Nesrine BOURAJJOU', naissance:'10 févr. 2012', age:14, role:'Occupante', coord:null, activite:'Scolarisée'},
-  {nom:'Camelia BOURAJJOU', naissance:'17 sept. 2014', age:12, role:'Occupante', coord:null, activite:'Scolarisée'}
+  {nom:'Mme Sonia RAMIREZ-LEROUX', naissance:'1er oct. 1978', age:48, role:'Titulaire du bail', detail:'Allocataire CAF n° 731205', coord:null, activite:'Chômage non indemnisé'},
+  {nom:'Lucas RAMIREZ', naissance:'20 févr. 2002', age:24, role:'Occupant', coord:null, activite:'Chômage non indemnisé'},
+  {nom:'Théo VASSEUR', naissance:'20 févr. 2007', age:19, role:'Occupant', coord:null, activite:'Chômage non indemnisé'},
+  {nom:'Léna VASSEUR', naissance:'10 févr. 2012', age:14, role:'Occupante', coord:null, activite:'Scolarisée'},
+  {nom:'Inès VASSEUR', naissance:'17 sept. 2014', age:12, role:'Occupante', coord:null, activite:'Scolarisée'}
 ];
 
 var CAF_COMPLET = {
-  date:'13 nov. 2026 à 17h04', matricule:'544893', organisme:'146', surface:'66 m²', loyer:'561,39 €',
+  date:'13 nov. 2026 à 17h04', matricule:'731205', organisme:'146', surface:'66 m²', loyer:'561,39 €',
   aide:'Allocation de logement familiale · 527,00 €', tiersPayant:true, rsa:true,
   autres:[['Fin de l’occupation','Non'],['Surendettement','Non'],['Mesure de protection','Non'],['Insalubrité','Non'],['Péril','Non'],['Non-décence','Non'],['Surpeuplement','Non'],['Colocation','Non'],['Grossesse',null],['AAH',null],['AEEH',null],['AJPP',null],['AJPA',null]]
 };
 
-var BAILLEUR_CAPIGI = {nom:'CAPIGI', type:'Bailleur privé', nature:'Personne morale', siret:'125 761 798 44513', adresse:'45 avenue Camille Saint-Saëns<br>34500 Béziers', contact:null, depuis:'15 janv. 2024', gestionnaire:null,
-  precedents:[{nom:'M. Jean DUPONT', detail:'Bailleur privé · personne physique', periode:'du 3 mars 2019 au 14 janv. 2024'}]};
+var BAILLEUR_IMMOGEST = {nom:'IMMOGEST SUD', type:'Bailleur privé', nature:'Personne morale', siret:'834 512 907 00018', adresse:'45 avenue Camille Saint-Saëns<br>34500 Béziers', contact:null, depuis:'15 janv. 2024', gestionnaire:null,
+  precedents:[{nom:'M. Paul GARNIER', detail:'Bailleur privé · personne physique', periode:'du 3 mars 2019 au 14 janv. 2024'}]};
 
 var ETATS = {
   complet: {
@@ -170,7 +170,7 @@ var ETATS = {
     dette:{montant:'1 000,00 €', mois:'1,8', anciennete:'2 mois', date:'1er sept. 2026', loyer:'561,39 €', charges:'0,00 €', aide:'527,00 €', tiersPayant:true, reste:'34,39 €',
            evolution:[['Signalement CAF','1er sept. 2026','1 000,00 €']]},
     procedures:[{motif:'Impayé de loyer', etape:1, depuis:'28 oct. 2026', close:false, prochaine:null}],
-    bailleur: BAILLEUR_CAPIGI,
+    bailleur: BAILLEUR_IMMOGEST,
     cj:null, contacts:[], commissions:[],
     historique:[['16 nov. 2026','Prénom NOM','DDETS de l’Hérault','Adresse du local principal corrigée : « 8 rue des Lillas » devient « 8 rue des Lilas »'],
                 ['13 nov. 2026','CAF','flux automatique','Situation du foyer mise à jour'],
@@ -178,16 +178,16 @@ var ETATS = {
   },
   incomplet: {
     ref:'2026-034-1051203', vulnerable:false, orgRef:null, agent:null, cree:'12 nov. 2026', modifie:'12 nov. 2026',
-    occupants:[{nom:'M. Karim DUVAL', naissance:null, age:null, role:'Titulaire du bail', coord:null, activite:null}],
+    occupants:[{nom:'M. Olivier BRUNET', naissance:null, age:null, role:'Titulaire du bail', coord:null, activite:null}],
     locaux:[{principal:true, titre:'3 impasse des Oliviers', ligne2:'34500 Béziers', type:'Habitation', surface:null}],
     caf:null, dette:null,
     procedures:[{motif:'Impayé de loyer', etape:0, depuis:'12 nov. 2026', close:false, prochaine:null}],
-    bailleur:{nom:'Mme Sylvie MARTIN', type:'Bailleur privé', nature:'Personne physique', siret:null, adresse:null, contact:null, depuis:null, gestionnaire:null, precedents:[]},
+    bailleur:{nom:'Mme Catherine LAMBERT', type:'Bailleur privé', nature:'Personne physique', siret:null, adresse:null, contact:null, depuis:null, gestionnaire:null, precedents:[]},
     cj:null, contacts:[], commissions:[],
     historique:[['12 nov. 2026','Prénom NOM','DDETS de l’Hérault','Dossier créé manuellement']]
   },
   avance: {
-    ref:'2025-034-0983114', vulnerable:true, orgRef:'DDETS de l’Hérault', agent:{nom:'Claire LEROY', email:'claire.leroy@herault.gouv.fr'}, cree:'4 févr. 2025', modifie:'10 nov. 2026',
+    ref:'2025-034-0983114', vulnerable:true, orgRef:'DDETS de l’Hérault', agent:{nom:'Sophie DURAND', email:'sophie.durand@ddets.exemple.gouv.fr'}, cree:'4 févr. 2025', modifie:'10 nov. 2026',
     occupants: BASE_OCCUPANTS.slice(0,3),
     locaux:[{principal:true, titre:'21 avenue Jean Jaurès', ligne2:'34500 Béziers', type:'Habitation', surface:'48 m²'}],
     caf: CAF_COMPLET,
@@ -195,26 +195,26 @@ var ETATS = {
            evolution:[['Signalement CAF','3 déc. 2025','1 200,00 €'],['Commandement de payer','6 févr. 2026','2 000,45 €'],['Assignation','14 sept. 2026','4 850,00 €']]},
     procedures:[{motif:'Impayé de loyer', etape:3, depuis:'14 sept. 2026', close:false, prochaine:'Audience le 8 déc. 2026 à 10h45 · Tribunal judiciaire de Béziers'},
                 {motif:'Congé pour vendre', etape:null, depuis:'2 mars 2024', close:true, fin:'2 mars 2025'}],
-    bailleur:{nom:'Hérault Habitat', type:'Bailleur social', nature:'Personne morale', siret:'273 400 010 00015', adresse:'100 rue de l’Hérault<br>34000 Montpellier', contact:'04 67 00 00 00 · contact@herault-habitat.fr', depuis:'1er janv. 2018', gestionnaire:null, precedents:[]},
-    cj:{nom:'Me Paul ROUSSEL', contact:'04 67 11 22 33 · etude@roussel-cj.fr', responsable:'M. Martin DURAND · 04 05 06 07 08'},
-    contacts:[{nom:'Léa FABRE', role:'Travailleuse sociale · CCAS de Béziers', contact:'lea.fabre@ccas-beziers.fr'}],
+    bailleur:{nom:'Habitat Sud Logement', type:'Bailleur social', nature:'Personne morale', siret:'412 345 678 00021', adresse:'100 rue des Platanes<br>34000 Montpellier', contact:'04 67 00 00 00 · contact@habitat-sud.exemple.fr', depuis:'1er janv. 2018', gestionnaire:null, precedents:[]},
+    cj:{nom:'Me Julien MERCIER', contact:'04 67 11 22 33 · etude@mercier-cj.exemple.fr', responsable:'M. Antoine FAURE · 04 05 06 07 08'},
+    contacts:[{nom:'Camille ROUX', role:'Travailleuse sociale · CCAS de Béziers', contact:'camille.roux@ccas.exemple.fr'}],
     commissions:[{date:'12 déc. 2026', libelle:'CCAPEX de l’Hérault · inscrit'},{date:'14 mars 2026', libelle:'CCAPEX de l’Hérault · examiné'}],
-    historique:[['10 nov. 2026','Claire LEROY','DDETS de l’Hérault','Dossier inscrit à la CCAPEX du 12 déc. 2026'],
-                ['14 sept. 2026','Me Paul ROUSSEL','Commissaire de justice','Assignation déposée']]
+    historique:[['10 nov. 2026','Sophie DURAND','DDETS de l’Hérault','Dossier inscrit à la CCAPEX du 12 déc. 2026'],
+                ['14 sept. 2026','Me Julien MERCIER','Commissaire de justice','Assignation déposée']]
   },
   nombreux: {
-    ref:'2026-034-1049980', vulnerable:true, orgRef:'Agence départementale d’information sur le logement de l’Hérault', agent:{nom:'Jean-Baptiste DE LA FONTAINE-MARCHAND', email:'jean-baptiste.delafontaine-marchand@adil34.org'}, cree:'2 nov. 2026', modifie:'15 nov. 2026',
-    occupants:(function(){var a=[{nom:'Mme Marie-Antoinette DE SAINT-EXUPÉRY-LAMBERT', naissance:'4 mai 1975', age:51, role:'Titulaire du bail', detail:'Allocataire CAF n° 778120', coord:'06 12 34 56 78', activite:'Salariée'},
-      {nom:'M. Jean-Philippe DE SAINT-EXUPÉRY-LAMBERT', naissance:'9 août 1973', age:53, role:'Titulaire du bail', coord:null, activite:'Retraité'}];
-      var p=['Inès','Yanis','Lina','Adam','Sofia','Nour','Ilyes','Maya','Rayan','Jade'],ag=[22,19,17,15,13,11,9,7,4,1];
-      for(var i=0;i<p.length;i++)a.push({nom:p[i]+' DE SAINT-EXUPÉRY-LAMBERT', naissance:null, age:ag[i], role:ag[i]<18?'Occupant · mineur':'Occupant', coord:null, activite:ag[i]<18?(ag[i]<3?null:'Scolarisé'):'Étudiant'});
+    ref:'2026-034-1049980', vulnerable:true, orgRef:'Agence départementale d’information sur le logement de l’Hérault', agent:{nom:'Marc-Antoine DU PLESSIS-VERNEUIL', email:'marc-antoine.duplessis-verneuil@adil.exemple.org'}, cree:'2 nov. 2026', modifie:'15 nov. 2026',
+    occupants:(function(){var a=[{nom:'Mme Anne-Charlotte DE MONTCLAR-BEAUREGARD-LEFEBVRE', naissance:'4 mai 1975', age:51, role:'Titulaire du bail', detail:'Allocataire CAF n° 602417', coord:'06 12 34 56 78', activite:'Salariée'},
+      {nom:'M. Pierre-Emmanuel DE MONTCLAR-BEAUREGARD-LEFEBVRE', naissance:'9 août 1973', age:53, role:'Titulaire du bail', coord:null, activite:'Retraité'}];
+      var p=['Louise','Gabriel','Chloé','Hugo','Manon','Arthur','Zoé','Jules','Alice','Noah'],ag=[22,19,17,15,13,11,9,7,4,1];
+      for(var i=0;i<p.length;i++)a.push({nom:p[i]+' DE MONTCLAR-BEAUREGARD-LEFEBVRE', naissance:null, age:ag[i], role:ag[i]<18?'Occupant · mineur':'Occupant', coord:null, activite:ag[i]<18?(ag[i]<3?null:'Scolarisé'):'Étudiant'});
       return a;})(),
     locaux:[{principal:true, titre:'Résidence Les Hauts de Montmorency · bâtiment C · escalier 4 · appartement 1203', ligne2:'1287 boulevard du Maréchal Jean-Marie-Gabriel de Lattre de Tassigny 34500 Béziers', type:'Habitation', surface:'92 m²'}],
     caf: CAF_COMPLET,
     dette:{montant:'2 310,00 €', mois:'2,6', anciennete:'3 mois', date:'1er nov. 2026', loyer:'890,00 €', charges:'60,00 €', aide:'612,00 €', tiersPayant:true, reste:'338,00 €',
            evolution:[['Signalement CAF','1er nov. 2026','2 310,00 €']]},
     procedures:[{motif:'Impayé de loyer', etape:1, depuis:'2 nov. 2026', close:false, prochaine:null}],
-    bailleur: BAILLEUR_CAPIGI, cj:null, contacts:[], commissions:[], historique:[]
+    bailleur: BAILLEUR_IMMOGEST, cj:null, contacts:[], commissions:[], historique:[]
   }
 };
 
