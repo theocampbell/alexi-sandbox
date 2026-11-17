@@ -56,7 +56,11 @@ const dossier: Dossier = {
   procedures: [{ motif: 'Impayé de loyer', etape: 1, depuis: '2 nov. 2026', close: false, prochaine: null }],
   bailleur: BAILLEUR_IMMOGEST,
   cj: null,
-  contacts: [],
+  contacts: [
+    { nom: 'Bernard MOREL', role: `Curateur de M. Pierre-Emmanuel ${NOM}`, contact: 'UDAF de l’Hérault · b.morel@udaf.exemple.fr' },
+    { nom: 'Claire FONTAINE', role: 'Sœur de la titulaire du bail', contact: '06 98 76 54 32' },
+  ],
+  intervenants: [],
   commissions: [],
   accompagnement: {
     dsf: { statut: 'Demandé', date: '5 nov. 2026', par: 'Marc-Antoine DU PLESSIS-VERNEUIL · ADIL de l’Hérault' },

@@ -45,6 +45,9 @@ const dossier: Dossier = {
   },
   cj: { nom: 'Me Julien MERCIER', contact: '04 67 11 22 33 · etude@mercier-cj.exemple.fr', responsable: 'M. Antoine FAURE · 04 05 06 07 08' },
   contacts: [
+    { nom: 'Me Hélène PICARD', role: 'Avocate de la locataire', contact: '04 67 55 66 77 · h.picard@avocats.exemple.fr' },
+  ],
+  intervenants: [
     { nom: 'Camille ROUX', role: 'Travailleuse sociale · CCAS de Béziers', contact: '04 67 22 33 44 · camille.roux@ccas.exemple.fr' },
     { nom: 'Karine BLANC', role: 'Conseillère en économie sociale et familiale · Habitat Sud Logement', contact: 'k.blanc@habitat-sud.exemple.fr' },
   ],

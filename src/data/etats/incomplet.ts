@@ -26,6 +26,7 @@ const dossier: Dossier = {
   },
   cj: null,
   contacts: [],
+  intervenants: [],
   commissions: [],
   accompagnement: { dsf: null, dispositifs: [] },
 }

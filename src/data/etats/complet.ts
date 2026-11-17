@@ -31,6 +31,7 @@ const dossier: Dossier = {
   bailleur: BAILLEUR_IMMOGEST,
   cj: null,
   contacts: [],
+  intervenants: [],
   commissions: [],
   accompagnement: { dsf: null, dispositifs: [] },
 }

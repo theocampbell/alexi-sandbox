@@ -51,7 +51,8 @@ const lignes = computed(() => {
         ...acc.dispositifs.map((x) => `${x.nom} · ${x.statut.toLowerCase()}`),
       ],
     },
-    { libelle: 'Intervenants sociaux', valeur: d.contacts.map((c) => `${c.nom} · ${c.role}`) },
+    { libelle: 'Intervenants sociaux', valeur: d.intervenants.map((c) => `${c.nom} · ${c.role}`) },
+    { libelle: 'Autres contacts', valeur: d.contacts.map((c) => `${c.nom} · ${c.role}`) },
   ]
   return rows
     .map((r) => ({ ...r, valeur: r.valeur.filter(Boolean) }))

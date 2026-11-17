@@ -83,8 +83,8 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
     <!-- Intervenants sociaux -->
     <section id="intervenants" aria-labelledby="titre-intervenants">
       <h2 id="titre-intervenants" class="fr-h4">Intervenants sociaux</h2>
-      <dl v-if="dossier.contacts.length" class="alexi-grille">
-        <div v-for="c in dossier.contacts" :key="c.nom" class="alexi-coupe">
+      <dl v-if="dossier.intervenants.length" class="alexi-grille">
+        <div v-for="c in dossier.intervenants" :key="c.nom" class="alexi-coupe">
           <dt><strong>{{ c.nom }}</strong></dt>
           <dd class="fr-text--sm fr-mb-0">{{ c.role }}<br />{{ c.contact }}</dd>
         </div>

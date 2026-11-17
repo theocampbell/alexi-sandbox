@@ -104,10 +104,18 @@ export interface Dossier {
   procedures: Procedure[]
   bailleur: Bailleur
   cj: { nom: string; contact: string; responsable: string | null } | null
+  /** Autres contacts : avocat, curateur, proche… (onglet Informations) */
+  contacts: Contact[]
   /** Intervenants sociaux (onglet Accompagnement) */
-  contacts: { nom: string; role: string; contact: string }[]
+  intervenants: Contact[]
   commissions: Commission[]
   accompagnement: Accompagnement
+}
+
+export interface Contact {
+  nom: string
+  role: string
+  contact: string
 }
 
 export interface Commission {

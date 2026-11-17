@@ -194,7 +194,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
 
     <!-- Acteurs et contacts -->
     <section id="acteurs" aria-labelledby="titre-acteurs-info">
-      <h2 id="titre-acteurs-info" class="fr-h4">Acteurs de la procédure</h2>
+      <h2 id="titre-acteurs-info" class="fr-h4">Acteurs et contacts</h2>
       <dl class="alexi-grille">
         <div>
           <dt class="fr-text--sm fr-mb-1v">Commissaire de justice</dt>
@@ -208,6 +208,17 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
           <dd>{{ dossier.cj?.responsable ?? 'Non renseigné' }}</dd>
         </div>
       </dl>
+
+      <h3 class="fr-h6 fr-mt-5w fr-mb-2w">Autres contacts</h3>
+      <dl v-if="dossier.contacts.length" class="alexi-grille">
+        <div v-for="c in dossier.contacts" :key="c.nom" class="alexi-coupe">
+          <dt><strong>{{ c.nom }}</strong></dt>
+          <dd class="fr-text--sm fr-mb-0">{{ c.role }}<br />{{ c.contact }}</dd>
+        </div>
+      </dl>
+      <p v-else>Aucun autre contact.</p>
+      <p class="fr-text--sm fr-mt-3w fr-mb-0">Les travailleurs sociaux et autres intervenants sociaux sont dans l’onglet Accompagnement.</p>
+      <DsfrButton v-if="peutModifier" class="fr-mt-3w" secondary icon="fr-icon-add-line" label="Ajouter un contact" />
     </section>
   </div>
 </template>
