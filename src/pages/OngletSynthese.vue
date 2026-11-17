@@ -17,6 +17,23 @@ const agesMineurs = computed(() => {
   return `${ages.length > 1 ? ages.slice(0, -1).join(', ') + ' et ' : ''}${ages[ages.length - 1]} ans`
 })
 
+/** Dernière information connue sur la dette (la plus récente du tableau) */
+const derniereDette = computed(() => {
+  const e = dossier.value.dette.evolution
+  return e[e.length - 1]
+})
+/** « Commissaire de justice » → « commissaire de justice », sigles conservés (CAF, CCAS…) */
+const sourceMinuscule = (s: string) => (/^[A-Z]{2,}/.test(s) ? s : s.charAt(0).toLowerCase() + s.slice(1))
+
+/** Les données de la Synthèse peuvent venir de sources différentes : on les nomme une par une */
+const sources = computed(() => {
+  const d = dossier.value
+  const lignes: string[] = []
+  if (d.caf) lignes.push(`Ressources du foyer : CAF, flux reçu le ${d.caf.date}.`)
+  lignes.push(`Dette : ${sourceMinuscule(derniereDette.value.origine)}, le ${derniereDette.value.date}.`)
+  return lignes
+})
+
 /** Chiffres de la ligne « Dette et ressources » : seulement ceux qui sont connus */
 const chiffres = computed(() => {
   const d = dossier.value.dette
@@ -100,7 +117,7 @@ const lignes = computed(() => {
           <p class="fr-h2 fr-mb-0">{{ formatEuros(dossier.dette.montant) }}</p>
           <p v-if="dossier.dette.mois">soit <strong>{{ dossier.dette.mois }} mois</strong> de loyer</p>
           <p v-if="dossier.dette.anciennete">impayée depuis <strong>{{ dossier.dette.anciennete }}</strong></p>
-          <p class="fr-text--sm">Mis à jour le {{ dossier.dette.date }}</p>
+          <p class="fr-text--sm">Mis à jour le {{ derniereDette.date }}, source : {{ sourceMinuscule(derniereDette.origine) }}</p>
           <RouterLink class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas" :to="lien('informations')">
             Voir le détail de la dette
           </RouterLink>
@@ -164,7 +181,10 @@ const lignes = computed(() => {
       </dl>
     </section>
 
-    <!-- 4. Une seule mention des sources -->
-    <p v-if="dossier.caf" class="fr-text--xs fr-mt-8w fr-mb-0">Sources : CAF, flux reçu le {{ dossier.caf.date }}</p>
+    <!-- 4. Une seule mention des sources, en précisant la source de chaque donnée -->
+    <p class="fr-text--xs fr-mt-8w fr-mb-0">
+      <strong>Sources</strong>
+      <template v-for="l in sources" :key="l"><br />{{ l }}</template>
+    </p>
   </div>
 </template>

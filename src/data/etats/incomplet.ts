@@ -22,7 +22,7 @@ const dossier: Dossier = {
     tiersPayant: null,
     reste: null,
     evolution: [
-      { origine: 'Saisie manuelle · DDETS de l’Hérault', date: '12 nov. 2026', montant: 1450, loyer: null, charges: null, fraisAnnexes: null, partSurDettes: null },
+      { origine: 'Saisie manuelle (DDETS de l’Hérault)', date: '12 nov. 2026', montant: 1450, loyer: null, charges: null, fraisAnnexes: null, partSurDettes: null },
     ],
   },
   procedures: [{ motif: 'Impayé de loyer', etape: 0, depuis: '12 nov. 2026', close: false, prochaine: null }],
