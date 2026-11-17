@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { ETAPES, formatEuros, pluriel } from '../data'
 import { usePrototype } from '../composables/usePrototype'
 
-const { dossier, procedureEnCours, lien, peutModifier } = usePrototype()
+const { dossier, procedureEnCours, lien } = usePrototype()
 
 const etapes = [...ETAPES]
 
@@ -148,13 +148,6 @@ const lignes = computed(() => {
         </div>
       </dl>
       <p v-else>Loyer, charges et aide au logement pas encore connus.</p>
-      <DsfrButton
-        v-if="peutModifier"
-        class="fr-mt-3w"
-        secondary
-        icon="fr-icon-add-line"
-        label="Ajouter une information sur la dette"
-      />
     </section>
 
     <!-- 3. Une seule liste, sans encadré -->
