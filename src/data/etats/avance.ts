@@ -58,15 +58,8 @@ const dossier: Dossier = {
   },
   commissions: [
     { date: '12 déc. 2026', instance: 'CCAPEX de l’Hérault', statut: 'Inscrit' },
-    { date: '14 mars 2026', instance: 'CCAPEX de l’Hérault', statut: 'Examiné', avis: 'Saisir le FSL et mettre en place un plan d’apurement' },
+    { date: '14 mars 2026', instance: 'CCAPEX de l’Hérault', statut: 'Examiné' },
   ],
-  accompagnement: {
-    dispositifs: [
-      { nom: 'Fonds de solidarité pour le logement (FSL) · maintien', statut: 'Accordé', date: '15 avr. 2026', detail: 'Aide de 1 200,00 €', porteur: 'Conseil départemental de l’Hérault' },
-      { nom: 'Plan d’apurement', statut: 'En cours', date: '2 mai 2026', detail: '150,00 € par mois, 3 échéances impayées', porteur: 'Habitat Sud Logement' },
-      { nom: 'Accompagnement social lié au logement (ASLL)', statut: 'Demandé', date: '2 oct. 2026', porteur: 'CCAS de Béziers' },
-    ],
-  },
 }
 
 export default dossier

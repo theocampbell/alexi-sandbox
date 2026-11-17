@@ -69,11 +69,6 @@ const dossier: Dossier = {
     depuis: '5 nov. 2026',
   },
   commissions: [],
-  accompagnement: {
-    dispositifs: [
-      { nom: 'Fonds de solidarité pour le logement (FSL) · maintien', statut: 'Demandé', date: '8 nov. 2026', detail: 'Demande d’aide de 2 310,00 €', porteur: 'ADIL de l’Hérault' },
-    ],
-  },
 }
 
 export default dossier

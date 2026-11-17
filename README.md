@@ -38,7 +38,7 @@ src/
 
 - **Onglets synchronisés avec le routeur.** `DsfrTabs` reste le vrai composant d'onglets (`role="tab"`, flèches du clavier). L'index de l'onglet se calcule à partir de la route, et changer d'onglet pousse la route : l'URL, l'ouverture directe d'une URL et le bouton retour fonctionnent. Seul l'onglet actif rend son contenu (`RouterView`), pour éviter les identifiants en double.
 - **Pas de liens vers une section** : un lien ouvre un onglet, pas un endroit précis de l'onglet. Les ancres se battaient avec l'animation de glissement des onglets DSFR. Si les onglets sont sortis de l'écran (lien en bas de la Synthèse), la page remonte au début des onglets.
-- **Onglet Accompagnement** (ajouté après le brief) : il regroupe ce qui concerne le suivi social, pour accueillir les futures fonctionnalités des travailleurs sociaux. Il contient, dans l'ordre : l'organisme d'accompagnement sociojuridique (on désigne la structure, pas une personne), les Commissions (déplacées depuis Informations, avec statut et avis), puis les dispositifs mobilisés (FSL, plan d'apurement, ASLL). Informations garde « Acteurs et contacts » : commissaire de justice et autres contacts (avocat, curateur, proche…), avec « Ajouter un contact ». Les données de dispositifs sont des propositions fictives.
+- **Onglet Accompagnement** (ajouté après le brief) : il regroupe ce qui concerne le suivi social, pour accueillir les futures fonctionnalités des travailleurs sociaux. Il contient, dans l'ordre : l'organisme d'accompagnement sociojuridique (on désigne la structure, pas une personne), puis les Commissions (déplacées depuis Informations : date, instance, statut). Informations garde « Acteurs et contacts » : commissaire de justice et autres contacts (avocat, curateur, proche…), avec « Ajouter un contact ».
 - **État et profil dans l'URL** (`?etat=…&profil=…`). Changer d'état met aussi à jour le numéro de dossier dans le chemin. Sans `?etat`, l'état se déduit du numéro.
 - **Lecture seule** : les boutons d'action sont retirés du DOM, pas désactivés.
 - **Pas de graphique** : le graphique de l'évolution de la dette a été retiré (peu d'apport pour beaucoup de place). Le détail est dans le tableau de la dette, dans Informations.
@@ -61,9 +61,15 @@ src/
 - À 320 px de large (équivalent à un zoom de 400 %) : pas de défilement horizontal de la page.
 - Navigation : clic et flèches sur les onglets, bouton retour, listes déroulantes du prototype, liens des cartes de la Synthèse.
 
+## Principe : seulement les informations qui existent
+
+Le prototype réorganise **uniquement les informations qui existent déjà dans l'application**, pour pouvoir être remis tel quel aux développeurs. Les idées de nouvelles fonctionnalités ne sont pas dans les pages : elles sont listées ci-dessous.
+
 ## Fonctionnalités à venir (retirées du prototype pour l'instant)
 
 - **Diagnostic social et financier** dans l'onglet Accompagnement : statut (demandé, réalisé), date et organisme qui l'a réalisé.
+- **Dispositifs mobilisés** dans l'onglet Accompagnement : FSL, plan d'apurement, ASLL…, avec statut (demandé, accordé, en cours, refusé, terminé), date, précisions et porteur, et un bouton « Ajouter un dispositif ».
+- **Avis de la commission** : une colonne dans le tableau des passages en commission.
 
 ## Hors sujet
 

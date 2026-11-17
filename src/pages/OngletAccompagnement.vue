@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Commission, Dispositif } from '../data'
+import type { Commission } from '../data'
 import { usePrototype } from '../composables/usePrototype'
 import TableauDsfr from '../components/TableauDsfr.vue'
 
@@ -8,19 +8,11 @@ type TypeBadge = 'success' | 'error' | 'new' | 'info' | 'warning' | undefined
 
 const { dossier, peutModifier } = usePrototype()
 
-const acc = computed(() => dossier.value.accompagnement)
 const org = computed(() => dossier.value.organismeAccompagnement)
 const prochaine = computed(() => dossier.value.commissions.find((c) => c.statut === 'Inscrit') ?? null)
 
 // Le libellé du badge porte l'information : la couleur n'est qu'un renfort
 const badgeCommission: Record<Commission['statut'], TypeBadge> = { Inscrit: 'info', Examiné: 'success', Ajourné: 'warning' }
-const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
-  Demandé: 'info',
-  Accordé: 'success',
-  'En cours': 'new',
-  Refusé: 'error',
-  Terminé: undefined,
-}
 </script>
 
 <template>
@@ -53,39 +45,18 @@ const badgeDispositif: Record<Dispositif['statut'], TypeBadge> = {
         v-if="dossier.commissions.length"
         titre="Passages en commission"
         multiligne
-        :entetes="['Date', 'Instance', 'Statut', 'Avis de la commission']"
+        :entetes="['Date', 'Instance', 'Statut']"
       >
         <tr v-for="c in dossier.commissions" :key="c.date">
           <th scope="row">{{ c.date }}</th>
           <td>{{ c.instance }}</td>
           <td><DsfrBadge small no-icon :label="c.statut" :type="badgeCommission[c.statut]" /></td>
-          <td>{{ c.avis ?? '–' }}</td>
         </tr>
       </TableauDsfr>
       <p v-else>Ce dossier n’a été inscrit à aucune réunion.</p>
       <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-calendar-line" label="Inscrire en commission" />
     </section>
 
-    <!-- Dispositifs -->
-    <section id="dispositifs" aria-labelledby="titre-dispositifs">
-      <h2 id="titre-dispositifs" class="fr-h4">Dispositifs</h2>
-      <TableauDsfr
-        v-if="acc.dispositifs.length"
-        titre="Dispositifs mobilisés"
-        multiligne
-        :entetes="['Dispositif', 'Statut', 'Depuis le', 'Précisions', 'Porteur']"
-      >
-        <tr v-for="d in acc.dispositifs" :key="d.nom">
-          <th scope="row">{{ d.nom }}</th>
-          <td><DsfrBadge small no-icon :label="d.statut" :type="badgeDispositif[d.statut]" /></td>
-          <td>{{ d.date }}</td>
-          <td>{{ d.detail ?? '–' }}</td>
-          <td>{{ d.porteur }}</td>
-        </tr>
-      </TableauDsfr>
-      <p v-else>Aucun dispositif mobilisé pour l’instant (FSL, plan d’apurement, ASLL…).</p>
-      <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-add-line" label="Ajouter un dispositif" />
-    </section>
 
   </div>
 </template>

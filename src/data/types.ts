@@ -118,7 +118,6 @@ export interface Dossier {
   /** Organisme d'accompagnement sociojuridique : on désigne la structure, pas une personne */
   organismeAccompagnement: OrganismeAccompagnement | null
   commissions: Commission[]
-  accompagnement: Accompagnement
 }
 
 export interface Contact {
@@ -139,18 +138,6 @@ export interface Commission {
   date: string
   instance: string
   statut: 'Inscrit' | 'Examiné' | 'Ajourné'
-  /** Décision ou recommandation de la commission */
-  avis?: string
 }
 
-export interface Dispositif {
-  nom: string
-  statut: 'Demandé' | 'Accordé' | 'En cours' | 'Refusé' | 'Terminé'
-  date: string
-  detail?: string
-  porteur: string
-}
 
-export interface Accompagnement {
-  dispositifs: Dispositif[]
-}

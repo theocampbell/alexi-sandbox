@@ -56,7 +56,6 @@ const lignes = computed(() => {
   const secondaires = d.locaux.filter((l) => !l.principal)
   const b = d.bailleur
   const prochaineCommission = d.commissions.find((c) => c.statut === 'Inscrit')
-  const acc = d.accompagnement
   const rows: { libelle: string; valeur: string[] }[] = [
     {
       libelle: 'Logement',
@@ -72,12 +71,6 @@ const lignes = computed(() => {
       valeur: prochaineCommission ? [`${prochaineCommission.instance} · ${prochaineCommission.date}`, 'prochain passage'] : [],
     },
     { libelle: 'Commissaire de justice', valeur: d.cj ? [d.cj.nom, d.cj.contact] : [] },
-    {
-      libelle: 'Accompagnement',
-      valeur: [
-        ...acc.dispositifs.map((x) => `${x.nom} · ${x.statut.toLowerCase()}`),
-      ],
-    },
   ]
   return rows
     .map((r) => ({ ...r, valeur: r.valeur.filter(Boolean) }))
