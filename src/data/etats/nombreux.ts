@@ -51,7 +51,7 @@ const dossier: Dossier = {
     aide: '612,00 €',
     tiersPayant: true,
     reste: '338,00 €',
-    evolution: [{ etape: 'Signalement CAF', date: '1er nov. 2026', montant: 2310 }],
+    evolution: [{ origine: 'CAF', date: '1er nov. 2026', montant: 2310, loyer: 2130, charges: 180, fraisAnnexes: null, partSurDettes: null }],
   },
   procedures: [{ motif: 'Impayé de loyer', etape: 1, depuis: '2 nov. 2026', close: false, prochaine: null }],
   bailleur: BAILLEUR_IMMOGEST,

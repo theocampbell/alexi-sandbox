@@ -3,8 +3,9 @@ import { computed } from 'vue'
 import { ETAPES, formatEuros, pluriel } from '../data'
 import { usePrototype } from '../composables/usePrototype'
 import DetteEvolution from '../components/DetteEvolution.vue'
+import DetteTableau from '../components/DetteTableau.vue'
 
-const { dossier, procedureEnCours, lien } = usePrototype()
+const { dossier, procedureEnCours, lien, peutModifier } = usePrototype()
 
 const etapes = [...ETAPES]
 
@@ -152,10 +153,18 @@ const lignes = computed(() => {
           </div>
         </dl>
 
-        <!-- Graphique seulement à partir de 2 montants -->
+        <!-- Graphique seulement à partir de 2 montants ; sinon le tableau directement -->
         <DetteEvolution v-if="dossier.dette.evolution.length >= 2" class="fr-mt-6w" :points="dossier.dette.evolution" />
+        <DetteTableau v-else class="fr-mt-6w" :points="dossier.dette.evolution" />
       </template>
       <p v-else>Aucune donnée sur la dette ni sur les ressources du foyer.</p>
+      <DsfrButton
+        v-if="peutModifier"
+        class="fr-mt-3w"
+        secondary
+        icon="fr-icon-add-line"
+        label="Ajouter une information sur la dette"
+      />
     </section>
 
     <!-- 3. Une seule liste, sans encadré -->

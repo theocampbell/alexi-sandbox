@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { formatEuros, type PointDette } from '../data'
-import TableauDsfr from './TableauDsfr.vue'
+import DetteTableau from './DetteTableau.vue'
 
 const props = defineProps<{ points: PointDette[] }>()
 
 const donneesVisibles = ref(false)
 
 // DSFR Chart attend des listes de listes sérialisées en JSON
-const x = computed(() => JSON.stringify([props.points.map((p) => p.etape)]))
+const x = computed(() => JSON.stringify([props.points.map((p) => p.date)]))
 const y = computed(() => JSON.stringify([props.points.map((p) => p.montant)]))
 
 // Alternative courte au graphique (le canvas n'est pas lisible par les technologies d'assistance)
 const resume = computed(
   () =>
-    'Graphique en barres de la dette par étape : ' +
-    props.points.map((p) => `${p.etape}, ${formatEuros(p.montant)}`).join(' ; '),
+    'Graphique en barres du montant de la dette à chaque mise à jour : ' +
+    props.points.map((p) => `${p.date} (${p.origine}), ${formatEuros(p.montant)}`).join(' ; '),
 )
 </script>
 
@@ -36,13 +36,7 @@ const resume = computed(
       @click="donneesVisibles = !donneesVisibles"
     />
     <div v-show="donneesVisibles" id="dette-donnees" class="fr-mt-2w">
-      <TableauDsfr titre="Montant de la dette à chaque étape de la procédure" :entetes="['Étape', 'Date', 'Montant']">
-        <tr v-for="p in points" :key="p.etape">
-          <th scope="row">{{ p.etape }}</th>
-          <td>{{ p.date }}</td>
-          <td>{{ formatEuros(p.montant) }}</td>
-        </tr>
-      </TableauDsfr>
+      <DetteTableau :points="points" />
     </div>
   </div>
 </template>

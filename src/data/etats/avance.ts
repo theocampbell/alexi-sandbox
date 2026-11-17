@@ -23,9 +23,10 @@ const dossier: Dossier = {
     tiersPayant: false,
     reste: '606,39 €',
     evolution: [
-      { etape: 'Signalement CAF', date: '3 déc. 2025', montant: 1200 },
-      { etape: 'Commandement de payer', date: '6 févr. 2026', montant: 2000.45 },
-      { etape: 'Assignation', date: '14 sept. 2026', montant: 4850 },
+      { origine: 'CAF', date: '3 déc. 2025', montant: 1200, loyer: 1110, charges: 90, fraisAnnexes: null, partSurDettes: null },
+      { origine: 'Commissaire de justice', date: '6 févr. 2026', montant: 2000.45, loyer: 1665, charges: 135, fraisAnnexes: 200.45, partSurDettes: null },
+      { origine: 'Commissaire de justice', date: '14 sept. 2026', montant: 4850, loyer: 4150, charges: 405, fraisAnnexes: 295, partSurDettes: null },
+      { origine: 'Saisie manuelle · CCAS de Béziers', date: '2 oct. 2026', montant: 4850, loyer: 4150, charges: 405, fraisAnnexes: 295, partSurDettes: 72 },
     ],
   },
   procedures: [

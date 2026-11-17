@@ -46,11 +46,19 @@ export interface Caf {
   autres: [string, string | null][]
 }
 
+/** Une ligne du tableau de la dette (mêmes colonnes que l'application en production) */
 export interface PointDette {
-  etape: string
+  /** Origine de l'information : CAF, commissaire de justice, bailleur, saisie manuelle… */
+  origine: string
+  /** Date de mise à jour */
   date: string
-  /** Montant en euros */
+  /** Montants en euros (montant = loyer + charges + frais annexes) */
   montant: number
+  loyer: number | null
+  charges: number | null
+  fraisAnnexes: number | null
+  /** Part de la dette locative sur l'ensemble des dettes, en % */
+  partSurDettes: number | null
 }
 
 export interface Dette {
