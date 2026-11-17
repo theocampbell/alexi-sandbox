@@ -20,7 +20,7 @@ const agesMineurs = computed(() => {
 /** Chiffres de la ligne « Dette et ressources » : seulement ceux qui sont connus */
 const chiffres = computed(() => {
   const d = dossier.value.dette
-  const tiers = d.tiersPayant === null ? '' : d.tiersPayant ? '· en tiers payant' : '· sans tiers payant'
+  const tiers = d.tiersPayant === null ? '' : d.tiersPayant ? 'en tiers payant' : 'sans tiers payant'
   return [
     { libelle: 'Loyer mensuel', valeur: d.loyer, precision: '' },
     { libelle: 'Charges mensuelles', valeur: d.charges, precision: '' },
@@ -138,7 +138,9 @@ const lignes = computed(() => {
         <div v-for="c in chiffres" :key="c.libelle">
           <dt class="fr-text--sm fr-mb-1v">{{ c.libelle }}</dt>
           <dd class="fr-text--lg fr-mb-0">
-            <strong>{{ c.valeur }}</strong><span v-if="c.precision" class="fr-text--sm">{{ `\u00a0${c.precision}` }}</span>
+            <strong>{{ c.valeur }}</strong>
+            <!-- Précision sur sa propre ligne : pas de séparateur ni d'espace à gérer -->
+            <span v-if="c.precision" class="fr-text--sm alexi-precision">{{ c.precision }}</span>
           </dd>
         </div>
       </dl>

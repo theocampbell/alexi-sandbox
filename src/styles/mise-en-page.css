@@ -124,3 +124,8 @@
   --current-step: 9;
 }
 
+
+/* Précision sous un chiffre clé (« en tiers payant », « par mois ») */
+.alexi-precision {
+  display: block;
+}
