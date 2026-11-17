@@ -101,6 +101,9 @@ const lignes = computed(() => {
           <p v-if="dossier.dette.mois">soit <strong>{{ dossier.dette.mois }} mois</strong> de loyer</p>
           <p v-if="dossier.dette.anciennete">impayée depuis <strong>{{ dossier.dette.anciennete }}</strong></p>
           <p class="fr-text--sm">Mis à jour le {{ dossier.dette.date }}</p>
+          <RouterLink class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas" :to="lien('informations')">
+            Voir le détail de la dette
+          </RouterLink>
         </section>
       </div>
 
@@ -120,6 +123,9 @@ const lignes = computed(() => {
             </template>
             <template v-else>Titulaire du bail non renseigné</template>
           </p>
+          <RouterLink class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas" :to="lien('informations')">
+            Voir les occupants
+          </RouterLink>
         </section>
       </div>
     </div>
