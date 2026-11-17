@@ -17,6 +17,10 @@ Pour ouvrir un cas précis : `/dossiers/2026-034-1047676/synthese?etat=avance&pr
 - `etat` : `complet` · `incomplet` · `avance` · `nombreux`
 - `profil` : `gestionnaire` · `admin` · `lecture`
 
+## Page de comparaison des graphiques
+
+`/graphiques` (lien dans la barre du prototype) : page de travail hors maquette qui dessine les mêmes données de trois façons, sur deux exemples. A : courbe DSFR Chart. B : barres DSFR Chart. C : courbe SVG maison (segments droits, dates à leur vraie place, montants en euros). La Synthèse utilise pour l'instant A.
+
 ## Publication
 
 Le workflow `.github/workflows/pages.yml` publie le prototype sur GitHub Pages à chaque push sur `main`. Il construit avec `BASE_URL=/<nom-du-dépôt>/` (la `base` de Vite) et copie `index.html` en `404.html` pour que les liens profonds fonctionnent.

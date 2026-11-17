@@ -5,6 +5,7 @@ import OngletSynthese from './pages/OngletSynthese.vue'
 import OngletInformations from './pages/OngletInformations.vue'
 import OngletAccompagnement from './pages/OngletAccompagnement.vue'
 import OngletProcedure from './pages/OngletProcedure.vue'
+import ComparaisonGraphiques from './pages/ComparaisonGraphiques.vue'
 
 export const ONGLETS = [
   { name: 'synthese', titre: 'Synthèse' },
@@ -33,6 +34,8 @@ const router = createRouter({
         { path: 'procedure', name: 'procedure', component: OngletProcedure },
       ],
     },
+    // Page de travail hors maquette
+    { path: '/graphiques', name: 'graphiques', component: ComparaisonGraphiques },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   scrollBehavior(to, from, savedPosition) {

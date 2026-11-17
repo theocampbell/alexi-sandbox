@@ -10,7 +10,7 @@ export default defineConfig({
       template: {
         compilerOptions: {
           // Web components de DSFR Chart
-          isCustomElement: (tag) => tag === 'line-chart',
+          isCustomElement: (tag) => ['line-chart', 'bar-chart'].includes(tag),
         },
       },
     }),
