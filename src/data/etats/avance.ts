@@ -57,8 +57,8 @@ const dossier: Dossier = {
     depuis: '20 janv. 2026',
   },
   commissions: [
-    { date: '12 déc. 2026', instance: 'CCAPEX de l’Hérault', statut: 'Inscrit' },
-    { date: '14 mars 2026', instance: 'CCAPEX de l’Hérault', statut: 'Examiné' },
+    { date: '18 novembre 2026', heure: '05h00 (Paris)', instance: 'CCAPEX Centrale - Hérault', statut: 'À venir' },
+    { date: '14 mars 2026', heure: '09h30 (Paris)', instance: 'CCAPEX Centrale - Hérault', statut: 'Passée' },
   ],
 }
 

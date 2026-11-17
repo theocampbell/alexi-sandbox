@@ -134,10 +134,15 @@ export interface OrganismeAccompagnement {
   depuis: string
 }
 
+/** Passage du dossier en réunion de commission (mêmes informations que l'application) */
 export interface Commission {
+  /** Date de la réunion, en toutes lettres : « 18 novembre 2026 » */
   date: string
+  /** Heure de la réunion : « 05h00 (Paris) » */
+  heure: string
+  /** Commission : « CCAPEX Centrale - Hérault » */
   instance: string
-  statut: 'Inscrit' | 'Examiné' | 'Ajourné'
+  statut: 'À venir' | 'Passée'
 }
 
 

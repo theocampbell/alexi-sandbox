@@ -129,3 +129,34 @@
 .alexi-precision {
   display: block;
 }
+
+/* Réunions de commission (onglet Accompagnement), sur le modèle de l'application */
+.alexi-reunions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.alexi-reunions > li {
+  padding: 0;
+}
+.alexi-reunion {
+  border: 1px solid var(--border-default-grey);
+  padding: 0.75rem 1rem;
+}
+.alexi-reunion__ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 2rem;
+}
+.alexi-reunion__info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.alexi-reunion__actions {
+  margin-left: auto;
+}

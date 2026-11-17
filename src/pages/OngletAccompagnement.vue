@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Commission } from '../data'
 import { usePrototype } from '../composables/usePrototype'
-import TableauDsfr from '../components/TableauDsfr.vue'
-
-type TypeBadge = 'success' | 'error' | 'new' | 'info' | 'warning' | undefined
+import ReunionCommission from '../components/ReunionCommission.vue'
 
 const { dossier, peutModifier } = usePrototype()
 
 const org = computed(() => dossier.value.organismeAccompagnement)
-const prochaine = computed(() => dossier.value.commissions.find((c) => c.statut === 'Inscrit') ?? null)
 
-// Le libellé du badge porte l'information : la couleur n'est qu'un renfort
-const badgeCommission: Record<Commission['statut'], TypeBadge> = { Inscrit: 'info', Examiné: 'success', Ajourné: 'warning' }
 </script>
 
 <template>
@@ -38,21 +32,11 @@ const badgeCommission: Record<Commission['statut'], TypeBadge> = { Inscrit: 'inf
     <!-- Commissions -->
     <section id="commissions" class="fr-mb-8w" aria-labelledby="titre-commissions">
       <h2 id="titre-commissions" class="fr-h4">Commissions</h2>
-      <p v-if="prochaine">
-        Prochain passage : <strong>{{ prochaine.instance }} · {{ prochaine.date }}</strong>
-      </p>
-      <TableauDsfr
-        v-if="dossier.commissions.length"
-        titre="Passages en commission"
-        multiligne
-        :entetes="['Date', 'Instance', 'Statut']"
-      >
-        <tr v-for="c in dossier.commissions" :key="c.date">
-          <th scope="row">{{ c.date }}</th>
-          <td>{{ c.instance }}</td>
-          <td><DsfrBadge small no-icon :label="c.statut" :type="badgeCommission[c.statut]" /></td>
-        </tr>
-      </TableauDsfr>
+      <ul v-if="dossier.commissions.length" class="alexi-reunions">
+        <li v-for="c in dossier.commissions" :key="c.date">
+          <ReunionCommission :reunion="c" :peut-modifier="peutModifier" />
+        </li>
+      </ul>
       <p v-else>Ce dossier n’a été inscrit à aucune réunion.</p>
       <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-calendar-line" label="Inscrire en commission" />
     </section>
