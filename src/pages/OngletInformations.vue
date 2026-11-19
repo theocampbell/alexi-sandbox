@@ -5,7 +5,7 @@ import { usePrototype } from '../composables/usePrototype'
 import TableauDsfr from '../components/TableauDsfr.vue'
 import DetteTableau from '../components/DetteTableau.vue'
 
-const { dossier, peutModifier } = usePrototype()
+const { dossier, peutModifier, procedureEnCours } = usePrototype()
 
 const mineurs = computed(() => dossier.value.occupants.filter((o) => o.age !== null && o.age < 18))
 const entetesOccupants = computed(() =>
@@ -105,7 +105,14 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
 
     <!-- Dette locative : toutes les informations reçues ou saisies -->
     <section id="dette" class="fr-mb-8w" aria-labelledby="titre-dette-info">
-      <h2 id="titre-dette-info" class="fr-h4">Dette locative</h2>
+      <h2 id="titre-dette-info" class="fr-h4 fr-mb-1w">Dette locative</h2>
+      <!-- La dette est liée à la procédure en cours ; celle des procédures closes est dans l'onglet Procédure -->
+      <p class="fr-text--sm">
+        <template v-if="procedureEnCours">
+          Procédure en cours : {{ procedureEnCours.motif }}, depuis le {{ procedureEnCours.depuis }}
+        </template>
+        <template v-else>Aucune procédure en cours</template>
+      </p>
       <DetteTableau :points="dossier.dette.evolution" />
       <DsfrButton
         v-if="peutModifier"

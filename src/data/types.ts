@@ -84,6 +84,11 @@ export interface Procedure {
   fin?: string
   /** Prochaine date clé (audience, expulsion prévue…) */
   prochaine?: string | null
+  /**
+   * Dette d'une procédure close (impayé de loyer). La dette de la procédure en cours,
+   * elle, est dans Dossier.dette (onglet Informations).
+   */
+  dette?: PointDette[]
 }
 
 export interface Bailleur {

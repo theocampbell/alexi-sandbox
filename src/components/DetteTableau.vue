@@ -2,7 +2,9 @@
 import { formatEuros, type PointDette } from '../data'
 import TableauDsfr from './TableauDsfr.vue'
 
-defineProps<{ points: PointDette[] }>()
+withDefaults(defineProps<{ points: PointDette[]; titre?: string }>(), {
+  titre: 'Informations sur la dette locative',
+})
 
 const euros = (n: number | null) => (n === null ? 'Non renseigné' : formatEuros(n))
 const pourcentage = (n: number | null) => (n === null ? 'Non renseigné' : `${n} %`)
@@ -11,7 +13,7 @@ const pourcentage = (n: number | null) => (n === null ? 'Non renseigné' : `${n}
 <template>
   <!-- Mêmes colonnes que le tableau de la dette de l'application en production -->
   <TableauDsfr
-    titre="Informations sur la dette locative"
+    :titre="titre"
     multiligne
     :entetes="[
       'Origine de l’information',

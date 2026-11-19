@@ -34,6 +34,18 @@ const dossier: Dossier = {
   procedures: [
     { motif: 'Impayé de loyer', etape: 3, depuis: '14 sept. 2026', close: false, prochaine: 'Audience le 8 déc. 2026 à 10h45 · Tribunal judiciaire de Béziers' },
     { motif: 'Congé pour vendre', etape: null, depuis: '2 mars 2024', close: true, fin: '2 mars 2025' },
+    {
+      motif: 'Impayé de loyer',
+      etape: null,
+      depuis: '9 janv. 2023',
+      close: true,
+      fin: '30 juin 2023',
+      dette: [
+        { origine: 'CAF', date: '9 janv. 2023', montant: 980, loyer: 980, charges: 0, fraisAnnexes: null, partSurDettes: null },
+        { origine: 'Commissaire de justice', date: '3 mars 2023', montant: 1340, loyer: 1180, charges: 90, fraisAnnexes: 70, partSurDettes: null },
+        { origine: 'Saisie manuelle (CCAS de Béziers)', date: '30 juin 2023', montant: 0, loyer: 0, charges: 0, fraisAnnexes: 0, partSurDettes: null },
+      ],
+    },
   ],
   bailleur: {
     nom: 'Habitat Sud Logement',
