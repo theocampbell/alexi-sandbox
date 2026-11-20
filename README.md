@@ -64,6 +64,15 @@ src/
 - À 320 px de large (équivalent à un zoom de 400 %) : pas de défilement horizontal de la page.
 - Navigation : clic et flèches sur les onglets, bouton retour, listes déroulantes du prototype, liens des cartes de la Synthèse.
 
+## Écarts voulus avec l'application actuelle (refonte)
+
+Ces différences avec l'application actuelle sont des choix de la refonte, pas des erreurs :
+
+- **Locaux et bailleur** : un bloc encadré par local et pour le bailleur, au lieu des tableaux actuels.
+- **Commissaire de justice** : dans « Acteurs et contacts », et non plus sous « Bailleur » à côté du mandat de gestion.
+- **En-tête du dossier** : titre « Dossier … », badges, ligne d'occupants et d'adresse, puis une seule ligne référents · dates, au lieu des dates et du référent en haut à droite.
+- **Données CAF** : pas de bouton « Mettre à jour les données de la CAF » (les données arrivent automatiquement), indicateurs secondaires dans un accordéon, « Non renseigné » à la place de « - ».
+
 ## Principe : seulement les informations qui existent
 
 Le prototype réorganise **uniquement les informations qui existent déjà dans l'application**, pour pouvoir être remis tel quel aux développeurs. Les idées de nouvelles fonctionnalités ne sont pas dans les pages : elles sont listées ci-dessous.
