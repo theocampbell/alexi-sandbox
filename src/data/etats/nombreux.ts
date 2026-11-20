@@ -42,7 +42,7 @@ const dossier: Dossier = {
       surface: '92 m²',
     },
   ],
-  caf: cafPour({ matricule: '602417', surface: '92 m²', loyer: '890,00 €', aide: 'Aide personnalisée au logement · 612,00 €', rsa: false }),
+  caf: cafPour({ matricule: '602417', surface: '92 m²', loyer: '890,00 €', typeAide: 'Aide personnalisée au logement', montantAide: '612,00 €', rsa: false }),
   dette: {
     montant: 2310,
     mois: '2,6',

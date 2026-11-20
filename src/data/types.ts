@@ -10,7 +10,7 @@ export const ETAPES = [
   'Exécution',
 ] as const
 
-export type EtatId = 'complet' | 'incomplet' | 'avance' | 'nombreux'
+export type EtatId = 'complet' | 'sansCaf' | 'incomplet' | 'avance' | 'nombreux'
 export type ProfilId = 'gestionnaire' | 'admin' | 'lecture'
 
 export interface Occupant {
@@ -33,17 +33,29 @@ export interface Local {
   surface?: string | null
 }
 
+/** Indicateur CAF, éventuellement précisé (ex. mesure de protection → tuteur) ; null = « - » */
+export interface IndicateurCaf {
+  libelle: string
+  valeur: string | null
+  precisions?: { libelle: string; valeur: string | null }[]
+}
+
+/** Données CAF : présentes seulement si le dossier vient d'un signalement CAF. Libellés de l'application. */
 export interface Caf {
-  date: string
+  /** « 13 novembre 2026 à 17h04 (Paris) » */
+  miseAJour: string
+  /** Données spécifiques CAF */
   matricule: string
   organisme: string
-  surface: string
-  loyer: string
-  aide: string
-  tiersPayant: boolean
-  rsa: boolean
-  /** Autres indicateurs : [libellé, valeur ou null si « - »] */
-  autres: [string, string | null][]
+  /** Situation foyer : champs principaux */
+  loyer: string | null
+  typeAide: string | null
+  montantAide: string | null
+  surface: string | null
+  tiersPayant: boolean | null
+  rsa: boolean | null
+  /** Situation foyer : autres indicateurs, dans l'ordre de l'application */
+  autres: IndicateurCaf[]
 }
 
 /** Une ligne du tableau de la dette (mêmes colonnes que l'application en production) */

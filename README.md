@@ -14,7 +14,7 @@ npm run preview    # sert le build
 
 Pour ouvrir un cas précis : `/dossiers/2026-034-1047676/synthese?etat=avance&profil=lecture`.
 
-- `etat` : `complet` · `incomplet` · `avance` · `nombreux`
+- `etat` : `complet` · `sansCaf` · `incomplet` · `avance` · `nombreux`
 - `profil` : `gestionnaire` · `admin` · `lecture`
 
 ## Publication
@@ -47,6 +47,8 @@ src/
 - **Référents** : il n'y a pas d'organisation référente. Un dossier a 0, 1 ou plusieurs référents, qui sont des personnes (en-tête du dossier). Le gestionnaire et l'administrateur peuvent les modifier ; en lecture seule, le bouton est retiré. L'administrateur n'a pour l'instant aucun droit en plus.
 - **Tableaux** : un petit composant `TableauDsfr` avec le balisage DSFR 1.14 (`fr-table__wrapper/container/content`), pour qu'ils défilent dans leur cadre à 400 % de zoom. Pourquoi pas les composants de Vue DSFR : `DsfrTable` produit l'ancien balisage, et `DsfrDataTable` rend chaque cellule focusable (une tabulation par cellule). Les noms (occupants, étapes) sont des en-têtes de ligne (`th scope="row"`).
 - **Boutons icône** (crayon, corbeille) : `DsfrButton` avec `icon-only`. Leur nom accessible contient celui de la personne ou du local (« Modifier Mme Sonia RAMIREZ-LEROUX »).
+- **Données CAF seulement avec un signalement CAF** : la section « Données CAF » (Informations) et la ligne « Données CAF » (Synthèse) n'apparaissent que si le dossier vient d'un signalement CAF. Libellés, groupes (« Données spécifiques CAF », « Situation foyer ») et ordre repris de l'application ; « - » s'affiche « Non renseigné ». Comparer les états « Dossier complet (signalement CAF) » et « Dossier complet sans signalement CAF ».
+- **Libellés de l'application** : « Pas de référent », « Aucun mandat de gestion n'a été signalé. », « Aucun commissaire de justice n'a été renseigné. », « Aucun contact n'a été renseigné. ».
 - **Synthèse en lecture seule** : aucune action d'édition dans l'onglet Synthèse. Les actions vivent dans Informations et Accompagnement ; dans la Synthèse, les seuls liens sont ceux des trois cartes (un par carte), aucun en dessous.
 - **Synthèse** : les 3 cartes sont les seuls blocs encadrés, avec au plus un lien chacune. La liste « Logement et acteurs » masque les lignes vides. Les sources sont mentionnées une seule fois, en bas de l'onglet, une ligne par donnée (ressources du foyer : CAF ; dette : la source de la dernière information, qui peut être la CAF, le commissaire de justice ou une saisie manuelle).
 - **Informations** : les champs vides restent affichés avec « Non renseigné ».
@@ -58,7 +60,7 @@ src/
 ## Vérifications faites
 
 - `npm run build` sans erreur.
-- Les 4 états × 4 onglets, plus les profils administrateur et lecture seule : axe-core (WCAG 2.1 AA + bonnes pratiques) ne trouve aucune violation, il n'y a aucune erreur de console et les titres sont dans l'ordre.
+- Les 5 états × 4 onglets, plus les profils administrateur et lecture seule : axe-core (WCAG 2.1 AA + bonnes pratiques) ne trouve aucune violation, il n'y a aucune erreur de console et les titres sont dans l'ordre.
 - À 320 px de large (équivalent à un zoom de 400 %) : pas de défilement horizontal de la page.
 - Navigation : clic et flèches sur les onglets, bouton retour, listes déroulantes du prototype, liens des cartes de la Synthèse.
 

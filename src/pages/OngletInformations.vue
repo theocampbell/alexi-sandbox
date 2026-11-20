@@ -12,6 +12,9 @@ const entetesOccupants = computed(() =>
   ['Identité', 'Naissance', 'Rôle', 'Coordonnées', 'Activité'].concat(peutModifier.value ? ['Actions'] : []),
 )
 const b = computed(() => dossier.value.bailleur)
+/** « - » de la CAF ou valeur absente → « Non renseigné » */
+const nr = (v: string | null) => v ?? 'Non renseigné'
+const ouiNon = (v: boolean | null) => (v === null ? 'Non renseigné' : v ? 'Oui' : 'Non')
 const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/etablissement/${siret.replace(/\s/g, '')}`
 </script>
 
@@ -68,39 +71,44 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
       </DsfrAccordion>
     </section>
 
-    <!-- Situation du foyer (CAF) -->
-    <section id="caf" class="fr-mb-8w" aria-labelledby="titre-caf">
-      <h2 id="titre-caf" class="fr-h4 fr-mb-1w">Situation du foyer</h2>
-      <template v-if="dossier.caf">
-        <p class="fr-text--sm fr-mb-3w">Source : CAF · flux reçu le {{ dossier.caf.date }}</p>
+    <!-- Données CAF : uniquement quand le dossier vient d'un signalement CAF. Libellés et ordre de l'application. -->
+    <section v-if="dossier.caf" id="caf" class="fr-mb-8w" aria-labelledby="titre-caf">
+      <h2 id="titre-caf" class="fr-h4 fr-mb-1w">Données CAF</h2>
+      <p class="fr-text--sm fr-mb-4w">Dernière mise à jour le {{ dossier.caf.miseAJour }}</p>
+
+      <h3 class="fr-h6 fr-mb-2w">Données spécifiques CAF</h3>
+      <dl class="alexi-grille fr-mb-4w">
+        <div><dt class="fr-text--sm fr-mb-1v">Matricule d’allocataire CAF</dt><dd>{{ dossier.caf.matricule }}</dd></div>
+        <div><dt class="fr-text--sm fr-mb-1v">Code organisme</dt><dd>{{ dossier.caf.organisme }}</dd></div>
+      </dl>
+
+      <h3 class="fr-h6 fr-mb-2w">Situation foyer</h3>
+      <dl class="alexi-grille">
+        <div><dt class="fr-text--sm fr-mb-1v">Montant du dernier loyer connu</dt><dd>{{ nr(dossier.caf.loyer) }}</dd></div>
+        <div>
+          <dt class="fr-text--sm fr-mb-1v">Type d’aide au logement</dt>
+          <dd>
+            {{ nr(dossier.caf.typeAide) }}
+            <span class="fr-text--sm alexi-bloc">Montant net de l’aide au logement : {{ nr(dossier.caf.montantAide) }}</span>
+          </dd>
+        </div>
+        <div><dt class="fr-text--sm fr-mb-1v">Surface du logement</dt><dd>{{ nr(dossier.caf.surface) }}</dd></div>
+        <div><dt class="fr-text--sm fr-mb-1v">Tiers payant</dt><dd>{{ ouiNon(dossier.caf.tiersPayant) }}</dd></div>
+        <div><dt class="fr-text--sm fr-mb-1v">Revenu de solidarité active (RSA)</dt><dd>{{ ouiNon(dossier.caf.rsa) }}</dd></div>
+      </dl>
+      <DsfrAccordion class="fr-mt-3w" :title="`Autres indicateurs CAF (${dossier.caf.autres.length})`">
         <dl class="alexi-grille">
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">Matricule allocataire · code organisme</dt>
-            <dd>{{ dossier.caf.matricule }} · {{ dossier.caf.organisme }}</dd>
-          </div>
-          <div><dt class="fr-text--sm fr-mb-1v">Surface du logement</dt><dd>{{ dossier.caf.surface }}</dd></div>
-          <div><dt class="fr-text--sm fr-mb-1v">Loyer mensuel</dt><dd>{{ dossier.caf.loyer }}</dd></div>
-          <div><dt class="fr-text--sm fr-mb-1v">Aide au logement</dt><dd>{{ dossier.caf.aide }}</dd></div>
-          <div><dt class="fr-text--sm fr-mb-1v">Tiers payant</dt><dd>{{ dossier.caf.tiersPayant ? 'Oui' : 'Non' }}</dd></div>
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">Revenu de solidarité active (RSA)</dt>
-            <dd>{{ dossier.caf.rsa ? 'Oui' : 'Non' }}</dd>
+          <div v-for="ind in dossier.caf.autres" :key="ind.libelle">
+            <dt class="fr-text--sm fr-mb-1v">{{ ind.libelle }}</dt>
+            <dd>
+              {{ nr(ind.valeur) }}
+              <span v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="fr-text--sm alexi-bloc">
+                {{ pr.libelle }} : {{ nr(pr.valeur) }}
+              </span>
+            </dd>
           </div>
         </dl>
-        <DsfrAccordion class="fr-mt-3w" :title="`Autres indicateurs CAF (${dossier.caf.autres.length})`">
-          <dl class="alexi-grille">
-            <div v-for="[libelle, valeur] in dossier.caf.autres" :key="libelle">
-              <dt class="fr-text--sm fr-mb-1v">{{ libelle }}</dt>
-              <dd>{{ valeur ?? 'Non renseigné' }}</dd>
-            </div>
-          </dl>
-        </DsfrAccordion>
-      </template>
-      <DsfrCallout
-        v-else
-        class="fr-mt-2w"
-        content="Aucune donnée reçue de la CAF pour ce foyer. Elles s’afficheront ici automatiquement dès réception du flux."
-      />
+      </DsfrAccordion>
     </section>
 
     <!-- Dette locative : toutes les informations reçues ou saisies -->
@@ -203,7 +211,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
             </dd>
           </div>
           <div><dt class="fr-text--sm fr-mb-1v">Téléphone · courriel</dt><dd class="alexi-coupe">{{ b.contact ?? 'Non renseigné' }}</dd></div>
-          <div><dt class="fr-text--sm fr-mb-1v">Mandat de gestion</dt><dd>{{ b.gestionnaire ?? 'Aucun mandat signalé' }}</dd></div>
+          <div><dt class="fr-text--sm fr-mb-1v">Mandat de gestion</dt><dd>{{ b.gestionnaire ?? 'Aucun mandat de gestion n’a été signalé.' }}</dd></div>
         </dl>
       </div>
       <DsfrAccordion v-if="b.precedents.length" class="fr-mt-2w" :title="`Bailleurs précédents (${b.precedents.length})`">
@@ -221,7 +229,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
           <dt class="fr-text--sm fr-mb-1v">Commissaire de justice</dt>
           <dd class="alexi-coupe">
             <template v-if="dossier.cj">{{ dossier.cj.nom }}<br /><span class="fr-text--sm">{{ dossier.cj.contact }}</span></template>
-            <template v-else>Non renseigné</template>
+            <template v-else>Aucun commissaire de justice n’a été renseigné.</template>
           </dd>
         </div>
         <div>
@@ -237,7 +245,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
           <dd class="fr-text--sm fr-mb-0">{{ c.role }}<br />{{ c.contact }}</dd>
         </div>
       </dl>
-      <p v-else>Aucun autre contact.</p>
+      <p v-else>Aucun contact n’a été renseigné.</p>
       <p class="fr-text--sm fr-mt-3w fr-mb-0">L’organisme d’accompagnement sociojuridique est indiqué dans l’onglet Accompagnement.</p>
       <DsfrButton v-if="peutModifier" class="fr-mt-3w" secondary icon="fr-icon-add-line" label="Ajouter un contact" />
     </section>

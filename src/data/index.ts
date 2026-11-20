@@ -1,15 +1,17 @@
 import type { Dossier, EtatId, ProfilId } from './types'
 import complet from './etats/complet'
 import incomplet from './etats/incomplet'
+import sansCaf from './etats/sansCaf'
 import avance from './etats/avance'
 import nombreux from './etats/nombreux'
 
 export * from './types'
 
-export const ETATS: Record<EtatId, Dossier> = { complet, incomplet, avance, nombreux }
+export const ETATS: Record<EtatId, Dossier> = { complet, sansCaf, incomplet, avance, nombreux }
 
 export const OPTIONS_ETAT: { value: EtatId; text: string }[] = [
-  { value: 'complet', text: 'Dossier complet' },
+  { value: 'complet', text: 'Dossier complet (signalement CAF)' },
+  { value: 'sansCaf', text: 'Dossier complet sans signalement CAF' },
   { value: 'incomplet', text: 'Informations manquantes' },
   { value: 'avance', text: 'Procédure avancée et plusieurs procédures' },
   { value: 'nombreux', text: 'Ménage nombreux et noms longs' },

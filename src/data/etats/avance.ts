@@ -14,7 +14,7 @@ const dossier: Dossier = {
   occupantsPartis: BASE_OCCUPANTS.slice(3, 4).map((o) => ({ ...o })),
   locaux: [{ principal: true, titre: '21 avenue Jean Jaurès', ligne2: '34500 Béziers', type: 'Habitation', surface: '48 m²' }],
   // Même allocataire que le dossier complet, autre logement ; aide suspendue (impayé)
-  caf: cafPour({ surface: '48 m²', aide: 'Allocation de logement familiale · suspendue', tiersPayant: false }),
+  caf: cafPour({ surface: '48 m²', montantAide: null, tiersPayant: false }),
   dette: {
     montant: 4850,
     mois: '8,6',

@@ -29,7 +29,7 @@ const sourceMinuscule = (s: string) => (/^[A-Z]{2,}/.test(s) ? s : s.charAt(0).t
 const sources = computed(() => {
   const d = dossier.value
   const lignes: string[] = []
-  if (d.caf) lignes.push(`Ressources du foyer : CAF, flux reçu le ${d.caf.date}.`)
+  if (d.caf) lignes.push(`Données CAF : dernière mise à jour le ${d.caf.miseAJour}.`)
   lignes.push(`Dette : ${sourceMinuscule(derniereDette.value.origine)}, le ${derniereDette.value.date}.`)
   return lignes
 })
@@ -49,15 +49,16 @@ const detailDette = computed(() => {
   ].filter((c) => c.valeur !== null)
 })
 
-/** Ressources du foyer : seulement avec des données CAF, mêmes libellés que « Situation du foyer » */
-const ressources = computed(() => {
+/** Données CAF : seulement s'il y a un signalement CAF, mêmes libellés que « Situation du foyer » */
+const donneesCaf = computed(() => {
   const c = dossier.value.caf
   if (!c) return []
   return [
-    { libelle: 'Loyer mensuel', valeur: c.loyer },
-    { libelle: 'Aide au logement', valeur: c.aide },
-    { libelle: 'Tiers payant', valeur: c.tiersPayant ? 'Oui' : 'Non' },
-  ]
+    c.loyer && `Montant du dernier loyer connu : ${c.loyer}`,
+    c.typeAide && `Type d’aide au logement : ${c.typeAide}`,
+    c.montantAide && `Montant net de l’aide au logement : ${c.montantAide}`,
+    c.tiersPayant !== null && `Tiers payant : ${c.tiersPayant ? 'oui' : 'non'}`,
+  ].filter((l): l is string => !!l)
 })
 
 /*
@@ -70,7 +71,7 @@ const lignes = computed(() => {
   const secondaires = d.locaux.filter((l) => !l.principal)
   const b = d.bailleur
   const prochaineCommission = d.commissions.find((c) => c.statut === 'À venir')
-  const rows: { libelle: string; valeur: string[] }[] = [
+  const rows: { libelle: string; valeur: string[]; egal?: boolean }[] = [
     {
       libelle: 'Logement',
       valeur: principal
@@ -78,8 +79,8 @@ const lignes = computed(() => {
         : [],
     },
     { libelle: secondaires.length > 1 ? 'Locaux secondaires' : 'Local secondaire', valeur: secondaires.map((l) => l.titre) },
-    // Ressources du foyer : données CAF, mêmes libellés que « Situation du foyer »
-    ...ressources.value.map((r) => ({ libelle: r.libelle, valeur: [r.valeur] })),
+    // Données CAF regroupées sur une ligne, pour qu'on voie d'où elles viennent
+    { libelle: 'Données CAF', valeur: donneesCaf.value, egal: true },
     { libelle: 'Bailleur', valeur: [b.nom, `${b.type} · ${b.nature.toLowerCase()}`, b.contact ?? ''] },
     { libelle: 'Gestionnaire', valeur: b.gestionnaire ? [b.gestionnaire] : [] },
     {
@@ -164,14 +165,16 @@ const lignes = computed(() => {
 
     <!-- 2. Une seule liste, sans encadré -->
     <section class="fr-mt-8w" aria-labelledby="titre-acteurs">
-      <h2 id="titre-acteurs" class="fr-h4 fr-mb-3w">Logement, ressources et acteurs</h2>
+      <h2 id="titre-acteurs" class="fr-h4 fr-mb-3w">Logement et acteurs</h2>
       <dl class="alexi-liste">
         <div v-for="l in lignes" :key="l.libelle">
           <dt>{{ l.libelle }}</dt>
           <dd class="alexi-coupe">
             <template v-for="(v, i) in l.valeur" :key="i">
               <br v-if="i > 0" />
-              <strong v-if="i === 0">{{ v }}</strong>
+              <!-- Première ligne en gras, les suivantes en petit ; sauf lignes de même importance (données CAF) -->
+              <template v-if="l.egal">{{ v }}</template>
+              <strong v-else-if="i === 0">{{ v }}</strong>
               <span v-else class="fr-text--sm">{{ v }}</span>
             </template>
           </dd>

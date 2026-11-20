@@ -43,14 +43,14 @@ const nbAutresLocaux = computed(() => dossier.value.locaux.length - 1)
 
     <!-- Une seule petite ligne : référents · dates -->
     <p class="alexi-meta fr-text--sm fr-mt-2w fr-mb-0 alexi-coupe">
-      {{ dossier.referents.length > 1 ? 'Référents' : 'Référent' }} :
       <template v-if="dossier.referents.length">
+        {{ dossier.referents.length > 1 ? 'Référents' : 'Référent' }} :
         <template v-for="(r, i) in dossier.referents" :key="r.email">
           <template v-if="i > 0">, </template>
           <a :href="`mailto:${r.email}`" :title="`Écrire à ${r.nom} (${r.email})`">{{ r.nom }}</a>
         </template>
       </template>
-      <template v-else>aucun</template>
+      <template v-else>Pas de référent</template>
       <!-- Gestionnaire et administrateur peuvent modifier les référents -->
       <DsfrButton
         v-if="peutModifier"
