@@ -49,6 +49,7 @@ src/
 - **Boutons icône** (crayon, corbeille) : `DsfrButton` avec `icon-only`. Leur nom accessible contient celui de la personne ou du local (« Modifier Mme Sonia RAMIREZ-LEROUX »).
 - **Données CAF seulement avec un signalement CAF** : la section « Données CAF » (Informations) et la ligne « Données CAF » (Synthèse) n'apparaissent que si le dossier vient d'un signalement CAF. Libellés, groupes (« Données spécifiques CAF », « Situation foyer ») et ordre repris de l'application ; « - » s'affiche « Non renseigné ». Comparer les états « Dossier complet (signalement CAF) » et « Dossier complet sans signalement CAF ».
 - **Libellés de l'application** : « Pas de référent », « Aucun mandat de gestion n'a été signalé. », « Aucun commissaire de justice n'a été renseigné. », « Aucun contact n'a été renseigné. ».
+- **Tableaux dans Informations** : occupants, dette, locaux, bailleur et autres contacts sont des tableaux, comme dans l'application, avec les mêmes boutons icône (crayon, corbeille) sur chaque ligne. Colonnes des locaux et du bailleur reprises de l'application. Le local principal ne se supprime pas.
 - **Synthèse en lecture seule** : aucune action d'édition dans l'onglet Synthèse. Les actions vivent dans Informations et Accompagnement ; dans la Synthèse, les seuls liens sont ceux des trois cartes (un par carte), aucun en dessous.
 - **Synthèse** : les 3 cartes sont les seuls blocs encadrés, avec au plus un lien chacune. La liste « Logement et acteurs » masque les lignes vides. Les sources sont mentionnées une seule fois, en bas de l'onglet, une ligne par donnée (ressources du foyer : CAF ; dette : la source de la dernière information, qui peut être la CAF, le commissaire de justice ou une saisie manuelle).
 - **Informations** : les champs vides restent affichés avec « Non renseigné ».
@@ -68,7 +69,6 @@ src/
 
 Ces différences avec l'application actuelle sont des choix de la refonte, pas des erreurs :
 
-- **Locaux et bailleur** : un bloc encadré par local et pour le bailleur, au lieu des tableaux actuels.
 - **Commissaire de justice** : dans « Acteurs et contacts », et non plus sous « Bailleur » à côté du mandat de gestion.
 - **En-tête du dossier** : titre « Dossier … », badges, ligne d'occupants et d'adresse, puis une seule ligne référents · dates, au lieu des dates et du référent en haut à droite.
 - **Données CAF** : pas de bouton « Mettre à jour les données de la CAF » (les données arrivent automatiquement), indicateurs secondaires dans un accordéon, « Non renseigné » à la place de « - ».

@@ -30,7 +30,6 @@ export interface Local {
   titre: string
   ligne2: string
   type: string
-  surface?: string | null
 }
 
 /** Indicateur CAF, éventuellement précisé (ex. mesure de protection → tuteur) ; null = « - » */

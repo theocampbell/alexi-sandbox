@@ -134,86 +134,71 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     <!-- Locaux -->
     <section id="locaux" class="fr-mb-8w" aria-labelledby="titre-locaux">
       <h2 id="titre-locaux" class="fr-h4">Locaux</h2>
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div v-for="l in dossier.locaux" :key="l.titre" class="fr-col-12 fr-col-md-6">
-          <div class="alexi-carte">
-            <p>
-              <DsfrBadge
-                small
-                no-icon
-                :type="l.principal ? 'info' : undefined"
-                :label="l.principal ? 'Local principal' : 'Local secondaire'"
-              />
-            </p>
-            <p class="alexi-coupe"><strong>{{ l.titre }}</strong><br />{{ l.ligne2 }}</p>
-            <p class="fr-text--sm">{{ l.type }} · surface : {{ l.surface ?? 'non renseignée' }}</p>
-            <div v-if="peutModifier" class="alexi-actions alexi-bas">
+      <!-- Tableau, comme dans l'application : mêmes colonnes, actions sur chaque ligne -->
+      <TableauDsfr titre="Liste des locaux" :entetes="['Type', 'Caractérisation', 'Adresse'].concat(peutModifier ? ['Actions'] : [])">
+        <tr v-for="l in dossier.locaux" :key="l.titre">
+          <td>{{ l.type }}</td>
+          <td>{{ l.principal ? 'Local principal' : 'Local secondaire' }}</td>
+          <td class="alexi-coupe">{{ l.titre }}<br />{{ l.ligne2 }}</td>
+          <td v-if="peutModifier">
+            <div class="alexi-actions">
+              <DsfrButton tertiary size="sm" icon="fr-icon-edit-line" icon-only :label="`Modifier le local ${l.titre}`" />
+              <!-- Le local principal ne se supprime pas -->
               <DsfrButton
-                tertiary
-                size="sm"
-                icon="fr-icon-edit-line"
-                icon-only
-                :label="l.principal ? 'Modifier le local principal' : `Modifier ${l.titre}`"
-              />
-              <DsfrButton
+                v-if="!l.principal"
                 tertiary
                 size="sm"
                 icon="fr-icon-delete-line"
                 icon-only
-                :label="l.principal ? 'Supprimer le local principal' : `Supprimer ${l.titre}`"
+                :label="`Supprimer le local ${l.titre}`"
               />
             </div>
-          </div>
-        </div>
-      </div>
+          </td>
+        </tr>
+      </TableauDsfr>
       <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-add-line" label="Ajouter un local" />
     </section>
 
     <!-- Bailleur -->
     <section id="bailleur" class="fr-mb-8w" aria-labelledby="titre-bailleur">
       <h2 id="titre-bailleur" class="fr-h4">Bailleur</h2>
-      <div class="alexi-carte">
-        <div class="alexi-ligne-titre">
-          <div>
-            <h3 class="fr-h5 fr-mb-0 alexi-coupe">{{ b.nom }}</h3>
-            <p class="fr-text--sm fr-mb-0">Bailleur actuel<template v-if="b.depuis"> · depuis le {{ b.depuis }}</template></p>
-          </div>
-          <DsfrButtonGroup
-            v-if="peutModifier"
-            size="sm"
-            inline-layout-when="always"
-            :buttons="[
-              { label: 'Corriger une information', tertiary: true, icon: 'fr-icon-edit-line' },
-              { label: 'Changer de bailleur', tertiary: true, icon: 'fr-icon-refresh-line' },
-            ]"
-          />
-        </div>
-        <dl class="alexi-grille fr-mt-2w">
-          <div><dt class="fr-text--sm fr-mb-1v">Type · nature</dt><dd>{{ b.type }} · {{ b.nature.toLowerCase() }}</dd></div>
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">SIRET</dt>
-            <dd>
+      <p v-if="b.depuis" class="fr-text--sm">Bailleur actuel depuis le {{ b.depuis }}</p>
+      <!-- Tableau, comme dans l'application : mêmes colonnes, action sur la ligne -->
+      <TableauDsfr
+        titre="Bailleur actuel"
+        :entetes="['Type', 'Nature', 'Identité', 'Adresse', 'Contact'].concat(peutModifier ? ['Actions'] : [])"
+      >
+        <tr>
+          <td>{{ b.type }}</td>
+          <td>{{ b.nature }}</td>
+          <td class="alexi-coupe">
+            {{ b.nom }}
+            <span v-if="b.siret" class="fr-text--sm alexi-bloc">
+              SIRET
               <a
-                v-if="b.siret"
                 :href="lienSiret(b.siret)"
                 target="_blank"
                 rel="noopener"
                 :title="`${b.siret} sur l’annuaire des entreprises - nouvelle fenêtre`"
               >{{ b.siret }}</a>
-              <template v-else>Non renseigné</template>
-            </dd>
-          </div>
-          <div>
-            <dt class="fr-text--sm fr-mb-1v">Adresse</dt>
-            <dd>
-              <template v-if="b.adresse">{{ b.adresse[0] }}<br />{{ b.adresse[1] }}</template>
-              <template v-else>Non renseigné</template>
-            </dd>
-          </div>
-          <div><dt class="fr-text--sm fr-mb-1v">Téléphone · courriel</dt><dd class="alexi-coupe">{{ b.contact ?? 'Non renseigné' }}</dd></div>
-          <div><dt class="fr-text--sm fr-mb-1v">Mandat de gestion</dt><dd>{{ b.gestionnaire ?? 'Aucun mandat de gestion n’a été signalé.' }}</dd></div>
-        </dl>
-      </div>
+            </span>
+          </td>
+          <td>
+            <template v-if="b.adresse">{{ b.adresse[0] }}<br />{{ b.adresse[1] }}</template>
+            <template v-else>Non renseigné</template>
+          </td>
+          <td class="alexi-coupe">{{ b.contact ?? 'Non renseigné' }}</td>
+          <td v-if="peutModifier">
+            <div class="alexi-actions">
+              <DsfrButton tertiary size="sm" icon="fr-icon-edit-line" icon-only :label="`Corriger les informations du bailleur ${b.nom}`" />
+            </div>
+          </td>
+        </tr>
+      </TableauDsfr>
+      <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-refresh-line" label="Changer de bailleur" />
+
+      <h3 class="fr-h6 fr-mt-5w fr-mb-1w">Mandat de gestion</h3>
+      <p>{{ b.gestionnaire ?? 'Aucun mandat de gestion n’a été signalé.' }}</p>
       <DsfrAccordion v-if="b.precedents.length" class="fr-mt-2w" :title="`Bailleurs précédents (${b.precedents.length})`">
         <ul class="fr-mb-0">
           <li v-for="p in b.precedents" :key="p.nom"><strong>{{ p.nom }}</strong> · {{ p.detail }} · {{ p.periode }}</li>
@@ -239,12 +224,23 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
       </dl>
 
       <h3 class="fr-h6 fr-mt-5w fr-mb-2w">Autres contacts</h3>
-      <dl v-if="dossier.contacts.length" class="alexi-grille">
-        <div v-for="c in dossier.contacts" :key="c.nom" class="alexi-coupe">
-          <dt><strong>{{ c.nom }}</strong></dt>
-          <dd class="fr-text--sm fr-mb-0">{{ c.role }}<br />{{ c.contact }}</dd>
-        </div>
-      </dl>
+      <TableauDsfr
+        v-if="dossier.contacts.length"
+        titre="Autres contacts"
+        :entetes="['Nom', 'Rôle', 'Coordonnées'].concat(peutModifier ? ['Actions'] : [])"
+      >
+        <tr v-for="c in dossier.contacts" :key="c.nom">
+          <th scope="row" class="alexi-coupe">{{ c.nom }}</th>
+          <td>{{ c.role }}</td>
+          <td class="alexi-coupe">{{ c.contact }}</td>
+          <td v-if="peutModifier">
+            <div class="alexi-actions">
+              <DsfrButton tertiary size="sm" icon="fr-icon-edit-line" icon-only :label="`Modifier ${c.nom}`" />
+              <DsfrButton tertiary size="sm" icon="fr-icon-delete-line" icon-only :label="`Supprimer ${c.nom}`" />
+            </div>
+          </td>
+        </tr>
+      </TableauDsfr>
       <p v-else>Aucun contact n’a été renseigné.</p>
       <p class="fr-text--sm fr-mt-3w fr-mb-0">L’organisme d’accompagnement sociojuridique est indiqué dans l’onglet Accompagnement.</p>
       <DsfrButton v-if="peutModifier" class="fr-mt-3w" secondary icon="fr-icon-add-line" label="Ajouter un contact" />

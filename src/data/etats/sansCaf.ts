@@ -16,7 +16,7 @@ const dossier: Dossier = {
     { nom: 'Hugo LEMAIRE', naissance: '21 janv. 2020', age: 6, role: 'Occupant', titulaire: false, coord: null, activite: 'Scolarisé' },
   ],
   occupantsPartis: [],
-  locaux: [{ principal: true, titre: '14 rue Paul Riquet', ligne2: '34500 Béziers', type: 'Habitation', surface: '54 m²' }],
+  locaux: [{ principal: true, titre: '14 rue Paul Riquet', ligne2: '34500 Béziers', type: 'Habitation' }],
   caf: null,
   dette: {
     montant: 3120,

@@ -69,7 +69,7 @@ const lignes = computed(() => {
     {
       libelle: 'Logement',
       valeur: principal
-        ? [`${principal.titre}, ${principal.ligne2}`, [principal.type, principal.surface].filter(Boolean).join(' · ')]
+        ? [`${principal.titre}, ${principal.ligne2}`, principal.type]
         : [],
     },
     { libelle: secondaires.length > 1 ? 'Locaux secondaires' : 'Local secondaire', valeur: secondaires.map((l) => l.titre) },

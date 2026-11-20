@@ -39,7 +39,6 @@ const dossier: Dossier = {
       titre: 'Résidence Les Hauts de Montmorency · bâtiment C · escalier 4 · appartement 1203',
       ligne2: '1287 boulevard du Maréchal Jean-Marie-Gabriel de Lattre de Tassigny 34500 Béziers',
       type: 'Habitation',
-      surface: '92 m²',
     },
   ],
   caf: cafPour({ matricule: '602417', surface: '92 m²', loyer: '890,00 €', typeAide: 'Aide personnalisée au logement', montantAide: '612,00 €', rsa: false }),

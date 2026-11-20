@@ -10,7 +10,7 @@ const dossier: Dossier = {
   occupants: BASE_OCCUPANTS,
   occupantsPartis: [],
   locaux: [
-    { principal: true, titre: '8 rue des Lilas', ligne2: '34500 Béziers', type: 'Habitation', surface: '66 m²' },
+    { principal: true, titre: '8 rue des Lilas', ligne2: '34500 Béziers', type: 'Habitation' },
     { principal: false, titre: 'Parking n°14', ligne2: '8 rue des Lilas 34500 Béziers', type: 'Stationnement' },
   ],
   caf: CAF_COMPLET,

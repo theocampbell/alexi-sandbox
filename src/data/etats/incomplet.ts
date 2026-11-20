@@ -8,7 +8,7 @@ const dossier: Dossier = {
   modifie: '12 nov. 2026',
   occupants: [{ nom: 'M. Olivier BRUNET', naissance: null, age: null, role: 'Titulaire du bail', titulaire: true, coord: null, activite: null }],
   occupantsPartis: [],
-  locaux: [{ principal: true, titre: '3 impasse des Oliviers', ligne2: '34500 Béziers', type: 'Habitation', surface: null }],
+  locaux: [{ principal: true, titre: '3 impasse des Oliviers', ligne2: '34500 Béziers', type: 'Habitation' }],
   caf: null,
   // Montant saisi à la création du dossier ; le détail n'est pas encore connu
   dette: {
