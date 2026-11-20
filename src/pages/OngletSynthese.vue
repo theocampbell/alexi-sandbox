@@ -78,6 +78,8 @@ const lignes = computed(() => {
         : [],
     },
     { libelle: secondaires.length > 1 ? 'Locaux secondaires' : 'Local secondaire', valeur: secondaires.map((l) => l.titre) },
+    // Ressources du foyer : données CAF, mêmes libellés que « Situation du foyer »
+    ...ressources.value.map((r) => ({ libelle: r.libelle, valeur: [r.valeur] })),
     { libelle: 'Bailleur', valeur: [b.nom, `${b.type} · ${b.nature.toLowerCase()}`, b.contact ?? ''] },
     { libelle: 'Gestionnaire', valeur: b.gestionnaire ? [b.gestionnaire] : [] },
     {
@@ -123,7 +125,13 @@ const lignes = computed(() => {
           <p class="fr-h2 fr-mb-0">{{ formatEuros(dossier.dette.montant) }}</p>
           <p v-if="dossier.dette.mois">soit <strong>{{ dossier.dette.mois }} mois</strong> de loyer</p>
           <p v-if="dossier.dette.anciennete">impayée depuis <strong>{{ dossier.dette.anciennete }}</strong></p>
-          <p class="fr-text--sm">Mis à jour le {{ derniereDette.date }}, source : {{ sourceMinuscule(derniereDette.origine) }}</p>
+          <!-- Détail : dernière ligne du tableau de la dette, mêmes libellés -->
+          <dl v-if="detailDette.length" class="alexi-detail fr-text--sm">
+            <div v-for="c in detailDette" :key="c.libelle">
+              <dt>{{ c.libelle }}</dt>
+              <dd>{{ c.valeur }}</dd>
+            </div>
+          </dl>
           <RouterLink class="fr-link fr-icon-arrow-right-line fr-link--icon-right alexi-bas" :to="lien('informations')">
             Voir le détail de la dette
           </RouterLink>
@@ -153,34 +161,10 @@ const lignes = computed(() => {
       </div>
     </div>
 
-    <!-- 2. Dette et ressources -->
-    <section class="fr-mt-8w" aria-labelledby="titre-dette">
-      <h2 id="titre-dette" class="fr-h4 fr-mb-3w">Dette et ressources</h2>
-      <!-- Détail de la dette : dernière ligne du tableau de la dette, mêmes libellés -->
-      <h3 class="fr-h6 fr-mb-2w">Détail de la dette</h3>
-      <dl v-if="detailDette.length" class="alexi-grille">
-        <div v-for="c in detailDette" :key="c.libelle">
-          <dt class="fr-text--sm fr-mb-1v">{{ c.libelle }}</dt>
-          <dd class="fr-text--lg fr-mb-0"><strong>{{ c.valeur }}</strong></dd>
-        </div>
-      </dl>
-      <p v-else>Détail non renseigné.</p>
 
-      <!-- Ressources du foyer : uniquement avec des données CAF, mêmes libellés que « Situation du foyer » -->
-      <template v-if="ressources.length">
-        <h3 class="fr-h6 fr-mt-5w fr-mb-2w">Ressources du foyer</h3>
-        <dl class="alexi-grille">
-          <div v-for="c in ressources" :key="c.libelle">
-            <dt class="fr-text--sm fr-mb-1v">{{ c.libelle }}</dt>
-            <dd class="fr-text--lg fr-mb-0"><strong>{{ c.valeur }}</strong></dd>
-          </div>
-        </dl>
-      </template>
-    </section>
-
-    <!-- 3. Une seule liste, sans encadré -->
+    <!-- 2. Une seule liste, sans encadré -->
     <section class="fr-mt-8w" aria-labelledby="titre-acteurs">
-      <h2 id="titre-acteurs" class="fr-h4 fr-mb-3w">Logement et acteurs</h2>
+      <h2 id="titre-acteurs" class="fr-h4 fr-mb-3w">Logement, ressources et acteurs</h2>
       <dl class="alexi-liste">
         <div v-for="l in lignes" :key="l.libelle">
           <dt>{{ l.libelle }}</dt>
@@ -195,7 +179,7 @@ const lignes = computed(() => {
       </dl>
     </section>
 
-    <!-- 4. Une seule mention des sources, en précisant la source de chaque donnée -->
+    <!-- 3. Une seule mention des sources, en précisant la source de chaque donnée -->
     <p class="fr-text--xs fr-mt-8w fr-mb-0">
       <strong>Sources</strong>
       <template v-for="l in sources" :key="l"><br />{{ l }}</template>
