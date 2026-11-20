@@ -43,7 +43,7 @@ watchEffect(() => {
 
     <DossierEntete />
 
-    <DsfrTabs v-model="indexOnglet" tab-list-name="Sections du dossier" :tab-titles="titresOnglets">
+    <DsfrTabs v-model="indexOnglet" class="alexi-onglets" tab-list-name="Sections du dossier" :tab-titles="titresOnglets">
       <DsfrTabContent
         v-for="(onglet, i) in ONGLETS"
         :key="onglet.name"

@@ -37,6 +37,8 @@ const router = createRouter({
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
+    // Menu latéral d'un onglet : ancre de section dans le même onglet (pas de changement d'onglet, donc pas d'animation)
+    if (to.hash && to.name === from.name && to.params.num === from.params.num) return { el: to.hash, top: 16 }
     if (to.params.num === from.params.num) {
       // Changer d'onglet ne fait pas remonter la page… sauf si les onglets sont sortis de l'écran
       // (lien en bas d'une carte de la Synthèse par exemple) : on remonte alors au début des onglets.
@@ -49,6 +51,12 @@ const router = createRouter({
 router.beforeEach(() => {
   const onglets = document.querySelector('.fr-tabs')
   ongletsHorsEcran = !!onglets && onglets.getBoundingClientRect().top < 0
+})
+
+// Après un saut vers une section, le focus va sur la section (lecteurs d'écran, clavier)
+router.afterEach((to, from) => {
+  if (!to.hash || to.name !== from.name) return
+  setTimeout(() => (document.querySelector(to.hash) as HTMLElement | null)?.focus({ preventScroll: true }), 0)
 })
 
 export default router

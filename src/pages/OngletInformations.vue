@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { pluriel } from '../data'
 import { usePrototype } from '../composables/usePrototype'
 import TableauDsfr from '../components/TableauDsfr.vue'
 import DetteTableau from '../components/DetteTableau.vue'
 import DonneesCaf from '../components/DonneesCaf.vue'
 
+const route = useRoute()
 const { dossier, peutModifier, procedureEnCours } = usePrototype()
 
 const mineurs = computed(() => dossier.value.occupants.filter((o) => o.age !== null && o.age < 18))
@@ -22,13 +24,46 @@ const rolesCj = computed(() => {
     { role: 'Commissaire de justice', personne: cj.commissaire },
   ]
 })
+/** Entrées du menu latéral : seulement les sections affichées */
+const menu = computed(() => {
+  const d = dossier.value
+  const sections: [string, string, boolean][] = [
+    ['occupants', 'Occupants', true],
+    ['dette', 'Dette locative', true],
+    ['caf', 'Données CAF', !!d.caf],
+    ['locaux', 'Locaux', true],
+    ['bailleur', 'Bailleur', true],
+    ['mandat', 'Mandat de gestion', !!d.bailleur.mandat],
+    ['contacts', 'Contacts', true],
+    ['commissaire', 'Commissaire de justice', !!d.cj],
+  ]
+  return sections
+    .filter(([, , present]) => present)
+    .map(([id, text]) => ({
+      text,
+      to: { name: 'informations', params: route.params, query: route.query, hash: `#${id}` },
+      active: route.hash === `#${id}`,
+    }))
+})
+
 const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/etablissement/${siret.replace(/\s/g, '')}`
 </script>
 
 <template>
-  <div>
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <!-- Menu latéral : une entrée par section présente ; replié nativement sur mobile -->
+    <div class="fr-col-12 fr-col-md-3">
+      <DsfrSideMenu
+        class="fr-sidemenu--sticky"
+        button-label="Dans cet onglet"
+        heading-title="Dans cet onglet"
+        title-tag="h2"
+        :menu-items="menu"
+      />
+    </div>
+    <div class="fr-col-12 fr-col-md-9">
     <!-- Occupants -->
-    <section id="occupants" class="fr-mb-8w" aria-labelledby="titre-occupants">
+    <section id="occupants" tabindex="-1" class="fr-mb-8w" aria-labelledby="titre-occupants">
       <h2 id="titre-occupants" class="fr-h4">Occupants</h2>
       <p>
         {{ pluriel(dossier.occupants.length, 'occupant') }}<template v-if="mineurs.length">
@@ -78,7 +113,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     </section>
 
     <!-- Dette locative : toutes les informations reçues ou saisies -->
-    <section id="dette" class="fr-mb-8w" aria-labelledby="titre-dette-info">
+    <section id="dette" tabindex="-1" class="fr-mb-8w" aria-labelledby="titre-dette-info">
       <h2 id="titre-dette-info" class="fr-h4 fr-mb-1w">Dette locative</h2>
       <!-- La dette est liée à la procédure en cours ; celle des procédures closes est dans l'onglet Procédure -->
       <p class="fr-text--sm">
@@ -101,7 +136,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     <DonneesCaf v-if="dossier.caf" :caf="dossier.caf" />
 
     <!-- Locaux -->
-    <section id="locaux" class="fr-mb-8w" aria-labelledby="titre-locaux">
+    <section id="locaux" tabindex="-1" class="fr-mb-8w" aria-labelledby="titre-locaux">
       <h2 id="titre-locaux" class="fr-h4">Locaux</h2>
       <!-- Tableau, comme dans l'application : mêmes colonnes, actions sur chaque ligne -->
       <TableauDsfr titre="Liste des locaux" :entetes="['Type', 'Caractérisation', 'Adresse'].concat(peutModifier ? ['Actions'] : [])">
@@ -129,7 +164,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     </section>
 
     <!-- Bailleur -->
-    <section id="bailleur" class="fr-mb-8w" aria-labelledby="titre-bailleur">
+    <section id="bailleur" tabindex="-1" class="fr-mb-8w" aria-labelledby="titre-bailleur">
       <h2 id="titre-bailleur" class="fr-h4">Bailleur</h2>
       <p v-if="b.depuis" class="fr-text--sm">Bailleur actuel depuis le {{ b.depuis }}</p>
       <!-- Tableau, comme dans l'application : mêmes colonnes, action sur la ligne -->
@@ -174,13 +209,13 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     </section>
 
     <!-- Mandat de gestion : pas de titre quand il n'y a ni donnée ni moyen d'en ajouter -->
-    <section v-if="b.mandat" id="mandat" class="fr-mb-8w" aria-labelledby="titre-mandat">
+    <section v-if="b.mandat" id="mandat" tabindex="-1" class="fr-mb-8w" aria-labelledby="titre-mandat">
       <h2 id="titre-mandat" class="fr-h4">Mandat de gestion</h2>
       <p><strong>{{ b.mandat.gestionnaire }}</strong>, mandat de gestion depuis le {{ b.mandat.depuis }}</p>
     </section>
 
     <!-- Contacts -->
-    <section id="contacts" class="fr-mb-8w" aria-labelledby="titre-contacts">
+    <section id="contacts" tabindex="-1" class="fr-mb-8w" aria-labelledby="titre-contacts">
       <h2 id="titre-contacts" class="fr-h4">Contacts</h2>
       <TableauDsfr
         v-if="dossier.contacts.length"
@@ -207,7 +242,7 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
 
     <!-- Commissaire de justice : comme dans l'application, responsable à l'étude puis commissaire, sans action.
          Pas de titre quand il n'y en a pas (aucun moyen d'en ajouter ici). -->
-    <section v-if="dossier.cj" id="commissaire" aria-labelledby="titre-commissaire">
+    <section v-if="dossier.cj" id="commissaire" tabindex="-1" aria-labelledby="titre-commissaire">
       <h2 id="titre-commissaire" class="fr-h4">Commissaire de justice</h2>
       <TableauDsfr titre="Commissaire de justice et responsable du dossier à l’étude" :entetes="['Rôle', 'Identité', 'Téléphone', 'Adresse électronique']">
         <tr v-for="r in rolesCj" :key="r.role">
@@ -218,5 +253,6 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
         </tr>
       </TableauDsfr>
     </section>
+    </div>
   </div>
 </template>

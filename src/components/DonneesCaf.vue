@@ -52,7 +52,7 @@ const nonTransmises = computed(() => props.caf.prestations.filter((p) => p.valeu
 </script>
 
 <template>
-  <section id="caf" class="fr-background-alt--grey fr-p-3w fr-mb-8w" aria-labelledby="titre-caf">
+  <section id="caf" tabindex="-1" class="fr-background-alt--grey fr-p-3w fr-mb-8w" aria-labelledby="titre-caf">
     <h2 id="titre-caf" class="fr-h4 fr-mb-1w">Données CAF</h2>
     <p class="fr-text--sm fr-text-mention--grey fr-mb-2w">
       Allocataire n° {{ caf.matricule }} · Organisme {{ caf.organisme }} · Mis à jour le {{ caf.miseAJourDate }} à
