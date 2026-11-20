@@ -38,7 +38,10 @@ const dossier: Dossier = {
     gestionnaire: null,
     precedents: [],
   },
-  cj: { nom: 'Me Julien MERCIER', contact: '04 67 11 22 33 · etude@mercier-cj.exemple.fr', responsable: null },
+  cj: {
+    commissaire: { nom: 'Me Julien MERCIER', telephone: '04 67 11 22 33', email: 'etude@mercier-cj.exemple.fr' },
+    responsable: null,
+  },
   contacts: [],
   organismeAccompagnement: null,
   commissions: [],

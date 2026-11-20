@@ -15,6 +15,15 @@ const b = computed(() => dossier.value.bailleur)
 /** « - » de la CAF ou valeur absente → « Non renseigné » */
 const nr = (v: string | null) => v ?? 'Non renseigné'
 const ouiNon = (v: boolean | null) => (v === null ? 'Non renseigné' : v ? 'Oui' : 'Non')
+/** Lignes du tableau du commissaire de justice, dans l'ordre de l'application */
+const rolesCj = computed(() => {
+  const cj = dossier.value.cj
+  if (!cj) return []
+  return [
+    ...(cj.responsable ? [{ role: 'Responsable de dossier (étude de commissaires)', personne: cj.responsable }] : []),
+    { role: 'Commissaire de justice', personne: cj.commissaire },
+  ]
+})
 const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/etablissement/${siret.replace(/\s/g, '')}`
 </script>
 
@@ -30,10 +39,10 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
       </p>
       <TableauDsfr titre="Liste des occupants" :entetes="entetesOccupants">
         <tr v-for="o in dossier.occupants" :key="o.nom">
-          <th scope="row" class="alexi-coupe">
+          <td class="alexi-coupe">
             <strong v-if="o.titulaire">{{ o.nom }}</strong>
             <template v-else>{{ o.nom }}</template>
-          </th>
+          </td>
           <td>
             <template v-if="o.naissance">{{ o.naissance }}<br /></template>
             <template v-if="o.age !== null">{{ o.age }} ans</template>
@@ -209,30 +218,29 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     <!-- Acteurs et contacts -->
     <section id="acteurs" aria-labelledby="titre-acteurs-info">
       <h2 id="titre-acteurs-info" class="fr-h4">Acteurs et contacts</h2>
-      <dl class="alexi-grille">
-        <div>
-          <dt class="fr-text--sm fr-mb-1v">Commissaire de justice</dt>
-          <dd class="alexi-coupe">
-            <template v-if="dossier.cj">{{ dossier.cj.nom }}<br /><span class="fr-text--sm">{{ dossier.cj.contact }}</span></template>
-            <template v-else>Aucun commissaire de justice n’a été renseigné.</template>
-          </dd>
-        </div>
-        <div>
-          <dt class="fr-text--sm fr-mb-1v">Responsable du dossier à l’étude</dt>
-          <dd>{{ dossier.cj?.responsable ?? 'Non renseigné' }}</dd>
-        </div>
-      </dl>
+      <!-- Comme dans l'application : responsable à l'étude puis commissaire, sans action (données de l'étude) -->
+      <h3 class="fr-h6 fr-mb-2w">Commissaire de justice</h3>
+      <TableauDsfr v-if="dossier.cj" titre="Commissaire de justice" :entetes="['Rôle', 'Identité', 'Téléphone', 'Adresse électronique']">
+        <tr v-for="r in rolesCj" :key="r.role">
+          <td>{{ r.role }}</td>
+          <td class="alexi-coupe">{{ r.personne.nom }}</td>
+          <td>{{ r.personne.telephone ?? 'Non renseigné' }}</td>
+          <td class="alexi-coupe">{{ r.personne.email ?? 'Non renseigné' }}</td>
+        </tr>
+      </TableauDsfr>
+      <p v-else>Aucun commissaire de justice n’a été renseigné.</p>
 
       <h3 class="fr-h6 fr-mt-5w fr-mb-2w">Autres contacts</h3>
       <TableauDsfr
         v-if="dossier.contacts.length"
         titre="Autres contacts"
-        :entetes="['Nom', 'Rôle', 'Coordonnées'].concat(peutModifier ? ['Actions'] : [])"
+        :entetes="['Identité', 'Rôle', 'Téléphone', 'Adresse électronique'].concat(peutModifier ? ['Actions'] : [])"
       >
         <tr v-for="c in dossier.contacts" :key="c.nom">
-          <th scope="row" class="alexi-coupe">{{ c.nom }}</th>
+          <td class="alexi-coupe">{{ c.nom }}</td>
           <td>{{ c.role }}</td>
-          <td class="alexi-coupe">{{ c.contact }}</td>
+          <td>{{ c.telephone ?? 'Non renseigné' }}</td>
+          <td class="alexi-coupe">{{ c.email ?? 'Non renseigné' }}</td>
           <td v-if="peutModifier">
             <div class="alexi-actions">
               <DsfrButton tertiary size="sm" icon="fr-icon-edit-line" icon-only :label="`Modifier ${c.nom}`" />

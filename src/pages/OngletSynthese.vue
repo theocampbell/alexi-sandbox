@@ -81,7 +81,7 @@ const lignes = computed(() => {
       libelle: 'Commission',
       valeur: prochaineCommission ? [`Réunion du ${prochaineCommission.date}`, `${prochaineCommission.instance}, ${prochaineCommission.heure}`] : [],
     },
-    { libelle: 'Commissaire de justice', valeur: d.cj ? [d.cj.nom, d.cj.contact] : [] },
+    { libelle: 'Commissaire de justice', valeur: d.cj ? [d.cj.commissaire.nom, d.cj.commissaire.telephone ?? '', d.cj.commissaire.email ?? ''] : [] },
   ]
   return rows
     .map((r) => ({ ...r, valeur: r.valeur.filter(Boolean) }))

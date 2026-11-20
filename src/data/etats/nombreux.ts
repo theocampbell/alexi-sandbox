@@ -52,8 +52,8 @@ const dossier: Dossier = {
   bailleur: BAILLEUR_IMMOGEST,
   cj: null,
   contacts: [
-    { nom: 'Bernard MOREL', role: `Curateur de M. Pierre-Emmanuel ${NOM}`, contact: 'UDAF de l’Hérault · b.morel@udaf.exemple.fr' },
-    { nom: 'Claire FONTAINE', role: 'Sœur de la titulaire du bail', contact: '06 98 76 54 32' },
+    { nom: 'Bernard MOREL', role: `Curateur (UDAF de l’Hérault) de M. Pierre-Emmanuel ${NOM}`, telephone: null, email: 'b.morel@udaf.exemple.fr' },
+    { nom: 'Claire FONTAINE', role: 'Sœur de la titulaire du bail', telephone: '06 98 76 54 32', email: null },
   ],
   organismeAccompagnement: {
     nom: 'Association Logement Solidaire 34',

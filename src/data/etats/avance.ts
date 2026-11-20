@@ -53,9 +53,12 @@ const dossier: Dossier = {
     gestionnaire: null,
     precedents: [],
   },
-  cj: { nom: 'Me Julien MERCIER', contact: '04 67 11 22 33 · etude@mercier-cj.exemple.fr', responsable: 'M. Antoine FAURE · 04 05 06 07 08' },
+  cj: {
+    commissaire: { nom: 'Me Julien MERCIER', telephone: '04 67 11 22 33', email: 'etude@mercier-cj.exemple.fr' },
+    responsable: { nom: 'M. Antoine FAURE', telephone: '04 05 06 07 08', email: 'a.faure@mercier-cj.exemple.fr' },
+  },
   contacts: [
-    { nom: 'Me Hélène PICARD', role: 'Avocate de la locataire', contact: '04 67 55 66 77 · h.picard@avocats.exemple.fr' },
+    { nom: 'Me Hélène PICARD', role: 'Avocate de la locataire', telephone: '04 67 55 66 77', email: 'h.picard@avocats.exemple.fr' },
   ],
   organismeAccompagnement: {
     nom: 'CCAS de Béziers',

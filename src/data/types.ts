@@ -126,7 +126,8 @@ export interface Dossier {
   dette: Dette
   procedures: Procedure[]
   bailleur: Bailleur
-  cj: { nom: string; contact: string; responsable: string | null } | null
+  /** Commissaire de justice et responsable du dossier à l'étude (mêmes colonnes que l'application) */
+  cj: { commissaire: Personne; responsable: Personne | null } | null
   /** Autres contacts : avocat, curateur, proche… (onglet Informations) */
   contacts: Contact[]
   /** Organisme d'accompagnement sociojuridique : on désigne la structure, pas une personne */
@@ -134,10 +135,16 @@ export interface Dossier {
   commissions: Commission[]
 }
 
-export interface Contact {
+/** Personne joignable : identité, téléphone, adresse électronique */
+export interface Personne {
   nom: string
+  telephone: string | null
+  email: string | null
+}
+
+/** Autre contact du dossier (avocat, curateur, proche…) */
+export interface Contact extends Personne {
   role: string
-  contact: string
 }
 
 export interface OrganismeAccompagnement {
