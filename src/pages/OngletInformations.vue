@@ -72,12 +72,31 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
           { label: 'Signaler une vulnérabilité', secondary: true, icon: 'fr-icon-warning-line' },
         ]"
       />
-      <DsfrAccordion class="fr-mt-2w" :title="`Occupants ayant quitté le logement (${dossier.occupantsPartis.length})`">
-        <ul v-if="dossier.occupantsPartis.length" class="fr-mb-0">
+      <DsfrAccordion v-if="dossier.occupantsPartis.length" class="fr-mt-2w" :title="`Occupants ayant quitté le logement (${dossier.occupantsPartis.length})`">
+        <ul class="fr-mb-0">
           <li v-for="o in dossier.occupantsPartis" :key="o.nom">{{ o.nom }} · {{ o.role }}</li>
         </ul>
-        <p v-else class="fr-mb-0">Aucun occupant n’a quitté le logement.</p>
       </DsfrAccordion>
+    </section>
+
+    <!-- Dette locative : toutes les informations reçues ou saisies -->
+    <section id="dette" class="fr-mb-8w" aria-labelledby="titre-dette-info">
+      <h2 id="titre-dette-info" class="fr-h4 fr-mb-1w">Dette locative</h2>
+      <!-- La dette est liée à la procédure en cours ; celle des procédures closes est dans l'onglet Procédure -->
+      <p class="fr-text--sm">
+        <template v-if="procedureEnCours">
+          Procédure en cours : {{ procedureEnCours.motif }}, depuis le {{ procedureEnCours.depuis }}
+        </template>
+        <template v-else>Aucune procédure en cours</template>
+      </p>
+      <DetteTableau :points="dossier.dette.evolution" />
+      <DsfrButton
+        v-if="peutModifier"
+        class="fr-mt-2w"
+        secondary
+        icon="fr-icon-add-line"
+        label="Ajouter une information sur la dette"
+      />
     </section>
 
     <!-- Données CAF : uniquement quand le dossier vient d'un signalement CAF. Libellés et ordre de l'application. -->
@@ -118,26 +137,6 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
           </div>
         </dl>
       </DsfrAccordion>
-    </section>
-
-    <!-- Dette locative : toutes les informations reçues ou saisies -->
-    <section id="dette" class="fr-mb-8w" aria-labelledby="titre-dette-info">
-      <h2 id="titre-dette-info" class="fr-h4 fr-mb-1w">Dette locative</h2>
-      <!-- La dette est liée à la procédure en cours ; celle des procédures closes est dans l'onglet Procédure -->
-      <p class="fr-text--sm">
-        <template v-if="procedureEnCours">
-          Procédure en cours : {{ procedureEnCours.motif }}, depuis le {{ procedureEnCours.depuis }}
-        </template>
-        <template v-else>Aucune procédure en cours</template>
-      </p>
-      <DetteTableau :points="dossier.dette.evolution" />
-      <DsfrButton
-        v-if="peutModifier"
-        class="fr-mt-2w"
-        secondary
-        icon="fr-icon-add-line"
-        label="Ajouter une information sur la dette"
-      />
     </section>
 
     <!-- Locaux -->
@@ -206,8 +205,6 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
       </TableauDsfr>
       <DsfrButton v-if="peutModifier" class="fr-mt-2w" secondary icon="fr-icon-refresh-line" label="Changer de bailleur" />
 
-      <h3 class="fr-h6 fr-mt-5w fr-mb-1w">Mandat de gestion</h3>
-      <p>{{ b.gestionnaire ?? 'Aucun mandat de gestion n’a été signalé.' }}</p>
       <DsfrAccordion v-if="b.precedents.length" class="fr-mt-2w" :title="`Bailleurs précédents (${b.precedents.length})`">
         <ul class="fr-mb-0">
           <li v-for="p in b.precedents" :key="p.nom"><strong>{{ p.nom }}</strong> · {{ p.detail }} · {{ p.periode }}</li>
@@ -215,25 +212,18 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
       </DsfrAccordion>
     </section>
 
-    <!-- Acteurs et contacts -->
-    <section id="acteurs" aria-labelledby="titre-acteurs-info">
-      <h2 id="titre-acteurs-info" class="fr-h4">Acteurs et contacts</h2>
-      <!-- Comme dans l'application : responsable à l'étude puis commissaire, sans action (données de l'étude) -->
-      <h3 class="fr-h6 fr-mb-2w">Commissaire de justice</h3>
-      <TableauDsfr v-if="dossier.cj" titre="Commissaire de justice" :entetes="['Rôle', 'Identité', 'Téléphone', 'Adresse électronique']">
-        <tr v-for="r in rolesCj" :key="r.role">
-          <td>{{ r.role }}</td>
-          <td class="alexi-coupe">{{ r.personne.nom }}</td>
-          <td>{{ r.personne.telephone ?? 'Non renseigné' }}</td>
-          <td class="alexi-coupe">{{ r.personne.email ?? 'Non renseigné' }}</td>
-        </tr>
-      </TableauDsfr>
-      <p v-else>Aucun commissaire de justice n’a été renseigné.</p>
+    <!-- Mandat de gestion : pas de titre quand il n'y a ni donnée ni moyen d'en ajouter -->
+    <section v-if="b.gestionnaire" id="mandat" class="fr-mb-8w" aria-labelledby="titre-mandat">
+      <h2 id="titre-mandat" class="fr-h4">Mandat de gestion</h2>
+      <p>{{ b.gestionnaire }}</p>
+    </section>
 
-      <h3 class="fr-h6 fr-mt-5w fr-mb-2w">Autres contacts</h3>
+    <!-- Contacts -->
+    <section id="contacts" class="fr-mb-8w" aria-labelledby="titre-contacts">
+      <h2 id="titre-contacts" class="fr-h4">Contacts</h2>
       <TableauDsfr
         v-if="dossier.contacts.length"
-        titre="Autres contacts"
+        titre="Liste des contacts"
         :entetes="['Identité', 'Rôle', 'Téléphone', 'Adresse électronique'].concat(peutModifier ? ['Actions'] : [])"
       >
         <tr v-for="c in dossier.contacts" :key="c.nom">
@@ -252,6 +242,20 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
       <p v-else>Aucun contact n’a été renseigné.</p>
       <p class="fr-text--sm fr-mt-3w fr-mb-0">L’organisme d’accompagnement sociojuridique est indiqué dans l’onglet Accompagnement.</p>
       <DsfrButton v-if="peutModifier" class="fr-mt-3w" secondary icon="fr-icon-add-line" label="Ajouter un contact" />
+    </section>
+
+    <!-- Commissaire de justice : comme dans l'application, responsable à l'étude puis commissaire, sans action.
+         Pas de titre quand il n'y en a pas (aucun moyen d'en ajouter ici). -->
+    <section v-if="dossier.cj" id="commissaire" aria-labelledby="titre-commissaire">
+      <h2 id="titre-commissaire" class="fr-h4">Commissaire de justice</h2>
+      <TableauDsfr titre="Commissaire de justice et responsable du dossier à l’étude" :entetes="['Rôle', 'Identité', 'Téléphone', 'Adresse électronique']">
+        <tr v-for="r in rolesCj" :key="r.role">
+          <td>{{ r.role }}</td>
+          <td class="alexi-coupe">{{ r.personne.nom }}</td>
+          <td>{{ r.personne.telephone ?? 'Non renseigné' }}</td>
+          <td class="alexi-coupe">{{ r.personne.email ?? 'Non renseigné' }}</td>
+        </tr>
+      </TableauDsfr>
     </section>
   </div>
 </template>

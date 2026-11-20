@@ -48,7 +48,7 @@ src/
 - **Tableaux** : un petit composant `TableauDsfr` avec le balisage DSFR 1.14 (`fr-table__wrapper/container/content`), pour qu'ils défilent dans leur cadre à 400 % de zoom. Pourquoi pas les composants de Vue DSFR : `DsfrTable` produit l'ancien balisage, et `DsfrDataTable` rend chaque cellule focusable (une tabulation par cellule). Comme dans l'application, seules les colonnes ont des en-têtes (`th scope="col"`) : pas de colonne d'en-têtes de ligne grisée.
 - **Boutons icône** (crayon, corbeille) : `DsfrButton` avec `icon-only`. Leur nom accessible contient celui de la personne ou du local (« Modifier Mme Sonia RAMIREZ-LEROUX »).
 - **Données CAF seulement avec un signalement CAF** : la section « Données CAF » (Informations) et la ligne « Données CAF » (Synthèse) n'apparaissent que si le dossier vient d'un signalement CAF. Libellés, groupes (« Données spécifiques CAF », « Situation foyer ») et ordre repris de l'application ; « - » s'affiche « Non renseigné ». Comparer les états « Dossier complet (signalement CAF) » et « Dossier complet sans signalement CAF ».
-- **Libellés de l'application** : « Pas de référent », « Aucun mandat de gestion n'a été signalé. », « Aucun commissaire de justice n'a été renseigné. », « Aucun contact n'a été renseigné. ».
+- **Libellés de l'application** : « Pas de référent », « Aucun contact n'a été renseigné. ».
 - **Tableaux dans Informations** : occupants, dette, locaux, bailleur, commissaire de justice et autres contacts sont des tableaux, comme dans l'application, avec les mêmes boutons icône (crayon, corbeille) sur chaque ligne. Colonnes des locaux et du bailleur reprises de l'application. Le local principal ne se supprime pas.
 - **Synthèse en lecture seule** : aucune action d'édition dans l'onglet Synthèse. Les actions vivent dans Informations et Accompagnement ; dans la Synthèse, les seuls liens sont ceux des trois cartes (un par carte), aucun en dessous.
 - **Synthèse** : les 3 cartes sont les seuls blocs encadrés, avec au plus un lien chacune. La liste « Logement et acteurs » masque les lignes vides. Les sources sont mentionnées une seule fois, en bas de l'onglet, une ligne par donnée (ressources du foyer : CAF ; dette : la source de la dernière information, qui peut être la CAF, le commissaire de justice ou une saisie manuelle).
@@ -71,11 +71,17 @@ La refonte porte sur deux choses : **un nouvel en-tête de dossier** (titre, bad
 
 **Exception : le bloc « Données CAF » est amélioré** (indicateurs secondaires dans un accordéon, « Non renseigné » au lieu de « - », pas de bouton « Mettre à jour les données de la CAF »).
 
+## Ordre de l'onglet Informations
+
+Occupants · Dette locative · Données CAF · Locaux · Bailleur · Mandat de gestion · Contacts · Commissaire de justice.
+
+**Pas de titre quand il n'y a ni donnée ni moyen d'en ajouter** : « Occupants ayant quitté le logement », « Données CAF », « Mandat de gestion » et « Commissaire de justice » disparaissent quand ils sont vides. Les blocs qui ont un bouton d'ajout (contacts, locaux…) restent visibles avec leur message vide.
+
 ## Écarts voulus avec l'application actuelle (refonte)
 
 Ces différences avec l'application actuelle sont des choix de la refonte, pas des erreurs :
 
-- **Commissaire de justice** : dans « Acteurs et contacts », et non plus sous « Bailleur » à côté du mandat de gestion. Le tableau, lui, est celui de l'application (Rôle, Identité, Téléphone, Adresse électronique ; responsable à l'étude puis commissaire, sans action).
+- **Commissaire de justice** : section à part en fin d'onglet, et non plus sous « Bailleur » à côté du mandat de gestion. Le tableau, lui, est celui de l'application (Rôle, Identité, Téléphone, Adresse électronique ; responsable à l'étude puis commissaire, sans action).
 - **En-tête du dossier** : titre « Dossier … », badges, ligne d'occupants et d'adresse, puis une seule ligne référents · dates, au lieu des dates et du référent en haut à droite.
 - **Données CAF** : pas de bouton « Mettre à jour les données de la CAF » (les données arrivent automatiquement), indicateurs secondaires dans un accordéon, « Non renseigné » à la place de « - ».
 

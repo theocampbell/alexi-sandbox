@@ -35,7 +35,7 @@ const dossier: Dossier = {
     adresse: ['7 place de la Madeleine', '34500 Béziers'],
     contact: '06 71 22 33 44',
     depuis: '1er sept. 2019',
-    gestionnaire: null,
+    gestionnaire: 'Agence immobilière du Biterrois, mandat de gestion depuis le 1er sept. 2019',
     precedents: [],
   },
   cj: {
