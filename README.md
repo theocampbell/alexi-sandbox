@@ -65,6 +65,10 @@ src/
 - À 320 px de large (équivalent à un zoom de 400 %) : pas de défilement horizontal de la page.
 - Navigation : clic et flèches sur les onglets, bouton retour, listes déroulantes du prototype, liens des cartes de la Synthèse.
 
+## Principe de la refonte : réorganiser, pas redessiner
+
+La refonte **réorganise** l'information : onglets (Synthèse, Informations, Accompagnement, Procédure), ordre et regroupement des blocs, Synthèse qui résume. **À l'intérieur d'un bloc, le format reste celui de l'application** : mêmes tableaux, colonnes, libellés, boutons et messages vides. Un bloc qui est un tableau dans l'application reste un tableau.
+
 ## Écarts voulus avec l'application actuelle (refonte)
 
 Ces différences avec l'application actuelle sont des choix de la refonte, pas des erreurs :
