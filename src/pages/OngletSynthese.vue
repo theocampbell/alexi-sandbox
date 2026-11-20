@@ -91,18 +91,6 @@ const lignes = computed(() => {
 
 <template>
   <div>
-    <!-- Téléchargement : lien DSFR « fichier à télécharger » (format et poids). Pas une action d'édition, donc visible pour tous les profils. -->
-    <div class="alexi-telechargement fr-mb-3w">
-      <DsfrFileDownload
-        title="Télécharger la fiche de synthèse"
-        format="DOCX"
-        size="40 Ko"
-        href="#"
-        :download="`fiche-synthese-${dossier.ref}.docx`"
-        @click.prevent
-      />
-    </div>
-
     <!-- 1. Trois cartes : les seuls blocs encadrés de la Synthèse -->
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-4">

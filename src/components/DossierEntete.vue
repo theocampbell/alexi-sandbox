@@ -36,8 +36,17 @@ const nbAutresLocaux = computed(() => dossier.value.locaux.length - 1)
           </template>
         </p>
       </div>
-      <div v-if="peutModifier">
-        <DsfrButton secondary icon="fr-icon-calendar-line" label="Inscrire en commission" />
+      <!-- Actions du dossier, sur tous les onglets. Le téléchargement n'est pas une édition : visible pour tous les profils. -->
+      <div class="alexi-entete-actions">
+        <DsfrButton v-if="peutModifier" secondary icon="fr-icon-calendar-line" label="Inscrire en commission" />
+        <DsfrFileDownload
+          title="Télécharger la fiche de synthèse"
+          format="DOCX"
+          size="40 Ko"
+          href="#"
+          :download="`fiche-synthese-${dossier.ref}.docx`"
+          @click.prevent
+        />
       </div>
     </div>
 

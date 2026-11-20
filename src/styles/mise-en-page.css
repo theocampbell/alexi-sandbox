@@ -182,14 +182,21 @@
   display: block;
 }
 
-/* Lien de téléchargement de la fiche de synthèse, aligné à droite au-dessus des cartes */
-.alexi-telechargement {
+/* Actions de l'en-tête du dossier : bouton puis lien de téléchargement, alignés à droite */
+.alexi-entete-actions {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
 }
 /* Sur petit écran, le titre passe à la ligne pour que l'icône ne retombe pas sur « DOCX – 40 Ko » */
 @media (max-width: 36em) {
-  .alexi-telechargement .fr-link--download {
+  .alexi-entete-actions .fr-link--download {
     max-width: 14rem;
+  }
+}
+@media (max-width: 36em) {
+  .alexi-entete-actions {
+    align-items: flex-start;
   }
 }
