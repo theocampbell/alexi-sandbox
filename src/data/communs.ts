@@ -20,6 +20,12 @@ export const CAF_COMPLET: Caf = {
   surface: '66 m²',
   tiersPayant: true,
   rsa: true,
+  prestations: [
+    { libelle: 'Allocation aux adultes handicapés (AAH)', valeur: null },
+    { libelle: 'Allocation d’éducation de l’enfant handicapé (AEEH)', valeur: null },
+    { libelle: 'Allocation journalière de présence parentale (AJPP)', valeur: null },
+    { libelle: 'Allocation journalière du proche aidant (AJPA)', valeur: null },
+  ],
   autres: [
     { libelle: 'Fin de l’occupation', valeur: 'Non' },
     { libelle: 'Surendettement', valeur: 'Non' },
@@ -41,10 +47,6 @@ export const CAF_COMPLET: Caf = {
       valeur: null,
       precisions: [{ libelle: 'Date de début de grossesse', valeur: null }],
     },
-    { libelle: 'Allocation aux adultes handicapés (AAH)', valeur: null },
-    { libelle: 'Allocation d’éducation de l’enfant handicapé (AEEH)', valeur: null },
-    { libelle: 'Allocation journalière de présence parentale (AJPP)', valeur: null },
-    { libelle: 'Allocation journalière du proche aidant (AJPA)', valeur: null },
   ],
 }
 

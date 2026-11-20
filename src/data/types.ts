@@ -53,6 +53,8 @@ export interface Caf {
   surface: string | null
   tiersPayant: boolean | null
   rsa: boolean | null
+  /** Prestations sociales perçues (AAH, AEEH, AJPP, AJPA) ; le RSA est dans `rsa` */
+  prestations: IndicateurCaf[]
   /** Situation foyer : autres indicateurs, dans l'ordre de l'application */
   autres: IndicateurCaf[]
 }

@@ -70,7 +70,7 @@ src/
 
 La refonte porte sur deux choses : **un nouvel en-tête de dossier** (titre, badges, ligne occupants · adresse, ligne référents · dates) et **la réorganisation de l'information** : onglets (Synthèse, Informations, Accompagnement, Procédure), ordre et regroupement des blocs, Synthèse qui résume. **À l'intérieur d'un bloc, le format reste celui de l'application** : mêmes tableaux, colonnes, libellés, boutons et messages vides. Un bloc qui est un tableau dans l'application reste un tableau.
 
-**Exception : le bloc « Données CAF » est amélioré** (indicateurs secondaires dans un accordéon, « Non renseigné » au lieu de « - », pas de bouton « Mettre à jour les données de la CAF »).
+**Exception : le bloc « Données CAF » est amélioré** : une ligne par champ (libellé · valeur, précisions en retrait), groupe « Prestations sociales » (RSA, AAH, AEEH, AJPP, AJPA), autres indicateurs de la situation du foyer dans un accordéon, « Non renseigné » au lieu de « - », pas de bouton « Mettre à jour les données de la CAF ».
 
 ## Ordre de l'onglet Informations
 
