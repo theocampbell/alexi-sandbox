@@ -34,16 +34,30 @@ const sources = computed(() => {
   return lignes
 })
 
-/** Chiffres de la ligne « Dette et ressources » : seulement ceux qui sont connus */
-const chiffres = computed(() => {
-  const d = dossier.value.dette
-  const tiers = d.tiersPayant === null ? '' : d.tiersPayant ? 'en tiers payant' : 'sans tiers payant'
+/**
+ * Détail de la dette : la dernière ligne du tableau de la dette, avec les mêmes libellés,
+ * quelle que soit sa source (CAF, commissaire de justice, saisie manuelle).
+ */
+const detailDette = computed(() => {
+  const l = derniereDette.value
+  const euros = (n: number | null) => (n === null ? null : formatEuros(n))
   return [
-    { libelle: 'Loyer mensuel', valeur: d.loyer, precision: '' },
-    { libelle: 'Charges mensuelles', valeur: d.charges, precision: '' },
-    { libelle: 'Aide au logement', valeur: d.aide, precision: tiers },
-    { libelle: 'Reste à charge estimé', valeur: d.reste, precision: 'par mois' },
+    { libelle: 'Dont loyer', valeur: euros(l.loyer) },
+    { libelle: 'Dont charges', valeur: euros(l.charges) },
+    { libelle: 'Dont frais annexes', valeur: euros(l.fraisAnnexes) },
+    { libelle: 'Part de la dette locative sur l’ensemble des dettes', valeur: l.partSurDettes === null ? null : `${l.partSurDettes} %` },
   ].filter((c) => c.valeur !== null)
+})
+
+/** Ressources du foyer : seulement avec des données CAF, mêmes libellés que « Situation du foyer » */
+const ressources = computed(() => {
+  const c = dossier.value.caf
+  if (!c) return []
+  return [
+    { libelle: 'Loyer mensuel', valeur: c.loyer },
+    { libelle: 'Aide au logement', valeur: c.aide },
+    { libelle: 'Tiers payant', valeur: c.tiersPayant ? 'Oui' : 'Non' },
+  ]
 })
 
 /*
@@ -142,18 +156,26 @@ const lignes = computed(() => {
     <!-- 2. Dette et ressources -->
     <section class="fr-mt-8w" aria-labelledby="titre-dette">
       <h2 id="titre-dette" class="fr-h4 fr-mb-3w">Dette et ressources</h2>
-      <!-- Seuls les chiffres connus sont affichés -->
-      <dl v-if="chiffres.length" class="alexi-grille">
-        <div v-for="c in chiffres" :key="c.libelle">
+      <!-- Détail de la dette : dernière ligne du tableau de la dette, mêmes libellés -->
+      <h3 class="fr-h6 fr-mb-2w">Détail de la dette</h3>
+      <dl v-if="detailDette.length" class="alexi-grille">
+        <div v-for="c in detailDette" :key="c.libelle">
           <dt class="fr-text--sm fr-mb-1v">{{ c.libelle }}</dt>
-          <dd class="fr-text--lg fr-mb-0">
-            <strong>{{ c.valeur }}</strong>
-            <!-- Précision sur sa propre ligne : pas de séparateur ni d'espace à gérer -->
-            <span v-if="c.precision" class="fr-text--sm alexi-precision">{{ c.precision }}</span>
-          </dd>
+          <dd class="fr-text--lg fr-mb-0"><strong>{{ c.valeur }}</strong></dd>
         </div>
       </dl>
-      <p v-else>Loyer, charges et aide au logement pas encore connus.</p>
+      <p v-else>Détail non renseigné.</p>
+
+      <!-- Ressources du foyer : uniquement avec des données CAF, mêmes libellés que « Situation du foyer » -->
+      <template v-if="ressources.length">
+        <h3 class="fr-h6 fr-mt-5w fr-mb-2w">Ressources du foyer</h3>
+        <dl class="alexi-grille">
+          <div v-for="c in ressources" :key="c.libelle">
+            <dt class="fr-text--sm fr-mb-1v">{{ c.libelle }}</dt>
+            <dd class="fr-text--lg fr-mb-0"><strong>{{ c.valeur }}</strong></dd>
+          </div>
+        </dl>
+      </template>
     </section>
 
     <!-- 3. Une seule liste, sans encadré -->

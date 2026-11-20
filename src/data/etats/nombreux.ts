@@ -1,5 +1,5 @@
 import type { Dossier, Occupant } from '../types'
-import { BAILLEUR_IMMOGEST, CAF_COMPLET } from '../communs'
+import { BAILLEUR_IMMOGEST, cafPour } from '../communs'
 
 const NOM = 'DE MONTCLAR-BEAUREGARD-LEFEBVRE'
 const prenoms = ['Louise', 'Gabriel', 'Chloé', 'Hugo', 'Manon', 'Arthur', 'Zoé', 'Jules', 'Alice', 'Noah']
@@ -42,17 +42,11 @@ const dossier: Dossier = {
       surface: '92 m²',
     },
   ],
-  caf: CAF_COMPLET,
+  caf: cafPour({ matricule: '602417', surface: '92 m²', loyer: '890,00 €', aide: 'Aide personnalisée au logement · 612,00 €', rsa: false }),
   dette: {
     montant: 2310,
     mois: '2,6',
     anciennete: '3 mois',
-    date: '1er nov. 2026',
-    loyer: '890,00 €',
-    charges: '60,00 €',
-    aide: '612,00 €',
-    tiersPayant: true,
-    reste: '338,00 €',
     evolution: [{ origine: 'CAF', date: '1er nov. 2026', montant: 2310, loyer: 2130, charges: 180, fraisAnnexes: null, partSurDettes: null }],
   },
   procedures: [{ motif: 'Impayé de loyer', etape: 1, depuis: '2 nov. 2026', close: false, prochaine: null }],

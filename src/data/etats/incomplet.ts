@@ -15,12 +15,6 @@ const dossier: Dossier = {
     montant: 1450,
     mois: null,
     anciennete: null,
-    date: '12 nov. 2026',
-    loyer: null,
-    charges: null,
-    aide: null,
-    tiersPayant: null,
-    reste: null,
     evolution: [
       { origine: 'Saisie manuelle (DDETS de l’Hérault)', date: '12 nov. 2026', montant: 1450, loyer: null, charges: null, fraisAnnexes: null, partSurDettes: null },
     ],

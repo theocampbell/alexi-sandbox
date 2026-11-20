@@ -125,10 +125,6 @@
 }
 
 
-/* Précision sous un chiffre clé (« en tiers payant », « par mois ») */
-.alexi-precision {
-  display: block;
-}
 
 /* Réunions de commission (onglet Accompagnement), sur le modèle de l'application */
 .alexi-reunions {

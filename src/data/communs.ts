@@ -36,6 +36,9 @@ export const CAF_COMPLET: Caf = {
   ],
 }
 
+/** Variante de CAF_COMPLET pour un autre ménage */
+export const cafPour = (diff: Partial<Caf>): Caf => ({ ...CAF_COMPLET, ...diff })
+
 export const BAILLEUR_IMMOGEST: Bailleur = {
   nom: 'IMMOGEST SUD',
   type: 'Bailleur privé',

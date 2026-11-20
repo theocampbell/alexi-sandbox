@@ -61,17 +61,15 @@ export interface PointDette {
   partSurDettes: number | null
 }
 
-/** Le montant de la dette est toujours connu ; le reste peut manquer */
+/**
+ * Le montant de la dette est toujours connu. Le détail (dont loyer, charges…) est dans
+ * le tableau `evolution`, la dernière ligne étant l'information la plus récente.
+ * Les ressources du foyer (loyer, aide au logement) viennent de la CAF : voir `Caf`.
+ */
 export interface Dette {
   montant: number
   mois: string | null
   anciennete: string | null
-  date: string
-  loyer: string | null
-  charges: string | null
-  aide: string | null
-  tiersPayant: boolean | null
-  reste: string | null
   evolution: PointDette[]
 }
 

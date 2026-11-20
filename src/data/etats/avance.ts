@@ -1,5 +1,5 @@
 import type { Dossier } from '../types'
-import { BASE_OCCUPANTS, CAF_COMPLET } from '../communs'
+import { BASE_OCCUPANTS, cafPour } from '../communs'
 
 const dossier: Dossier = {
   ref: '2025-034-0983114',
@@ -13,17 +13,12 @@ const dossier: Dossier = {
   occupants: BASE_OCCUPANTS.slice(0, 3),
   occupantsPartis: BASE_OCCUPANTS.slice(3, 4).map((o) => ({ ...o })),
   locaux: [{ principal: true, titre: '21 avenue Jean Jaurès', ligne2: '34500 Béziers', type: 'Habitation', surface: '48 m²' }],
-  caf: CAF_COMPLET,
+  // Même allocataire que le dossier complet, autre logement ; aide suspendue (impayé)
+  caf: cafPour({ surface: '48 m²', aide: 'Allocation de logement familiale · suspendue', tiersPayant: false }),
   dette: {
     montant: 4850,
     mois: '8,6',
     anciennete: '11 mois',
-    date: '2 oct. 2026',
-    loyer: '561,39 €',
-    charges: '45,00 €',
-    aide: 'Suspendue',
-    tiersPayant: false,
-    reste: '606,39 €',
     evolution: [
       { origine: 'CAF', date: '3 déc. 2025', montant: 1200, loyer: 1110, charges: 90, fraisAnnexes: null, partSurDettes: null },
       { origine: 'Commissaire de justice', date: '6 févr. 2026', montant: 2000.45, loyer: 1665, charges: 135, fraisAnnexes: 200.45, partSurDettes: null },
