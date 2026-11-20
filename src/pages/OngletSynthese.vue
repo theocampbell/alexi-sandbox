@@ -35,18 +35,12 @@ const sources = computed(() => {
 })
 
 /**
- * Détail de la dette : la dernière ligne du tableau de la dette, avec les mêmes libellés,
- * quelle que soit sa source (CAF, commissaire de justice, saisie manuelle).
+ * Dans la carte, seule la part de loyer de la dernière information sur la dette (même libellé que
+ * le tableau). Le reste du détail est dans Informations, via « Voir le détail de la dette ».
  */
 const detailDette = computed(() => {
-  const l = derniereDette.value
-  const euros = (n: number | null) => (n === null ? null : formatEuros(n))
-  return [
-    { libelle: 'Dont loyer', valeur: euros(l.loyer) },
-    { libelle: 'Dont charges', valeur: euros(l.charges) },
-    { libelle: 'Dont frais annexes', valeur: euros(l.fraisAnnexes) },
-    { libelle: 'Part de la dette locative sur l’ensemble des dettes', valeur: l.partSurDettes === null ? null : `${l.partSurDettes} %` },
-  ].filter((c) => c.valeur !== null)
+  const loyer = derniereDette.value.loyer
+  return loyer === null ? [] : [{ libelle: 'Dont loyer', valeur: formatEuros(loyer) }]
 })
 
 /** Données CAF : seulement s'il y a un signalement CAF, mêmes libellés que « Situation du foyer » */
