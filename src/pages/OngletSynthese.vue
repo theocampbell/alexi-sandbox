@@ -29,7 +29,7 @@ const sourceMinuscule = (s: string) => (/^[A-Z]{2,}/.test(s) ? s : s.charAt(0).t
 const sources = computed(() => {
   const d = dossier.value
   const lignes: string[] = []
-  if (d.caf) lignes.push(`Données CAF : dernière mise à jour le ${d.caf.miseAJour}.`)
+  if (d.caf) lignes.push(`Données CAF : dernière mise à jour le ${d.caf.miseAJourDate} à ${d.caf.miseAJourHeure}.`)
   lignes.push(`Dette : ${sourceMinuscule(derniereDette.value.origine)}, le ${derniereDette.value.date}.`)
   return lignes
 })

@@ -10,7 +10,16 @@ export const ETAPES = [
   'Exécution',
 ] as const
 
-export type EtatId = 'complet' | 'sansCaf' | 'incomplet' | 'avance' | 'nombreux'
+export type EtatId =
+  | 'complet'
+  | 'sansCaf'
+  | 'incomplet'
+  | 'avance'
+  | 'nombreux'
+  | 'cafFoyer'
+  | 'cafIndicateurs'
+  | 'cafPrestations'
+  | 'cafSignalements'
 export type ProfilId = 'gestionnaire' | 'admin' | 'lecture'
 
 export interface Occupant {
@@ -32,31 +41,36 @@ export interface Local {
   type: string
 }
 
-/** Indicateur CAF, éventuellement précisé (ex. mesure de protection → tuteur) ; null = « - » */
+/**
+ * Indicateur CAF, éventuellement précisé (ex. mesure de protection → tuteur).
+ * valeur : « Oui », « Non » ou null (« - » dans le flux : non renseigné).
+ * Un indicateur absent du flux (ex. grossesse) n'est pas dans la liste.
+ */
 export interface IndicateurCaf {
   libelle: string
+  /** Sigle pour les affichages compacts (RSA, AAH…) */
+  sigle?: string
   valeur: string | null
   precisions?: { libelle: string; valeur: string | null }[]
 }
 
 /** Données CAF : présentes seulement si le dossier vient d'un signalement CAF. Libellés de l'application. */
 export interface Caf {
-  /** « 13 novembre 2026 à 17h04 (Paris) » */
-  miseAJour: string
-  /** Données spécifiques CAF */
+  /** Date et heure de la dernière mise à jour : « 13 novembre 2026 », « 17h04 » */
+  miseAJourDate: string
+  miseAJourHeure: string
   matricule: string
   organisme: string
-  /** Situation foyer : champs principaux */
+  /** Situation foyer : toujours présente */
   loyer: string | null
   typeAide: string | null
   montantAide: string | null
   surface: string | null
   tiersPayant: boolean | null
-  rsa: boolean | null
-  /** Prestations sociales perçues (AAH, AEEH, AJPP, AJPA) ; le RSA est dans `rsa` */
-  prestations: IndicateurCaf[]
-  /** Situation foyer : autres indicateurs, dans l'ordre de l'application */
+  /** Autres indicateurs de la situation du foyer (présents dans la plupart des dossiers ; vide = bloc absent) */
   autres: IndicateurCaf[]
+  /** Prestations sociales : RSA, AAH, AEEH, AJPP, AJPA (minorité des dossiers ; vide = bloc absent) */
+  prestations: IndicateurCaf[]
 }
 
 /** Une ligne du tableau de la dette (mêmes colonnes que l'application en production) */

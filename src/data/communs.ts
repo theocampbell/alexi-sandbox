@@ -1,4 +1,4 @@
-import type { Bailleur, Caf, Occupant } from './types'
+import type { Bailleur, Caf, IndicateurCaf, Occupant } from './types'
 
 /** Données partagées entre plusieurs états (comme dans le prototype HTML) */
 
@@ -10,8 +10,37 @@ export const BASE_OCCUPANTS: Occupant[] = [
   { nom: 'Inès VASSEUR', naissance: '17 sept. 2014', age: 12, role: 'Occupante', titulaire: false, coord: null, activite: 'Scolarisée' },
 ]
 
+/** Les 8 autres indicateurs de la situation du foyer, tous à « Non » (grossesse absente du flux) */
+export const AUTRES_NON: IndicateurCaf[] = [
+  { libelle: 'Fin de l’occupation', valeur: 'Non' },
+  { libelle: 'Surendettement', valeur: 'Non' },
+  {
+    libelle: 'Mesure de protection (suspension de la capacité administrative)',
+    valeur: 'Non',
+    precisions: [
+      { libelle: 'Raison sociale du tuteur', valeur: null },
+      { libelle: 'Identité du tuteur', valeur: null },
+    ],
+  },
+  { libelle: 'Insalubrité', valeur: 'Non' },
+  { libelle: 'Péril', valeur: 'Non' },
+  { libelle: 'Surpeuplement', valeur: 'Non' },
+  { libelle: 'Non décence', valeur: 'Non' },
+  { libelle: 'Colocation', valeur: 'Non' },
+]
+
+/** Prestations sociales, dans l'ordre de l'application. Valeur : « Oui », « Non » ou null (non transmis). */
+export const prestations = (v: { rsa?: string | null; aah?: string | null; aeeh?: string | null; ajpp?: string | null; ajpa?: string | null }): IndicateurCaf[] => [
+  { libelle: 'Revenu de solidarité active', sigle: 'RSA', valeur: v.rsa ?? null },
+  { libelle: 'Allocation aux adultes handicapés', sigle: 'AAH', valeur: v.aah ?? null },
+  { libelle: 'Allocation d’éducation de l’enfant handicapé', sigle: 'AEEH', valeur: v.aeeh ?? null },
+  { libelle: 'Allocation journalière de présence parentale', sigle: 'AJPP', valeur: v.ajpp ?? null },
+  { libelle: 'Allocation journalière du proche aidant', sigle: 'AJPA', valeur: v.ajpa ?? null },
+]
+
 export const CAF_COMPLET: Caf = {
-  miseAJour: '13 novembre 2026 à 17h04 (Paris)',
+  miseAJourDate: '13 novembre 2026',
+  miseAJourHeure: '17h04',
   matricule: '731205',
   organisme: '146',
   loyer: '561,39 €',
@@ -19,35 +48,8 @@ export const CAF_COMPLET: Caf = {
   montantAide: '527,00 €',
   surface: '66 m²',
   tiersPayant: true,
-  rsa: true,
-  prestations: [
-    { libelle: 'Allocation aux adultes handicapés (AAH)', valeur: null },
-    { libelle: 'Allocation d’éducation de l’enfant handicapé (AEEH)', valeur: null },
-    { libelle: 'Allocation journalière de présence parentale (AJPP)', valeur: null },
-    { libelle: 'Allocation journalière du proche aidant (AJPA)', valeur: null },
-  ],
-  autres: [
-    { libelle: 'Fin de l’occupation', valeur: 'Non' },
-    { libelle: 'Surendettement', valeur: 'Non' },
-    {
-      libelle: 'Mesure de protection (suspension de la capacité administrative)',
-      valeur: 'Non',
-      precisions: [
-        { libelle: 'Raison sociale du tuteur', valeur: null },
-        { libelle: 'Identité du tuteur', valeur: null },
-      ],
-    },
-    { libelle: 'Insalubrité', valeur: 'Non' },
-    { libelle: 'Péril', valeur: 'Non' },
-    { libelle: 'Surpeuplement', valeur: 'Non' },
-    { libelle: 'Non décence', valeur: 'Non' },
-    { libelle: 'Colocation', valeur: 'Non' },
-    {
-      libelle: 'Grossesse d’une des personnes occupant le logement',
-      valeur: null,
-      precisions: [{ libelle: 'Date de début de grossesse', valeur: null }],
-    },
-  ],
+  autres: AUTRES_NON,
+  prestations: prestations({ rsa: 'Oui' }),
 }
 
 /** Variante de CAF_COMPLET pour un autre ménage */

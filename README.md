@@ -70,7 +70,7 @@ src/
 
 La refonte porte sur deux choses : **un nouvel en-tête de dossier** (titre, badges, ligne occupants · adresse, ligne référents · dates) et **la réorganisation de l'information** : onglets (Synthèse, Informations, Accompagnement, Procédure), ordre et regroupement des blocs, Synthèse qui résume. **À l'intérieur d'un bloc, le format reste celui de l'application** : mêmes tableaux, colonnes, libellés, boutons et messages vides. Un bloc qui est un tableau dans l'application reste un tableau.
 
-**Exception : le bloc « Données CAF » est amélioré** : une ligne par champ (libellé · valeur, précisions en retrait), groupe « Prestations sociales » (RSA, AAH, AEEH, AJPP, AJPA), autres indicateurs de la situation du foyer dans un accordéon, « Non renseigné » au lieu de « - », pas de bouton « Mettre à jour les données de la CAF ».
+**Exception : le bloc « Données CAF » est repensé** (composant `DonneesCaf.vue`) : encadré gris sans bouton (données externes en lecture seule), une ligne de métadonnées (allocataire, organisme, mise à jour), chiffres clés de la situation du foyer, indicateurs à « Oui » en badges (sinon « Aucun signalement CAF sur les n indicateurs. »), détail des indicateurs dans un accordéon fermé, prestations perçues en tags et une ligne « Non perçu / Non transmis ». « Non renseigné » est en gris. Chaque bloc (titre compris) n'apparaît que si ses données existent ; la grossesse n'apparaît que si elle est transmise. « Reste à charge » est prêt mais masqué (`SHOW_RESTE_A_CHARGE = false`, en attente de validation métier). États de test : « CAF : situation foyer seule », « CAF : foyer + indicateurs », « CAF : foyer + indicateurs + prestations », « CAF : indicateurs signalés ».
 
 ## Ordre de l'onglet Informations
 

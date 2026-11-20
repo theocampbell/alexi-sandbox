@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { pluriel, type IndicateurCaf } from '../data'
+import { pluriel } from '../data'
 import { usePrototype } from '../composables/usePrototype'
 import TableauDsfr from '../components/TableauDsfr.vue'
 import DetteTableau from '../components/DetteTableau.vue'
+import DonneesCaf from '../components/DonneesCaf.vue'
 
 const { dossier, peutModifier, procedureEnCours } = usePrototype()
 
@@ -12,9 +13,6 @@ const entetesOccupants = computed(() =>
   ['Identité', 'Naissance', 'Rôle', 'Coordonnées', 'Activité'].concat(peutModifier.value ? ['Actions'] : []),
 )
 const b = computed(() => dossier.value.bailleur)
-/** « - » de la CAF ou valeur absente → « Non renseigné » */
-const nr = (v: string | null) => v ?? 'Non renseigné'
-const ouiNon = (v: boolean | null) => (v === null ? 'Non renseigné' : v ? 'Oui' : 'Non')
 /** Lignes du tableau du commissaire de justice, dans l'ordre de l'application */
 const rolesCj = computed(() => {
   const cj = dossier.value.cj
@@ -23,36 +21,6 @@ const rolesCj = computed(() => {
     ...(cj.responsable ? [{ role: 'Responsable de dossier (étude de commissaires)', personne: cj.responsable }] : []),
     { role: 'Commissaire de justice', personne: cj.commissaire },
   ]
-})
-/** Champs CAF affichés hors accordéon, au même format que les autres indicateurs */
-const cafSpecifiques = computed<IndicateurCaf[]>(() => {
-  const c = dossier.value.caf
-  return c
-    ? [
-        { libelle: 'Matricule d’allocataire CAF', valeur: c.matricule },
-        { libelle: 'Code organisme', valeur: c.organisme },
-      ]
-    : []
-})
-const cafSituation = computed<IndicateurCaf[]>(() => {
-  const c = dossier.value.caf
-  if (!c) return []
-  return [
-    { libelle: 'Montant du dernier loyer connu', valeur: c.loyer },
-    {
-      libelle: 'Type d’aide au logement',
-      valeur: c.typeAide,
-      precisions: [{ libelle: 'Montant net de l’aide au logement', valeur: c.montantAide }],
-    },
-    { libelle: 'Surface du logement', valeur: c.surface },
-    { libelle: 'Tiers payant', valeur: c.tiersPayant === null ? null : ouiNon(c.tiersPayant) },
-  ]
-})
-/** Prestations sociales regroupées : RSA, AAH, AEEH, AJPP, AJPA */
-const cafPrestations = computed<IndicateurCaf[]>(() => {
-  const c = dossier.value.caf
-  if (!c) return []
-  return [{ libelle: 'Revenu de solidarité active (RSA)', valeur: c.rsa === null ? null : ouiNon(c.rsa) }, ...c.prestations]
 })
 const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/etablissement/${siret.replace(/\s/g, '')}`
 </script>
@@ -129,72 +97,8 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
       />
     </section>
 
-    <!-- Données CAF : uniquement quand le dossier vient d'un signalement CAF. Libellés et ordre de l'application. -->
-    <section v-if="dossier.caf" id="caf" class="fr-mb-8w" aria-labelledby="titre-caf">
-      <h2 id="titre-caf" class="fr-h4 fr-mb-1w">Données CAF</h2>
-      <p class="fr-text--sm fr-mb-4w">Dernière mise à jour le {{ dossier.caf.miseAJour }}</p>
-
-      <!-- Une ligne par champ : libellé à gauche, valeur à droite, précisions en retrait (comme dans l'application) -->
-      <h3 class="fr-h6 fr-mb-1w">Données spécifiques CAF</h3>
-      <dl class="alexi-lignes">
-        <template v-for="ind in cafSpecifiques" :key="ind.libelle">
-          <div class="alexi-lignes__ligne">
-            <dt>{{ ind.libelle }}</dt>
-            <dd>{{ nr(ind.valeur) }}</dd>
-          </div>
-          <!-- Précisions (tuteur, montant de l'aide…) : en retrait sous leur indicateur, comme dans l'application -->
-          <div v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="alexi-lignes__ligne alexi-lignes__ligne--sous fr-text--sm">
-            <dt>{{ pr.libelle }}</dt>
-            <dd>{{ nr(pr.valeur) }}</dd>
-          </div>
-        </template>
-      </dl>
-
-      <h3 class="fr-h6 fr-mt-4w fr-mb-1w">Situation foyer</h3>
-      <dl class="alexi-lignes">
-        <template v-for="ind in cafSituation" :key="ind.libelle">
-          <div class="alexi-lignes__ligne">
-            <dt>{{ ind.libelle }}</dt>
-            <dd>{{ nr(ind.valeur) }}</dd>
-          </div>
-          <!-- Précisions (tuteur, montant de l'aide…) : en retrait sous leur indicateur, comme dans l'application -->
-          <div v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="alexi-lignes__ligne alexi-lignes__ligne--sous fr-text--sm">
-            <dt>{{ pr.libelle }}</dt>
-            <dd>{{ nr(pr.valeur) }}</dd>
-          </div>
-        </template>
-      </dl>
-
-      <DsfrAccordion class="fr-mt-3w" :title="`Autres indicateurs de la situation du foyer (${dossier.caf.autres.length})`">
-      <dl class="alexi-lignes">
-        <template v-for="ind in dossier.caf.autres" :key="ind.libelle">
-          <div class="alexi-lignes__ligne">
-            <dt>{{ ind.libelle }}</dt>
-            <dd>{{ nr(ind.valeur) }}</dd>
-          </div>
-          <!-- Précisions (tuteur, montant de l'aide…) : en retrait sous leur indicateur, comme dans l'application -->
-          <div v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="alexi-lignes__ligne alexi-lignes__ligne--sous fr-text--sm">
-            <dt>{{ pr.libelle }}</dt>
-            <dd>{{ nr(pr.valeur) }}</dd>
-          </div>
-        </template>
-      </dl>
-      </DsfrAccordion>
-      <h3 class="fr-h6 fr-mt-4w fr-mb-1w">Prestations sociales</h3>
-      <dl class="alexi-lignes">
-        <template v-for="ind in cafPrestations" :key="ind.libelle">
-          <div class="alexi-lignes__ligne">
-            <dt>{{ ind.libelle }}</dt>
-            <dd>{{ nr(ind.valeur) }}</dd>
-          </div>
-          <!-- Précisions (tuteur, montant de l'aide…) : en retrait sous leur indicateur, comme dans l'application -->
-          <div v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="alexi-lignes__ligne alexi-lignes__ligne--sous fr-text--sm">
-            <dt>{{ pr.libelle }}</dt>
-            <dd>{{ nr(pr.valeur) }}</dd>
-          </div>
-        </template>
-      </dl>
-    </section>
+    <!-- Données CAF : uniquement avec un signalement CAF (bloc en lecture seule) -->
+    <DonneesCaf v-if="dossier.caf" :caf="dossier.caf" />
 
     <!-- Locaux -->
     <section id="locaux" class="fr-mb-8w" aria-labelledby="titre-locaux">

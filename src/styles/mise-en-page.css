@@ -195,46 +195,14 @@
   }
 }
 
-/* Liste de champs « libellé · valeur » sur une ligne (données CAF), comme dans l'application */
-.alexi-lignes {
+/* Listes de définitions en grille DSFR (données CAF) : retire le retrait par défaut de dl/dd,
+   sans toucher aux marges négatives de fr-grid-row--gutters */
+.alexi-dl {
+  padding-left: 0;
+  padding-right: 0;
+}
+.alexi-dl dt,
+.alexi-dl dd {
   margin: 0;
   padding: 0;
-}
-.alexi-lignes__ligne {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0 2rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border-default-grey);
-}
-.alexi-lignes__ligne dt,
-.alexi-lignes__ligne dd {
-  margin: 0;
-  padding: 0;
-}
-/* Précision d'un indicateur : en retrait, collée à son indicateur ; le trait vient après la dernière précision */
-.alexi-lignes__ligne:has(+ .alexi-lignes__ligne--sous) {
-  border-bottom: 0;
-  padding-bottom: 0.25rem;
-}
-.alexi-lignes__ligne--sous {
-  margin: 0; /* fr-text--sm ajoute une marge basse */
-  padding: 0 0 0.25rem;
-  border-bottom: 0;
-}
-.alexi-lignes__ligne--sous:not(:has(+ .alexi-lignes__ligne--sous)) {
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border-default-grey);
-}
-.alexi-lignes__ligne--sous dt {
-  padding-left: 1.5rem;
-}
-@media (max-width: 36em) {
-  .alexi-lignes__ligne {
-    grid-template-columns: 1fr;
-  }
-  /* Sur une colonne, la valeur d'une précision reste en retrait comme son libellé */
-  .alexi-lignes__ligne--sous dd {
-    padding-left: 1.5rem;
-  }
 }

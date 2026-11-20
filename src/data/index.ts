@@ -4,10 +4,21 @@ import incomplet from './etats/incomplet'
 import sansCaf from './etats/sansCaf'
 import avance from './etats/avance'
 import nombreux from './etats/nombreux'
+import { cafFoyer, cafIndicateurs, cafPrestations, cafSignalements } from './etats/variantesCaf'
 
 export * from './types'
 
-export const ETATS: Record<EtatId, Dossier> = { complet, sansCaf, incomplet, avance, nombreux }
+export const ETATS: Record<EtatId, Dossier> = {
+  complet,
+  sansCaf,
+  incomplet,
+  avance,
+  nombreux,
+  cafFoyer,
+  cafIndicateurs,
+  cafPrestations,
+  cafSignalements,
+}
 
 export const OPTIONS_ETAT: { value: EtatId; text: string }[] = [
   { value: 'complet', text: 'Dossier complet (signalement CAF)' },
@@ -15,6 +26,10 @@ export const OPTIONS_ETAT: { value: EtatId; text: string }[] = [
   { value: 'incomplet', text: 'Informations manquantes' },
   { value: 'avance', text: 'Procédure avancée et plusieurs procédures' },
   { value: 'nombreux', text: 'Ménage nombreux et noms longs' },
+  { value: 'cafFoyer', text: 'CAF : situation foyer seule' },
+  { value: 'cafIndicateurs', text: 'CAF : foyer + indicateurs' },
+  { value: 'cafPrestations', text: 'CAF : foyer + indicateurs + prestations' },
+  { value: 'cafSignalements', text: 'CAF : indicateurs signalés (surendettement, grossesse)' },
 ]
 
 export const OPTIONS_PROFIL: { value: ProfilId; text: string }[] = [
