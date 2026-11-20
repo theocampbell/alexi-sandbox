@@ -181,3 +181,15 @@
 .alexi-bloc {
   display: block;
 }
+
+/* Lien de téléchargement de la fiche de synthèse, aligné à droite au-dessus des cartes */
+.alexi-telechargement {
+  display: flex;
+  justify-content: flex-end;
+}
+/* Sur petit écran, le titre passe à la ligne pour que l'icône ne retombe pas sur « DOCX – 40 Ko » */
+@media (max-width: 36em) {
+  .alexi-telechargement .fr-link--download {
+    max-width: 14rem;
+  }
+}
