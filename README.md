@@ -95,6 +95,7 @@ Le prototype réorganise **uniquement les informations qui existent déjà dans 
 - **Diagnostic social et financier** dans l'onglet Accompagnement : statut (demandé, réalisé), date et organisme qui l'a réalisé.
 - **Dispositifs mobilisés** dans l'onglet Accompagnement : FSL, plan d'apurement, ASLL…, avec statut (demandé, accordé, en cours, refusé, terminé), date, précisions et porteur, et un bouton « Ajouter un dispositif ».
 - **Avis de la commission** : une colonne dans le tableau des passages en commission.
+- **Étude de commissaires de justice** : un dossier peut avoir plusieurs commissaires de justice. À terme, la Synthèse affichera l'étude (pas chaque commissaire). Pour l'instant, le prototype n'en gère qu'un, plus le responsable du dossier à l'étude.
 
 ## Hors sujet
 
