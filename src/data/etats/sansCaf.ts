@@ -36,7 +36,7 @@ const dossier: Dossier = {
     contact: '06 71 22 33 44',
     depuis: '1er sept. 2019',
     gestionnaire: 'Agence immobilière du Biterrois, mandat de gestion depuis le 1er sept. 2019',
-    precedents: [],
+    precedents: [{ nom: 'Mme Odile CHARPENTIER', detail: 'Bailleur privé · personne physique', periode: 'du 1er mars 2012 au 31 août 2019' }],
   },
   cj: {
     commissaire: { nom: 'Me Julien MERCIER', telephone: '04 67 11 22 33', email: 'etude@mercier-cj.exemple.fr' },
