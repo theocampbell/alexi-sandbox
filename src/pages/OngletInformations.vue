@@ -270,9 +270,9 @@ const lienSiret = (siret: string) => `https://annuaire-entreprises.data.gouv.fr/
     </section>
 
     <!-- Mandat de gestion : pas de titre quand il n'y a ni donnée ni moyen d'en ajouter -->
-    <section v-if="b.gestionnaire" id="mandat" class="fr-mb-8w" aria-labelledby="titre-mandat">
+    <section v-if="b.mandat" id="mandat" class="fr-mb-8w" aria-labelledby="titre-mandat">
       <h2 id="titre-mandat" class="fr-h4">Mandat de gestion</h2>
-      <p>{{ b.gestionnaire }}</p>
+      <p><strong>{{ b.mandat.gestionnaire }}</strong>, mandat de gestion depuis le {{ b.mandat.depuis }}</p>
     </section>
 
     <!-- Contacts -->

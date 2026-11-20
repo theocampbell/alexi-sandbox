@@ -28,7 +28,7 @@ const dossier: Dossier = {
     adresse: null,
     contact: null,
     depuis: null,
-    gestionnaire: null,
+    mandat: null,
     precedents: [],
   },
   cj: null,

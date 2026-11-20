@@ -110,7 +110,8 @@ export interface Bailleur {
   adresse: string[] | null
   contact: string | null
   depuis: string | null
-  gestionnaire: string | null
+  /** Mandat de gestion : agence qui gère le bien pour le bailleur */
+  mandat: { gestionnaire: string; depuis: string } | null
   precedents: { nom: string; detail: string; periode: string }[]
 }
 

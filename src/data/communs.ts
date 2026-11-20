@@ -61,6 +61,6 @@ export const BAILLEUR_IMMOGEST: Bailleur = {
   adresse: ['45 avenue Camille Saint-Saëns', '34500 Béziers'],
   contact: null,
   depuis: '15 janv. 2024',
-  gestionnaire: null,
+  mandat: null,
   precedents: [{ nom: 'M. Paul GARNIER', detail: 'Bailleur privé · personne physique', periode: 'du 3 mars 2019 au 14 janv. 2024' }],
 }

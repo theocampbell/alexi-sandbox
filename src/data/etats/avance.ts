@@ -50,7 +50,7 @@ const dossier: Dossier = {
     adresse: ['100 rue des Platanes', '34000 Montpellier'],
     contact: '04 67 00 00 00 · contact@habitat-sud.exemple.fr',
     depuis: '1er janv. 2018',
-    gestionnaire: null,
+    mandat: null,
     precedents: [],
   },
   cj: {

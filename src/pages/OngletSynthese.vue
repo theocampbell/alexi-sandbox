@@ -76,7 +76,7 @@ const lignes = computed(() => {
     // Données CAF regroupées sur une ligne, pour qu'on voie d'où elles viennent
     { libelle: 'Données CAF', valeur: donneesCaf.value, egal: true },
     { libelle: 'Bailleur', valeur: [b.nom, `${b.type} · ${b.nature.toLowerCase()}`, b.contact ?? ''] },
-    { libelle: 'Gestionnaire', valeur: b.gestionnaire ? [b.gestionnaire] : [] },
+    { libelle: 'Mandat de gestion', valeur: b.mandat ? [b.mandat.gestionnaire, `depuis le ${b.mandat.depuis}`] : [] },
     {
       libelle: 'Commission',
       valeur: prochaineCommission ? [`Réunion du ${prochaineCommission.date}`, `${prochaineCommission.instance}, ${prochaineCommission.heure}`] : [],
