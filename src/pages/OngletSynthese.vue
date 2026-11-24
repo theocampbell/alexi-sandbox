@@ -35,6 +35,18 @@ const sources = computed(() => {
 })
 
 /**
+ * « soit X mois de loyer » : part de loyer de la dernière information sur la dette (« Dont loyer »)
+ * ÷ « Montant du dernier loyer connu » (CAF). Sans loyer CAF ou sans part de loyer : pas de ligne.
+ */
+const moisDeLoyer = computed(() => {
+  const c = dossier.value.caf?.loyer
+  const loyerMensuel = c ? Number(c.replace(/[^\d,]/g, '').replace(',', '.')) : null
+  const partLoyer = derniereDette.value.loyer
+  if (!loyerMensuel || partLoyer === null) return null
+  return (Math.round((partLoyer / loyerMensuel) * 10) / 10).toLocaleString('fr-FR')
+})
+
+/**
  * Dans la carte, seule la part de loyer de la dernière information sur la dette (même libellé que
  * le tableau). Le reste du détail est dans Informations, via « Voir le détail de la dette ».
  */
@@ -118,7 +130,7 @@ const lignes = computed(() => {
         <section class="alexi-carte" aria-labelledby="carte-dette">
           <h2 id="carte-dette" class="fr-h6">Dette locative</h2>
           <p class="fr-h2 fr-mb-0">{{ formatEuros(dossier.dette.montant) }}</p>
-          <p v-if="dossier.dette.mois">soit <strong>{{ dossier.dette.mois }} mois</strong> de loyer</p>
+          <p v-if="moisDeLoyer">soit <strong>{{ moisDeLoyer }} mois</strong> de loyer</p>
           <p v-if="dossier.dette.anciennete">impayée depuis <strong>{{ dossier.dette.anciennete }}</strong></p>
           <!-- Détail : dernière ligne du tableau de la dette, mêmes libellés -->
           <dl v-if="detailDette.length" class="alexi-detail fr-text--sm">

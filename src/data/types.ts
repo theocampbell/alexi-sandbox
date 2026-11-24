@@ -95,7 +95,6 @@ export interface PointDette {
  */
 export interface Dette {
   montant: number
-  mois: string | null
   anciennete: string | null
   evolution: PointDette[]
 }

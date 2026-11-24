@@ -44,7 +44,6 @@ const dossier: Dossier = {
   caf: cafPour({ matricule: '602417', surface: '92 m²', loyer: '890,00 €', typeAide: 'Aide personnalisée au logement', montantAide: '612,00 €', prestations: prestations({ rsa: 'Non' }) }),
   dette: {
     montant: 2310,
-    mois: '2,6',
     anciennete: '3 mois',
     evolution: [{ origine: 'CAF', date: '1er nov. 2026', montant: 2310, loyer: 2130, charges: 180, fraisAnnexes: null, partSurDettes: null }],
   },

@@ -16,7 +16,6 @@ const dossier: Dossier = {
   caf: CAF_COMPLET,
   dette: {
     montant: 1000,
-    mois: '1,8',
     anciennete: '2 mois',
     evolution: [{ origine: 'CAF', date: '1er sept. 2026', montant: 1000, loyer: 1000, charges: 0, fraisAnnexes: null, partSurDettes: null }],
   },

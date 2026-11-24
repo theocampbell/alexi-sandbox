@@ -20,7 +20,6 @@ const dossier: Dossier = {
   caf: null,
   dette: {
     montant: 3120,
-    mois: '4,8',
     anciennete: '5 mois',
     evolution: [
       { origine: 'Commissaire de justice', date: '3 nov. 2026', montant: 3120, loyer: 2700, charges: 270, fraisAnnexes: 150, partSurDettes: null },

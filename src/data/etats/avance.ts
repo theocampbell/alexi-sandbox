@@ -17,7 +17,6 @@ const dossier: Dossier = {
   caf: cafPour({ surface: '48 m²', montantAide: null, tiersPayant: false }),
   dette: {
     montant: 4850,
-    mois: '8,6',
     anciennete: '11 mois',
     evolution: [
       { origine: 'CAF', date: '3 déc. 2025', montant: 1200, loyer: 1110, charges: 90, fraisAnnexes: null, partSurDettes: null },
