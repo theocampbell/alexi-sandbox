@@ -50,8 +50,28 @@ const groupes = computed(() =>
   [
     { titre: 'Logement', indicateurs: props.caf.autres.filter((i) => LOGEMENT.includes(i.libelle)) },
     { titre: 'Situation du ménage', indicateurs: props.caf.autres.filter((i) => !LOGEMENT.includes(i.libelle)) },
+    {
+      titre: 'Prestations sociales',
+      indicateurs: props.caf.prestations.map((p) => ({ ...p, libelle: p.sigle ? `${p.libelle} (${p.sigle})` : p.libelle })),
+    },
   ].filter((g) => g.indicateurs.length),
 )
+
+/** Prestations perçues, affichées en clair au-dessus de l'accordéon */
+const percues = computed(() => props.caf.prestations.filter((p) => p.valeur === 'Oui'))
+
+/** Titres selon ce que contient le flux CAF */
+const titreBloc = computed(() => {
+  const a = props.caf.autres.length > 0
+  const p = props.caf.prestations.length > 0
+  return a && p ? 'Autres indicateurs et prestations sociales' : a ? 'Autres indicateurs de la situation du foyer' : 'Prestations sociales'
+})
+const titreAccordeon = computed(() => {
+  const a = props.caf.autres.length
+  const p = props.caf.prestations.length
+  const quoi = a && p ? 'des indicateurs et prestations' : a ? 'des indicateurs' : 'des prestations'
+  return `Voir le détail ${quoi} (${a + p})`
+})
 
 </script>
 
@@ -73,51 +93,50 @@ const groupes = computed(() =>
       </div>
     </dl>
 
-    <!-- Autres indicateurs : badges pour les « Oui », détail dans un accordéon fermé -->
-    <template v-if="caf.autres.length">
-      <h3 class="fr-h6 fr-mt-2w fr-mb-1w">Autres indicateurs de la situation du foyer</h3>
-      <ul v-if="signales.length" class="fr-badges-group fr-mb-1w">
-        <li v-for="s in signales" :key="s"><DsfrBadge :label="s" type="warning" small /></li>
-      </ul>
-      <p v-else class="fr-mb-1w">Aucun signalement CAF sur les {{ caf.autres.length }} indicateurs.</p>
-      <DsfrAccordion :title="`Voir le détail des indicateurs (${caf.autres.length})`" title-tag="h4">
-        <!-- Deux groupes thématiques, une ligne par indicateur : libellé à gauche, valeur à droite -->
+    <!--
+      Autres indicateurs et prestations sociales : un seul bloc, résumé en clair (badges, prestations perçues)
+      puis un seul accordéon en dernier, qui ferme l'encadré. Titres adaptés à ce qui est présent.
+    -->
+    <template v-if="caf.autres.length || caf.prestations.length">
+      <h3 class="fr-h6 fr-mt-2w fr-mb-1w">{{ titreBloc }}</h3>
+      <template v-if="caf.autres.length">
+        <ul v-if="signales.length" class="fr-badges-group fr-mb-1w">
+          <li v-for="s in signales" :key="s"><DsfrBadge :label="s" type="warning" small /></li>
+        </ul>
+        <p v-else class="fr-mb-1w">Aucun signalement CAF sur les {{ caf.autres.length }} indicateurs.</p>
+      </template>
+      <p v-if="caf.prestations.length" class="fr-mb-1w">
+        <template v-if="percues.length">
+          Prestations perçues :
+          <template v-for="(p, i) in percues" :key="p.libelle"
+            ><template v-if="i > 0">, </template><strong><abbr :title="p.libelle">{{ p.sigle ?? p.libelle }}</abbr></strong></template
+          >
+        </template>
+        <template v-else>Aucune prestation sociale perçue.</template>
+      </p>
+      <DsfrAccordion :title="titreAccordeon" title-tag="h4">
+        <!-- Une liste par thème, une ligne par élément : libellé à gauche, valeur à droite -->
         <!-- Marge intérieure : l'accordéon coupe ce qui touche ses bords -->
         <div class="fr-px-1w">
-        <div class="fr-grid-row fr-grid-row--gutters">
-          <div v-for="g in groupes" :key="g.titre" class="fr-col-12 fr-col-md-6">
-            <h5 class="fr-text--sm fr-text--bold fr-mb-1w">{{ g.titre }}</h5>
-            <dl class="alexi-indicateurs fr-text--sm fr-mb-0">
-              <div v-for="ind in g.indicateurs" :key="ind.libelle" class="alexi-indicateurs__ligne">
-                <dt>{{ ind.libelle }}</dt>
-                <dd :class="{ 'fr-text--bold': ind.valeur === 'Oui' }"><ValeurCaf :valeur="ind.valeur" /></dd>
-                <!-- Précisions (tuteur, date de grossesse) seulement quand l'indicateur est « Oui » -->
-                <template v-if="ind.valeur === 'Oui'">
-                  <dd v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="alexi-indicateurs__precision">
-                    {{ pr.libelle }} : <ValeurCaf :valeur="pr.valeur" />
-                  </dd>
-                </template>
-              </div>
-            </dl>
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div v-for="g in groupes" :key="g.titre" :class="['fr-col-12', groupes.length > 2 ? 'fr-col-md-4' : 'fr-col-md-6']">
+              <h5 class="fr-text--sm fr-text--bold fr-mb-1w">{{ g.titre }}</h5>
+              <dl class="alexi-indicateurs fr-text--sm fr-mb-0">
+                <div v-for="ind in g.indicateurs" :key="ind.libelle" class="alexi-indicateurs__ligne">
+                  <dt>{{ ind.libelle }}</dt>
+                  <dd :class="{ 'fr-text--bold': ind.valeur === 'Oui' }"><ValeurCaf :valeur="ind.valeur" /></dd>
+                  <!-- Précisions (tuteur, date de grossesse) seulement quand l'indicateur est « Oui » -->
+                  <template v-if="ind.valeur === 'Oui'">
+                    <dd v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="alexi-indicateurs__precision">
+                      {{ pr.libelle }} : <ValeurCaf :valeur="pr.valeur" />
+                    </dd>
+                  </template>
+                </div>
+              </dl>
+            </div>
           </div>
         </div>
-        </div>
       </DsfrAccordion>
-    </template>
-
-    <!-- Prestations sociales : même liste que le détail des indicateurs (une ligne par prestation, valeur à droite) -->
-    <template v-if="caf.prestations.length">
-      <h3 class="fr-h6 fr-mt-2w fr-mb-1w">Prestations sociales</h3>
-      <div class="fr-grid-row">
-        <div class="fr-col-12 fr-col-md-6">
-          <dl class="alexi-indicateurs fr-text--sm fr-mb-0">
-            <div v-for="p in caf.prestations" :key="p.libelle" class="alexi-indicateurs__ligne">
-              <dt>{{ p.libelle }}<template v-if="p.sigle"> ({{ p.sigle }})</template></dt>
-              <dd :class="{ 'fr-text--bold': p.valeur === 'Oui' }"><ValeurCaf :valeur="p.valeur" /></dd>
-            </div>
-          </dl>
-        </div>
-      </div>
     </template>
   </section>
 </template>
