@@ -206,11 +206,3 @@
   margin: 0;
   padding: 0;
 }
-
-/*
- * Menu latéral collant dans un onglet : les onglets DSFR ont overflow: hidden (pour l'animation),
- * ce qui empêche position: sticky. overflow: clip découpe de la même façon sans bloquer le sticky.
- */
-.alexi-onglets.fr-tabs {
-  overflow: clip;
-}

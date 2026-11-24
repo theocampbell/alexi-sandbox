@@ -37,7 +37,7 @@ src/
 ## Choix faits
 
 - **Onglets synchronisés avec le routeur.** `DsfrTabs` reste le vrai composant d'onglets (`role="tab"`, flèches du clavier). L'index de l'onglet se calcule à partir de la route, et changer d'onglet pousse la route : l'URL, l'ouverture directe d'une URL et le bouton retour fonctionnent. Seul l'onglet actif rend son contenu (`RouterView`), pour éviter les identifiants en double.
-- **Menu latéral de l'onglet Informations** : `DsfrSideMenu` collant à gauche (« Dans cet onglet »), une entrée par section présente ; replié sur mobile. Un clic fait défiler jusqu'à la section (ancre `#bailleur`…) et y place le focus ; pas de changement d'onglet, donc pas de conflit avec l'animation. Les onglets ont `overflow: clip` au lieu de `hidden` pour que le menu puisse rester collé. Les autres liens (cartes de la Synthèse) ouvrent un onglet, sans viser de section.
+- **Pas de liens vers une section** : un lien ouvre un onglet, pas un endroit précis de l'onglet. Les ancres se battaient avec l'animation de glissement des onglets DSFR. Si les onglets sont sortis de l'écran (lien en bas de la Synthèse), la page remonte au début des onglets.
 - **Onglet Accompagnement** (ajouté après le brief) : il regroupe ce qui concerne le suivi social, pour accueillir les futures fonctionnalités des travailleurs sociaux. Il contient, dans l'ordre : l'organisme d'accompagnement sociojuridique (on désigne la structure, pas une personne), puis les Commissions (déplacées depuis Informations : date, instance, statut). Informations garde « Acteurs et contacts » : commissaire de justice et autres contacts (avocat, curateur, proche…), avec « Ajouter un contact ».
 - **État et profil dans l'URL** (`?etat=…&profil=…`). Changer d'état met aussi à jour le numéro de dossier dans le chemin. Sans `?etat`, l'état se déduit du numéro.
 - **Lecture seule** : les boutons d'action sont retirés du DOM, pas désactivés.
@@ -99,4 +99,4 @@ Le prototype réorganise **uniquement les informations qui existent déjà dans 
 
 ## Hors sujet
 
-Historique des modifications, carte Géoportail, bloc « Points d'attention », modales d'édition.
+Historique des modifications, carte Géoportail, bloc « Points d'attention », sommaire, modales d'édition.
