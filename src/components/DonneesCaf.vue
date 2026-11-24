@@ -53,11 +53,6 @@ const groupes = computed(() =>
   ].filter((g) => g.indicateurs.length),
 )
 
-/** Prestations : perçues (tags), non perçues et non transmises (lignes grises) */
-const nom = (i: { sigle?: string; libelle: string }) => i.sigle ?? i.libelle
-const percues = computed(() => props.caf.prestations.filter((p) => p.valeur === 'Oui'))
-const nonPercues = computed(() => props.caf.prestations.filter((p) => p.valeur === 'Non').map(nom))
-const nonTransmises = computed(() => props.caf.prestations.filter((p) => p.valeur === null).map(nom))
 </script>
 
 <template>
@@ -110,19 +105,19 @@ const nonTransmises = computed(() => props.caf.prestations.filter((p) => p.valeu
       </DsfrAccordion>
     </template>
 
-    <!-- Prestations sociales : tags pour les prestations perçues, une ligne grise pour le reste -->
+    <!-- Prestations sociales : même liste que le détail des indicateurs (une ligne par prestation, valeur à droite) -->
     <template v-if="caf.prestations.length">
       <h3 class="fr-h6 fr-mt-2w fr-mb-1w">Prestations sociales</h3>
-      <ul v-if="percues.length" class="fr-tags-group fr-mb-0">
-        <li v-for="p in percues" :key="p.libelle">
-          <p class="fr-tag fr-tag--sm"><abbr :title="p.libelle">{{ nom(p) }}</abbr></p>
-        </li>
-      </ul>
-      <p v-else class="fr-mb-1w">Aucune prestation sociale perçue.</p>
-      <p v-if="nonPercues.length" class="fr-text--xs fr-text-mention--grey fr-mb-0">Non perçu : {{ nonPercues.join(', ') }}</p>
-      <p v-if="nonTransmises.length" class="fr-text--xs fr-text-mention--grey fr-mb-0">
-        Non transmis : {{ nonTransmises.join(', ') }}
-      </p>
+      <div class="fr-grid-row">
+        <div class="fr-col-12 fr-col-md-6">
+          <dl class="alexi-indicateurs fr-text--sm fr-mb-0">
+            <div v-for="p in caf.prestations" :key="p.libelle" class="alexi-indicateurs__ligne">
+              <dt>{{ p.libelle }}<template v-if="p.sigle"> ({{ p.sigle }})</template></dt>
+              <dd :class="{ 'fr-text--bold': p.valeur === 'Oui' }"><ValeurCaf :valeur="p.valeur" /></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
     </template>
   </section>
 </template>
