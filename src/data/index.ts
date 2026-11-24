@@ -29,7 +29,7 @@ export const OPTIONS_ETAT: { value: EtatId; text: string }[] = [
   { value: 'cafFoyer', text: 'CAF : situation foyer seule' },
   { value: 'cafIndicateurs', text: 'CAF : foyer + indicateurs' },
   { value: 'cafPrestations', text: 'CAF : foyer + indicateurs + prestations' },
-  { value: 'cafSignalements', text: 'CAF : indicateurs signalés (surendettement, grossesse)' },
+  { value: 'cafSignalements', text: 'CAF : indicateurs signalés (surendettement, protection, grossesse)' },
 ]
 
 export const OPTIONS_PROFIL: { value: ProfilId; text: string }[] = [

@@ -44,6 +44,15 @@ const signales = computed(() =>
     }),
 )
 
+/** Indicateurs regroupés par thème (les indicateurs inconnus vont dans « Situation du ménage ») */
+const LOGEMENT = ['Fin de l’occupation', 'Insalubrité', 'Péril', 'Surpeuplement', 'Non décence', 'Colocation']
+const groupes = computed(() =>
+  [
+    { titre: 'Logement', indicateurs: props.caf.autres.filter((i) => LOGEMENT.includes(i.libelle)) },
+    { titre: 'Situation du ménage', indicateurs: props.caf.autres.filter((i) => !LOGEMENT.includes(i.libelle)) },
+  ].filter((g) => g.indicateurs.length),
+)
+
 /** Prestations : perçues (tags), non perçues et non transmises (lignes grises) */
 const nom = (i: { sigle?: string; libelle: string }) => i.sigle ?? i.libelle
 const percues = computed(() => props.caf.prestations.filter((p) => p.valeur === 'Oui'))
@@ -77,21 +86,27 @@ const nonTransmises = computed(() => props.caf.prestations.filter((p) => p.valeu
       </ul>
       <p v-else class="fr-mb-1w">Aucun signalement CAF sur les {{ caf.autres.length }} indicateurs.</p>
       <DsfrAccordion :title="`Voir le détail des indicateurs (${caf.autres.length})`" title-tag="h4">
-        <dl class="fr-grid-row fr-grid-row--gutters alexi-dl">
-          <div v-for="ind in caf.autres" :key="ind.libelle" class="fr-col-12 fr-col-md-4">
-            <dt class="fr-text--sm fr-mb-0">{{ ind.libelle }}</dt>
-            <dd><ValeurCaf :valeur="ind.valeur" /></dd>
-            <!-- Précisions (tuteur, date de grossesse) imbriquées sous leur indicateur -->
-            <dd v-if="ind.precisions?.length">
-              <dl class="alexi-dl fr-text--sm fr-mb-0 fr-pl-2w">
-                <template v-for="p in ind.precisions" :key="p.libelle">
-                  <dt class="fr-text-mention--grey">{{ p.libelle }}</dt>
-                  <dd><ValeurCaf :valeur="p.valeur" /></dd>
+        <!-- Deux groupes thématiques, une ligne par indicateur : libellé à gauche, valeur à droite -->
+        <!-- Marge intérieure : l'accordéon coupe ce qui touche ses bords -->
+        <div class="fr-px-1w">
+        <div class="fr-grid-row fr-grid-row--gutters">
+          <div v-for="g in groupes" :key="g.titre" class="fr-col-12 fr-col-md-6">
+            <h5 class="fr-text--sm fr-text--bold fr-mb-1w">{{ g.titre }}</h5>
+            <dl class="alexi-indicateurs fr-text--sm fr-mb-0">
+              <div v-for="ind in g.indicateurs" :key="ind.libelle" class="alexi-indicateurs__ligne">
+                <dt>{{ ind.libelle }}</dt>
+                <dd :class="{ 'fr-text--bold': ind.valeur === 'Oui' }"><ValeurCaf :valeur="ind.valeur" /></dd>
+                <!-- Précisions (tuteur, date de grossesse) seulement quand l'indicateur est « Oui » -->
+                <template v-if="ind.valeur === 'Oui'">
+                  <dd v-for="pr in ind.precisions ?? []" :key="pr.libelle" class="alexi-indicateurs__precision">
+                    {{ pr.libelle }} : <ValeurCaf :valeur="pr.valeur" />
+                  </dd>
                 </template>
-              </dl>
-            </dd>
+              </div>
+            </dl>
           </div>
-        </dl>
+        </div>
+        </div>
       </DsfrAccordion>
     </template>
 

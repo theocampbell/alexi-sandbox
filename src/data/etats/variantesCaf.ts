@@ -17,10 +17,22 @@ export const cafIndicateurs = variante({ autres: AUTRES_NON, prestations: [] })
 /** Situation foyer + indicateurs + prestations */
 export const cafPrestations = variante({ autres: AUTRES_NON, prestations: prestations({ rsa: 'Oui', ajpp: 'Non' }) })
 
-/** Indicateurs signalés : surendettement et grossesse à « Oui » */
+/** Indicateurs signalés : surendettement, mesure de protection (avec tuteur) et grossesse à « Oui » */
 export const cafSignalements = variante({
   autres: [
-    ...AUTRES_NON.map((i) => (i.libelle === 'Surendettement' ? { ...i, valeur: 'Oui' } : i)),
+    ...AUTRES_NON.map((i) => {
+      if (i.libelle === 'Surendettement') return { ...i, valeur: 'Oui' }
+      if (i.libelle.startsWith('Mesure de protection'))
+        return {
+          ...i,
+          valeur: 'Oui',
+          precisions: [
+            { libelle: 'Raison sociale du tuteur', valeur: 'UDAF de l’Hérault' },
+            { libelle: 'Identité du tuteur', valeur: null },
+          ],
+        }
+      return i
+    }),
     {
       libelle: 'Grossesse d’une des personnes occupant le logement',
       valeur: 'Oui',
